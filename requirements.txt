@@ -1,0 +1,5 @@
+epub-meta==0.0.7
+lxml==4.3.0
+PyInstaller==3.4
+PyQt5==5.11.3
+psutil==5.4.8

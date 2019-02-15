@@ -1,0 +1,10 @@
+<RCC>
+  <qresource prefix="toolbar">
+    <file>tool-settings.png</file>
+    <file>tool-settings@2x.png</file>
+    <file>tool-hdd.png</file>
+    <file>tool-hdd@2x.png</file>
+    <file>tool-add.png</file>
+    <file>tool-add@2x.png</file>
+  </qresource>
+</RCC>
