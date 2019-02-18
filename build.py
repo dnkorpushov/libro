@@ -12,8 +12,10 @@ UI_DESTPATH = 'libro/ui'
 
 
 def clean():
-    shutil.rmtree('build')
-    shutil.rmtree('dist')
+    if os.path.exists('build'):
+        shutil.rmtree('build')
+    if os.path.exists('dist'):
+        shutil.rmtree('dist')
 
 
 def build_ui():

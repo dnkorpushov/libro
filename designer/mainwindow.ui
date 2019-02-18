@@ -16,16 +16,19 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <property name="leftMargin">
-     <number>5</number>
+     <number>3</number>
     </property>
     <property name="topMargin">
-     <number>5</number>
+     <number>3</number>
     </property>
     <property name="rightMargin">
-     <number>5</number>
+     <number>3</number>
     </property>
     <property name="bottomMargin">
-     <number>0</number>
+     <number>3</number>
+    </property>
+    <property name="spacing">
+     <number>3</number>
     </property>
     <item row="0" column="0">
      <widget class="QSplitter" name="splitter">
@@ -86,7 +89,6 @@
    <addaction name="menuFile"/>
    <addaction name="menuHelp"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
@@ -165,6 +167,9 @@
    <property name="text">
     <string>About</string>
    </property>
+   <property name="menuRole">
+    <enum>QAction::AboutRole</enum>
+   </property>
   </action>
   <action name="actionRemoveBooks">
    <property name="text">
@@ -180,6 +185,9 @@
   <action name="actionAboutQt">
    <property name="text">
     <string>About Qt</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::AboutQtRole</enum>
    </property>
   </action>
  </widget>

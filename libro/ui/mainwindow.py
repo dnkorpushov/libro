@@ -1,7 +1,7 @@
 import os
 
 from PyQt5.QtWidgets import QMainWindow, QWidget, QFileDialog, QSizePolicy, QMessageBox
-from PyQt5.QtCore import QEvent, QEventLoop, QTimer
+from PyQt5.QtCore import QEvent
 from PyQt5.QtSql import QSqlDatabase
 
 import libro.config as config
