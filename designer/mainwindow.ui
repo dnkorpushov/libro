@@ -72,6 +72,7 @@
     </property>
     <addaction name="actionAddBooks"/>
     <addaction name="actionRemoveBooks"/>
+    <addaction name="actionEditMetadata"/>
     <addaction name="separator"/>
     <addaction name="actionConvertToDisk"/>
     <addaction name="separator"/>
@@ -188,6 +189,14 @@
    </property>
    <property name="menuRole">
     <enum>QAction::AboutQtRole</enum>
+   </property>
+  </action>
+  <action name="actionEditMetadata">
+   <property name="text">
+    <string>Edit metadata</string>
+   </property>
+   <property name="toolTip">
+    <string>Edit metadata</string>
    </property>
   </action>
  </widget>
@@ -314,6 +323,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionEditMetadata</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>onActionEditMetadata()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>372</x>
+     <y>208</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>onActionAddBooks()</slot>
@@ -322,5 +347,6 @@
   <slot>onActionRemoveBooks()</slot>
   <slot>onActionAbout()</slot>
   <slot>onActionAboutQt()</slot>
+  <slot>onActionEditMetadata()</slot>
  </slots>
 </ui>

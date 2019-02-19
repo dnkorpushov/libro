@@ -4,10 +4,12 @@ CREATE_DB = '''
         id integer PRIMARY KEY AUTOINCREMENT,
         title text NOT NULL,
         author text NOT NULL,
+        author_sort text NOT NULL,
         tags text,
         series text,
         series_index integer,
         lang text,
+        translator text,
         type text NOT NULL,
         date_added text NOT NULL,
         file text NOT NULL UNIQUE
@@ -17,6 +19,7 @@ CREATE_DB = '''
     SELECT id,
            title,
            author,
+           author_sort,
            case
               when length(series) > 0 and series_index is null then
                    series
@@ -25,6 +28,7 @@ CREATE_DB = '''
            end series,
            tags,
            lang,
+           translator,
            type,
            date_added,
            file
@@ -74,14 +78,21 @@ CHECK_DB_CREATED = '''
 '''
 
 INSERT_BOOK = '''
-    INSERT INTO book (title, author, tags, series, series_index, lang, type, date_added, file)
-       VALUES (?,?,?,?,?,?,?,?,?)
+    INSERT INTO book (title, author, author_sort, tags, series, series_index, lang, translator, type, date_added, file)
+       VALUES (?,?,?,?,?,?,?,?,?,?,?)
+'''
+
+UPDATE_BOOK = '''
+    UPDATE book SET title=?, author=?, author_sort=?, tags=?, series=?, series_index=?,
+                    lang=?, translator=?, type=?
+     WHERE id = ?
 '''
 
 SELECT_BOOK = '''
     SELECT id,
            title,
            author,
+           author_sort,
            case
               when length(series) > 0 and series_index is null then
                    series
@@ -104,13 +115,31 @@ SELECT_BOOK_INFO = '''
     SELECT id,
            title,
            author,
+           author_sort,
            series,
            series_index,
            tags,
            lang,
+           translator,
            type,
            date_added,
            file
       FROM book
     WHERE id = ?
+'''
+
+SELECT_BOOK_REC = '''
+    SELECT id,
+           title,
+           author,
+           author_sort,
+           series,
+           tags,
+           lang,
+           translator,
+           type,
+           date_added,
+           file
+      FROM v_book
+     WHERE id = ?
 '''

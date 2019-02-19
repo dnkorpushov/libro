@@ -10,6 +10,7 @@ from io import BytesIO
 from lxml import etree
 from lxml.etree import QName
 
+
 def get_metadata(file, read_cover_image=False):
     metadata = {}
 
@@ -23,6 +24,7 @@ def get_metadata(file, read_cover_image=False):
     metadata['description'] = meta.annotation
     metadata['tags'] = meta.genre
     metadata['lang'] = meta.lang
+    metadata['translators'] = meta.get_translators()
     metadata['series'] = series
     metadata['series_num'] = series_num
     if read_cover_image:
@@ -107,6 +109,22 @@ class Fb2Meta():
 
         return author_str.replace('  ', ' ').strip()
 
+    def get_translators(self):
+        translator_str = ''
+
+        for translator in self.translator:
+            if len(translator_str) > 0:
+                translator_str += ', '
+
+            if translator.first_name:
+                translator_str += translator.first_name
+            if translator.middle_name:
+                translator_str += ' ' + translator.middle_name
+            if translator.last_name:
+                translator_str += ' ' + translator.last_name
+
+        return translator_str.replace('  ', ' ').strip()
+
     def get_metadata(self, read_cover_image=False):
         ns = {'fb': 'http://www.gribuser.ru/xml/fictionbook/2.0'}
         for title_info in self.tree.xpath('//fb:description/fb:title-info', namespaces=ns):
@@ -143,7 +161,15 @@ class Fb2Meta():
                 elif QName(elem).localname == 'src-lang':
                     self.src_lang = elem.text
                 elif QName(elem).localname == 'translator':
-                    self.translator.append(elem)
+                    translator = Author()
+                    for e in elem:
+                        if QName(e).localname == 'first-name':
+                            translator.first_name = e.text
+                        elif QName(e).localname == 'middle-name':
+                            translator.middle_name = e.text
+                        elif QName(e).localname == 'last-name':
+                            translator.last_name = e.text
+                    self.translator.append(translator)
                 elif QName(elem).localname == 'sequence':
                     seq = Sequence()
                     for a in elem.attrib:

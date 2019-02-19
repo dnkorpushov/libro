@@ -11,6 +11,7 @@ output_format = 'mobi'
 library_mode = False
 last_used_open_path = None
 last_used_convert_path = None
+ui_display_sort_author = False
 ui_columns_width = []
 ui_splitter_sizes = []
 ui_window_x = 0
@@ -30,6 +31,7 @@ def load():
     global library_mode
     global last_used_open_path
     global last_used_convert_path
+    global ui_display_sort_author
     global ui_columns_width
     global ui_splitter_sizes
     global ui_window_x
@@ -38,7 +40,7 @@ def load():
     global ui_window_height
 
     if os.path.exists(config_file):
-        with codecs.open(config_file, 'r') as f:
+        with codecs.open(config_file, 'r', encoding='utf-8') as f:
             c = json.loads(f.read())
             converter_path = c.get('converter_path', None)
             converter_config = c.get('converter_config', None)
@@ -47,6 +49,7 @@ def load():
             library_mode = c.get('library_mode', False)
             last_used_open_path = c.get('last_used_open_path', None)
             last_used_convert_path = c.get('last_used_convert_path', None)
+            ui_display_sort_author = c.get('ui_display_sort_author', False)
             ui_columns_width = c.get('ui_columns_width', [])
             ui_splitter_sizes = c.get('ui_splitter_sizes', [])
             ui_window_x = c.get('ui_window_x', 0)
@@ -64,6 +67,7 @@ def save():
         'library_mode': library_mode,
         'last_used_open_path': os.path.normpath(last_used_open_path) if last_used_open_path else None,
         'last_used_convert_path': os.path.normpath(last_used_convert_path) if last_used_convert_path else None,
+        'ui_display_sort_author': ui_display_sort_author,
         'ui_columns_width': ui_columns_width,
         'ui_splitter_sizes': ui_splitter_sizes,
         'ui_window_x': ui_window_x,
@@ -73,5 +77,5 @@ def save():
     }
     if not os.path.exists(config_dir):
         os.makedirs(config_dir)
-    with codecs.open(config_file, 'w') as f:
+    with codecs.open(config_file, 'w', encoding='utf-8') as f:
         f.write(json.dumps(c, sort_keys=False, indent=4))

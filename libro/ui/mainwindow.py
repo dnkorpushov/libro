@@ -12,6 +12,7 @@ from libro.ui.addbooksdialog import AddBooksDialog
 from libro.ui.settingsdialog import SettingsDialog
 from libro.ui.aboutdialog import AboutDialog
 from libro.ui.searchlineedit import SearchLineEdit
+from libro.ui.editdialog import EditDialog
 from libro.utils import util
 
 
@@ -47,6 +48,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.searchEdit = SearchLineEdit(self)
         self.searchEdit.returnPressed.connect(self.searchBooks)
+        self.searchEdit.textChanged.connect(self.clearSearch)
 
         sw = QWidget()
         sw.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
@@ -71,6 +73,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def searchBooks(self):
         self.bookTable.search(self.searchEdit.text())
 
+    def clearSearch(self):
+        if len(self.searchEdit.text()) == 0:
+            self.bookTable.search('')
+
     def onActionAddBooks(self):
         dlg = QFileDialog(self, 'Select files')
         if config.last_used_open_path:
@@ -83,12 +89,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.addFiles(dlg.selectedFiles())
 
     def onActionRemoveBooks(self):
-        booksId = self.bookTable.getSelectedBooksId()
-        for bookId in booksId:
-            library.delete_book(bookId)
-        self.bookTable.model().select()
+        if config.library_mode:
+            messageText = 'Remove selected books from library?'
+        else:
+            messageText = 'Remove selected books from list?'
 
-        # self.bookTable.removeSelectedRows()
+        if QMessageBox.question(self, 'Libro', messageText) == QMessageBox.Yes:
+            booksId = self.bookTable.getSelectedBooksId()
+            for bookId in booksId:
+                library.delete_book(bookId)
+            self.bookTable.model().select()
 
     def eventFilter(self, source, event):
         if source is self.bookTable:
@@ -160,6 +170,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def onActionAboutQt(self):
         QMessageBox.aboutQt(self)
+
+    def onActionEditMetadata(self):
+        booksInfo = []
+        booksId = self.bookTable.getSelectedBooksId()
+        if len(booksId) > 0:
+            for bookId in booksId:
+                bookInfo = library.get_book_info(bookId)
+                booksInfo.append(bookInfo)
+
+            dlg = EditDialog(self, booksInfo=booksInfo)
+            if dlg.exec():
+                booksInfo = dlg.getBooksInfo()
+                for book in booksInfo:
+                    library.update_book_info(book)
+                self.bookTable.updateSelectedRows()
 
     def closeEvent(self, event):
         config.ui_window_x = self.pos().x()

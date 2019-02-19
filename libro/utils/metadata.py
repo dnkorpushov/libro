@@ -31,10 +31,12 @@ class Metadata:
         self.type = None
 
         self.author = ''
+        self.author_sort = ''
         self.title = ''
         self.description = ''
         self.tags = ''
         self.lang = 'ru'
+        self.translator = ''
         self.series = ''
         self.series_index = None
         self.coverimage = None
@@ -61,10 +63,12 @@ class Metadata:
         if self.type == 'fb2':
             metadata = fb2meta.get_metadata(self.file, read_cover_image=read_cover_image)
             self.author = metadata['authors']
+            self.author_sort = self.get_authors(last_name_first=True)
             self.title = metadata['title']
             self.description = metadata['description']
             self.lang = metadata['lang']
             self.tags = translate_tags(metadata['tags'])
+            self.translator = metadata['translators']
             self.series = metadata['series']
             self.series_index = metadata['series_num']
             if read_cover_image:
@@ -74,6 +78,7 @@ class Metadata:
         elif self.type == 'epub':
             metadata = epub_meta.get_epub_metadata(self.file, read_cover_image=read_cover_image, read_toc=False)
             self.author = ', '.join(metadata.authors)
+            self.author_sort = self.get_authors(last_name_first=True)
             self.title = metadata.title
             self.description = metadata.description
             self.lang = metadata.language

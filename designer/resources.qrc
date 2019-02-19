@@ -7,4 +7,10 @@
     <file>tool-add.png</file>
     <file>tool-add@2x.png</file>
   </qresource>
+  <qresource prefix="icons">
+    <file>search-clear.png</file>
+    <file>search-clear@2x.png</file>
+    <file>search-icon.png</file>
+    <file>search-icon@2x.png</file>
+  </qresource>
 </RCC>

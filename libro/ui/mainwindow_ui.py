@@ -67,13 +67,18 @@ class Ui_MainWindow(object):
         self.actionSettings.setIconVisibleInMenu(False)
         self.actionSettings.setObjectName("actionSettings")
         self.actionAbout = QtWidgets.QAction(MainWindow)
+        self.actionAbout.setMenuRole(QtWidgets.QAction.AboutRole)
         self.actionAbout.setObjectName("actionAbout")
         self.actionRemoveBooks = QtWidgets.QAction(MainWindow)
         self.actionRemoveBooks.setObjectName("actionRemoveBooks")
         self.actionAboutQt = QtWidgets.QAction(MainWindow)
+        self.actionAboutQt.setMenuRole(QtWidgets.QAction.AboutQtRole)
         self.actionAboutQt.setObjectName("actionAboutQt")
+        self.actionEditMetadata = QtWidgets.QAction(MainWindow)
+        self.actionEditMetadata.setObjectName("actionEditMetadata")
         self.menuFile.addAction(self.actionAddBooks)
         self.menuFile.addAction(self.actionRemoveBooks)
+        self.menuFile.addAction(self.actionEditMetadata)
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionConvertToDisk)
         self.menuFile.addSeparator()
@@ -97,6 +102,7 @@ class Ui_MainWindow(object):
         self.actionRemoveBooks.triggered.connect(MainWindow.onActionRemoveBooks)
         self.actionAbout.triggered.connect(MainWindow.onActionAbout)
         self.actionAboutQt.triggered.connect(MainWindow.onActionAboutQt)
+        self.actionEditMetadata.triggered.connect(MainWindow.onActionEditMetadata)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -116,6 +122,8 @@ class Ui_MainWindow(object):
         self.actionRemoveBooks.setToolTip(_translate("MainWindow", "Remove books"))
         self.actionRemoveBooks.setShortcut(_translate("MainWindow", "Del"))
         self.actionAboutQt.setText(_translate("MainWindow", "About Qt"))
+        self.actionEditMetadata.setText(_translate("MainWindow", "Edit metadata"))
+        self.actionEditMetadata.setToolTip(_translate("MainWindow", "Edit metadata"))
 
 from .booktableview import BookTableView
 from . import resources_rc
