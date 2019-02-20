@@ -9,7 +9,7 @@ import libro.library as library
 from libro.ui.mainwindow_ui import Ui_MainWindow
 from libro.ui.convertdialog import ConvertDialog
 from libro.ui.addbooksdialog import AddBooksDialog
-from libro.ui.settingsdialog import SettingsDialog
+from libro.ui.preferencesdialog import PreferencesDialog
 from libro.ui.aboutdialog import AboutDialog
 from libro.ui.searchlineedit import SearchLineEdit
 from libro.ui.editdialog import EditDialog
@@ -20,10 +20,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.setupUi(self)
-        self.setWindowTitle('Libro for Kindle')
+        self.setWindowTitle('Libro')
         config.load()
 
-        if config.library_mode:
+        if config.libro_is_library_mode:
             db_name = os.path.join(config.config_dir, 'libro.db')
         else:
             db_name = ':memory:'
@@ -66,7 +66,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.resize(config.ui_window_width, config.ui_window_height)
             self.move(config.ui_window_x, config.ui_window_y)
 
-        if not config.library_mode:
+        if not config.libro_is_library_mode:
             self.navTree.setVisible(False)
             self.searchAction.setVisible(False)
 
@@ -89,7 +89,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.addFiles(dlg.selectedFiles())
 
     def onActionRemoveBooks(self):
-        if config.library_mode:
+        if config.libro_is_library_mode:
             messageText = 'Remove selected books from library?'
         else:
             messageText = 'Remove selected books from list?'
@@ -161,7 +161,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     convDlg.exec()
 
     def onActionSettings(self):
-        dlg = SettingsDialog(self)
+        dlg = PreferencesDialog(self)
         dlg.exec_()
 
     def onActionAbout(self):
@@ -191,7 +191,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         config.ui_window_y = self.pos().y()
         config.ui_window_width = self.size().width()
         config.ui_window_height = self.size().height()
-        if config.library_mode:
+        if config.libro_is_library_mode:
             config.ui_splitter_sizes = self.splitter.sizes()
         else:
             config.ui_splitter_sizes = []

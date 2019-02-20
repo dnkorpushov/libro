@@ -155,7 +155,10 @@
      <normaloff>:/toolbar/tool-settings.png</normaloff>:/toolbar/tool-settings.png</iconset>
    </property>
    <property name="text">
-    <string>Settings</string>
+    <string>Preferences</string>
+   </property>
+   <property name="toolTip">
+    <string>Libro preferences</string>
    </property>
    <property name="menuRole">
     <enum>QAction::PreferencesRole</enum>

@@ -4,11 +4,34 @@ import codecs
 
 db = None
 
-converter_path = None
 converter_config = None
 convert_to_folder = None
-output_format = 'mobi'
-library_mode = False
+
+libro_is_library_mode = False
+libro_collect_files = False
+libro_library_root_path = None
+libro_filename_pattern = None
+
+fb2c_executable_path = None
+fb2c_output_format = 'mobi'
+fb2c_is_custom_config = False
+fb2c_custom_config = None
+fb2c_css_file = None
+fb2c_insert_soft_hyphen = False
+fb2c_notes_mode = 'float'
+fb2c_ipnx_mode = 'none'
+fb2c_title_format = None
+fb2c_author_format = None
+
+fb2c_stk_smtp_server = None
+fb2c_stk_smtp_port = None
+fb2c_stk_smtp_password = None
+fb2c_stk_from_email = None
+fb2c_stk_to_email = None
+
+fb2c_log_level = 'normal'
+fb2c_log_mode = 'overwrite'
+
 last_used_open_path = None
 last_used_convert_path = None
 ui_display_sort_author = False
@@ -28,7 +51,10 @@ def load():
     global converter_config
     global convert_to_folder
     global output_format
-    global library_mode
+    
+    global libro_is_library_mode
+    global fb2c_is_custom_config
+
     global last_used_open_path
     global last_used_convert_path
     global ui_display_sort_author
@@ -46,7 +72,10 @@ def load():
             converter_config = c.get('converter_config', None)
             convert_to_folder = c.get('convert_to_folder', None)
             output_format = c.get('output_format', 'epub')
-            library_mode = c.get('library_mode', False)
+
+            libro_is_library_mode = c.get('libro_is_library_mode', False)
+            fb2c_is_custom_config = c.get('fb2c_is_custom_config', False)
+
             last_used_open_path = c.get('last_used_open_path', None)
             last_used_convert_path = c.get('last_used_convert_path', None)
             ui_display_sort_author = c.get('ui_display_sort_author', False)
@@ -64,9 +93,13 @@ def save():
         'converter_config': os.path.normpath(converter_config) if converter_config else None,
         'convert_to_folder': os.path.normpath(convert_to_folder) if convert_to_folder else None,
         'output_format': output_format,
-        'library_mode': library_mode,
+
+        'libro_is_library_mode': libro_is_library_mode,
+        'fb2c_is_custom_config': fb2c_is_custom_config,
+
         'last_used_open_path': os.path.normpath(last_used_open_path) if last_used_open_path else None,
         'last_used_convert_path': os.path.normpath(last_used_convert_path) if last_used_convert_path else None,
+
         'ui_display_sort_author': ui_display_sort_author,
         'ui_columns_width': ui_columns_width,
         'ui_splitter_sizes': ui_splitter_sizes,
