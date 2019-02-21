@@ -3,9 +3,10 @@ import json
 import codecs
 
 db = None
-
-converter_config = None
-convert_to_folder = None
+config_dir = os.path.join(os.path.expanduser('~'), '.libro')
+config_file = os.path.join(config_dir, 'config.json')
+converter_log_file = os.path.join(config_dir, 'fb2c.log')
+default_converter_config = os.path.join(config_dir, 'fb2c_default.toml')
 
 libro_is_library_mode = False
 libro_collect_files = False
@@ -14,23 +15,25 @@ libro_filename_pattern = None
 
 fb2c_executable_path = None
 fb2c_output_format = 'mobi'
+fb2c_convert_to_folder = None
 fb2c_is_custom_config = False
 fb2c_custom_config = None
-fb2c_css_file = None
+fb2c_css_file = ''
 fb2c_insert_soft_hyphen = False
 fb2c_notes_mode = 'float'
-fb2c_ipnx_mode = 'none'
-fb2c_title_format = None
-fb2c_author_format = None
+fb2c_apnx_mode = 'none'
+fb2c_title_format = '#title'
+fb2c_author_format = '{#f }#l'
 
-fb2c_stk_smtp_server = None
-fb2c_stk_smtp_port = None
-fb2c_stk_smtp_password = None
-fb2c_stk_from_email = None
-fb2c_stk_to_email = None
+fb2c_stk_smtp_server = ''
+fb2c_stk_smtp_port = 0
+fb2c_stk_smtp_user = ''
+fb2c_stk_smtp_password = ''
+fb2c_stk_from_email = ''
+fb2c_stk_to_email = ''
 
 fb2c_log_level = 'normal'
-fb2c_log_mode = 'overwrite'
+fb2c_log_mode = 'append'
 
 last_used_open_path = None
 last_used_convert_path = None
@@ -42,18 +45,34 @@ ui_window_y = 0
 ui_window_width = 0
 ui_window_height = 0
 
-config_dir = os.path.join(os.path.expanduser('~'), '.libro')
-config_file = os.path.join(config_dir, 'config.json')
-
 
 def load():
-    global converter_path
-    global converter_config
-    global convert_to_folder
-    global output_format
-    
     global libro_is_library_mode
+    global libro_collect_files
+    global libro_library_root_path
+    global libro_filename_pattern
+
+    global fb2c_executable_path
+    global fb2c_output_format
+    global fb2c_convert_to_folder
     global fb2c_is_custom_config
+    global fb2c_custom_config
+    global fb2c_css_file
+    global fb2c_insert_soft_hyphen
+    global fb2c_notes_mode
+    global fb2c_apnx_mode
+    global fb2c_title_format
+    global fb2c_author_format
+
+    global fb2c_stk_smtp_server
+    global fb2c_stk_smtp_port
+    global fb2c_stk_smtp_user
+    global fb2c_stk_smtp_password
+    global fb2c_stk_from_email
+    global fb2c_stk_to_email
+
+    global fb2c_log_level
+    global fb2c_log_mode
 
     global last_used_open_path
     global last_used_convert_path
@@ -68,13 +87,32 @@ def load():
     if os.path.exists(config_file):
         with codecs.open(config_file, 'r', encoding='utf-8') as f:
             c = json.loads(f.read())
-            converter_path = c.get('converter_path', None)
-            converter_config = c.get('converter_config', None)
-            convert_to_folder = c.get('convert_to_folder', None)
-            output_format = c.get('output_format', 'epub')
-
             libro_is_library_mode = c.get('libro_is_library_mode', False)
+            libro_collect_files = c.get('libro_collect_files', False)
+            libro_library_root_path = c.get('libro_library_root_path', None)
+            libro_filename_pattern = c.get('libro_filename_pattern', None)
+
+            fb2c_executable_path = c.get('fb2c_executable_path', None)
+            fb2c_output_format = c.get('fb2c_output_format', 'mobi')
+            fb2c_convert_to_folder = c.get('fb2c_convert_to_folder', None)
             fb2c_is_custom_config = c.get('fb2c_is_custom_config', False)
+            fb2c_custom_config = c.get('fb2c_custom_config', None)
+            fb2c_css_file = c.get('fb2c_css_file', '')
+            fb2c_insert_soft_hyphen = c.get('fb2c_insert_soft_hyphen', False)
+            fb2c_notes_mode = c.get('fb2c_notes_mode', 'float')
+            fb2c_apnx_mode = c.get('fb2c_apnx_mode', 'none')
+            fb2c_title_format = c.get('fb2c_title_format', '#title')
+            fb2c_author_format = c.get('fb2c_author_format', '#f #l')
+
+            fb2c_stk_smtp_server = c.get('fb2c_stk_smtp_server', '')
+            fb2c_stk_smtp_port = c.get('fb2c_stk_smtp_port', 0)
+            fb2c_stk_smtp_user = c.get('fb2c_stk_smtp_user', '')
+            fb2c_stk_smtp_password = c.get('fb2c_stk_smtp_password', '')
+            fb2c_stk_from_email = c.get('fb2c_stk_from_email', '')
+            fb2c_stk_to_email = c.get('fb2c_stk_to_email', '')
+
+            fb2c_log_level = c.get('fb2c_log_level', 'normal')
+            fb2c_log_mode = c.get('fb2c_log_mode', 'append')
 
             last_used_open_path = c.get('last_used_open_path', None)
             last_used_convert_path = c.get('last_used_convert_path', None)
@@ -89,13 +127,32 @@ def load():
 
 def save():
     c = {
-        'converter_path': os.path.normpath(converter_path) if converter_path else None,
-        'converter_config': os.path.normpath(converter_config) if converter_config else None,
-        'convert_to_folder': os.path.normpath(convert_to_folder) if convert_to_folder else None,
-        'output_format': output_format,
-
         'libro_is_library_mode': libro_is_library_mode,
+        'libro_collect_files': libro_collect_files,
+        'libro_library_root_path': libro_library_root_path,
+        'libro_filename_pattern': libro_filename_pattern,
+
+        'fb2c_executable_path': fb2c_executable_path,
+        'fb2c_output_format': fb2c_output_format,
+        'fb2c_convert_to_folder': fb2c_convert_to_folder,
         'fb2c_is_custom_config': fb2c_is_custom_config,
+        'fb2c_custom_config': fb2c_custom_config,
+        'fb2c_css_file': fb2c_css_file,
+        'fb2c_insert_soft_hyphen': fb2c_insert_soft_hyphen,
+        'fb2c_notes_mode': fb2c_notes_mode,
+        'fb2c_apnx_mode': fb2c_apnx_mode,
+        'fb2c_title_format': fb2c_title_format,
+        'fb2c_author_format': fb2c_author_format,
+
+        'fb2c_stk_smtp_server': fb2c_stk_smtp_server,
+        'fb2c_stk_smtp_port': fb2c_stk_smtp_port,
+        'fb2c_stk_smtp_user': fb2c_stk_smtp_user,
+        'fb2c_stk_smtp_password': fb2c_stk_smtp_password,
+        'fb2c_stk_from_email': fb2c_stk_from_email,
+        'fb2c_stk_to_email': fb2c_stk_to_email,
+
+        'fb2c_log_level': fb2c_log_level,
+        'fb2c_log_mode': fb2c_log_mode,
 
         'last_used_open_path': os.path.normpath(last_used_open_path) if last_used_open_path else None,
         'last_used_convert_path': os.path.normpath(last_used_convert_path) if last_used_convert_path else None,

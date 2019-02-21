@@ -6,6 +6,7 @@ from PyQt5.QtSql import QSqlDatabase
 
 import libro.config as config
 import libro.library as library
+import libro.converterconfig as converterconfig
 from libro.ui.mainwindow_ui import Ui_MainWindow
 from libro.ui.convertdialog import ConvertDialog
 from libro.ui.addbooksdialog import AddBooksDialog
@@ -13,6 +14,7 @@ from libro.ui.preferencesdialog import PreferencesDialog
 from libro.ui.aboutdialog import AboutDialog
 from libro.ui.searchlineedit import SearchLineEdit
 from libro.ui.editdialog import EditDialog
+from libro.ui.logviewdialog import LogviewDialog
 from libro.utils import util
 
 
@@ -27,6 +29,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             db_name = os.path.join(config.config_dir, 'libro.db')
         else:
             db_name = ':memory:'
+
+        if not os.path.exists(config.default_converter_config):
+            converterconfig.generate_default()
 
         db = QSqlDatabase.addDatabase('QSQLITE')
         db.setDatabaseName(db_name)
@@ -135,15 +140,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.bookTable.model().select()
 
     def onActionConvertToDisk(self):
-        if not config.converter_path or not os.path.exists(config.converter_path):
+        if not config.fb2c_executable_path or not os.path.exists(config.fb2c_executable_path):
             QMessageBox.critical(self,
-                                 'Libro for Kindle',
+                                 'Error',
                                  'Converter fb2c not found! \nCheck settings for correct converter path.')
         else:
             books_id = self.bookTable.getBooksId()
             dest_folder = None
             if len(books_id) > 0:
-                if not config.convert_to_folder:
+                if not config.fb2c_convert_to_folder:
                     dlg = QFileDialog(self, 'Select destination folder')
                     if config.last_used_convert_path:
                         dlg.setDirectory(config.last_used_convert_path)
@@ -154,7 +159,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                         config.last_used_convert_path = os.path.normpath(dlg.selectedFiles()[0])
                         dest_folder = config.last_used_convert_path
                 else:
-                    dest_folder = config.convert_to_folder
+                    dest_folder = config.fb2c_convert_to_folder
 
                 if dest_folder:
                     convDlg = ConvertDialog(self, books_id, dest_folder)
@@ -170,6 +175,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def onActionAboutQt(self):
         QMessageBox.aboutQt(self)
+
+    def onActionViewLog(self):
+        dlg = LogviewDialog(self, file=config.converter_log_file)
+        dlg.exec()
 
     def onActionEditMetadata(self):
         booksInfo = []

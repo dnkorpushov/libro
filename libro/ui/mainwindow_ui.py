@@ -38,6 +38,8 @@ class Ui_MainWindow(object):
         self.menuFile.setObjectName("menuFile")
         self.menuHelp = QtWidgets.QMenu(self.menubar)
         self.menuHelp.setObjectName("menuHelp")
+        self.menuView = QtWidgets.QMenu(self.menubar)
+        self.menuView.setObjectName("menuView")
         MainWindow.setMenuBar(self.menubar)
         self.toolBar = QtWidgets.QToolBar(MainWindow)
         self.toolBar.setMovable(False)
@@ -76,6 +78,8 @@ class Ui_MainWindow(object):
         self.actionAboutQt.setObjectName("actionAboutQt")
         self.actionEditMetadata = QtWidgets.QAction(MainWindow)
         self.actionEditMetadata.setObjectName("actionEditMetadata")
+        self.actionViewLog = QtWidgets.QAction(MainWindow)
+        self.actionViewLog.setObjectName("actionViewLog")
         self.menuFile.addAction(self.actionAddBooks)
         self.menuFile.addAction(self.actionRemoveBooks)
         self.menuFile.addAction(self.actionEditMetadata)
@@ -87,7 +91,9 @@ class Ui_MainWindow(object):
         self.menuFile.addAction(self.actionExit)
         self.menuHelp.addAction(self.actionAbout)
         self.menuHelp.addAction(self.actionAboutQt)
+        self.menuView.addAction(self.actionViewLog)
         self.menubar.addAction(self.menuFile.menuAction())
+        self.menubar.addAction(self.menuView.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
         self.toolBar.addAction(self.actionAddBooks)
         self.toolBar.addAction(self.actionConvertToDisk)
@@ -103,6 +109,7 @@ class Ui_MainWindow(object):
         self.actionAbout.triggered.connect(MainWindow.onActionAbout)
         self.actionAboutQt.triggered.connect(MainWindow.onActionAboutQt)
         self.actionEditMetadata.triggered.connect(MainWindow.onActionEditMetadata)
+        self.actionViewLog.triggered.connect(MainWindow.onActionViewLog)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -110,6 +117,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
+        self.menuView.setTitle(_translate("MainWindow", "View"))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
         self.actionAddBooks.setText(_translate("MainWindow", "Add books"))
         self.actionAddBooks.setShortcut(_translate("MainWindow", "Ctrl+O"))
@@ -125,6 +133,7 @@ class Ui_MainWindow(object):
         self.actionAboutQt.setText(_translate("MainWindow", "About Qt"))
         self.actionEditMetadata.setText(_translate("MainWindow", "Edit metadata"))
         self.actionEditMetadata.setToolTip(_translate("MainWindow", "Edit metadata"))
+        self.actionViewLog.setText(_translate("MainWindow", "Log"))
 
 from .booktableview import BookTableView
 from . import resources_rc

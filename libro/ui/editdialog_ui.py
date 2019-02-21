@@ -126,14 +126,6 @@ class Ui_Dialog(object):
         self.verticalLayout_3.addItem(spacerItem2)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.prevButton = QtWidgets.QPushButton(Dialog)
-        self.prevButton.setObjectName("prevButton")
-        self.horizontalLayout_2.addWidget(self.prevButton)
-        self.nextButton = QtWidgets.QPushButton(Dialog)
-        self.nextButton.setObjectName("nextButton")
-        self.horizontalLayout_2.addWidget(self.nextButton)
-        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_2.addItem(spacerItem3)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Save)
@@ -158,7 +150,5 @@ class Ui_Dialog(object):
         self.label_6.setText(_translate("Dialog", "Tags"))
         self.label_8.setText(_translate("Dialog", "Translator"))
         self.label_7.setText(_translate("Dialog", "Lang"))
-        self.prevButton.setText(_translate("Dialog", "Previous"))
-        self.nextButton.setText(_translate("Dialog", "Next"))
 
 from .comboedit import ComboEdit

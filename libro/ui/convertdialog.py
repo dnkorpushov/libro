@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QDialog
 from PyQt5.QtCore import Qt, QProcess
 from libro.ui.processdialog_ui import Ui_Dialog
 import libro.config as config
+import libro.converterconfig as converterconfig
 import libro.library as library
 
 
@@ -33,23 +34,26 @@ class ConvertDialog(QDialog, Ui_Dialog):
         if self.current_index < self.count and not self.canceled:
             book_info = library.get_book_info(self.books_id[self.current_index])
             args = []
-            if book_info.type == 'epub' and config.output_format == 'epub':
+            if book_info.type == 'epub' and config.fb2c_output_format == 'epub':
                 self.current_index += 1
                 self.runConvert()
             else:
-                if config.converter_config:
-                    args.append('--config')
-                    args.append(config.converter_config)
+                args.append('--config')
+                if config.fb2c_is_custom_config and config.fb2c_custom_config:
+                    args.append(config.fb2c_custom_config)
+                else:
+                    converterconfig.generate()
+                    args.append(config.default_converter_config)
                 if book_info.type == 'fb2':
                     args.append('convert')
                 elif book_info.type == 'epub':
                     args.append('transfer')
                 args.append('--to')
-                args.append(config.output_format)
+                args.append(config.fb2c_output_format)
                 args.append('--ow')
                 args.append(book_info.file)
                 args.append(self.dest_folder)
-                self.process.start(config.converter_path, args)
+                self.process.start(config.fb2c_executable_path, args)
         else:
             self.close()
 

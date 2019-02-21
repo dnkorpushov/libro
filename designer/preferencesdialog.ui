@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>551</width>
-    <height>427</height>
+    <height>493</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,9 +32,9 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="tabGeneral">
       <attribute name="title">
        <string>General</string>
       </attribute>
@@ -172,20 +172,23 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>132</height>
+           <height>198</height>
           </size>
          </property>
         </spacer>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_4">
+     <widget class="QWidget" name="tabFb2c">
       <attribute name="title">
        <string>fb2c</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_9">
        <property name="spacing">
         <number>3</number>
+       </property>
+       <property name="leftMargin">
+        <number>6</number>
        </property>
        <property name="topMargin">
         <number>6</number>
@@ -213,6 +216,30 @@
          </item>
          <item>
           <widget class="QPushButton" name="converterPathSelectButton">
+           <property name="text">
+            <string>Select</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Convert to folder</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <property name="spacing">
+          <number>3</number>
+         </property>
+         <item>
+          <widget class="QLineEdit" name="convertToFolderEdit"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="convertToFolderSelectButton">
            <property name="text">
             <string>Select</string>
            </property>
@@ -464,14 +491,14 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>19</height>
+           <height>41</height>
           </size>
          </property>
         </spacer>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_3">
+     <widget class="QWidget" name="tabStk">
       <attribute name="title">
        <string>Send to Kindle</string>
       </attribute>
@@ -549,14 +576,14 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>155</height>
+           <height>221</height>
           </size>
          </property>
         </spacer>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_2">
+     <widget class="QWidget" name="tabLog">
       <attribute name="title">
        <string>Log</string>
       </attribute>
@@ -606,7 +633,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>283</height>
+           <height>349</height>
           </size>
          </property>
         </spacer>
@@ -757,11 +784,79 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>convertToFolderSelectButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>onConvertToFolderSelect()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>496</x>
+     <y>106</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>275</x>
+     <y>246</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>converterPathSelectButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>onConverterPathSelect()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>496</x>
+     <y>62</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>275</x>
+     <y>246</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>configFileSelectButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>onConfigFileSelect()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>489</x>
+     <y>199</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>275</x>
+     <y>246</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stylesheetFileSelectButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>onCSSFileSelect()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>489</x>
+     <y>290</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>275</x>
+     <y>246</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>onLibroModeSelect()</slot>
   <slot>onLibraryRootSelect()</slot>
   <slot>onCollectFilesCheck()</slot>
   <slot>onConvertConfigModeSelect()</slot>
+  <slot>onConvertToFolderSelect()</slot>
+  <slot>onConverterPathSelect()</slot>
+  <slot>onCSSFileSelect()</slot>
+  <slot>onConfigFileSelect()</slot>
  </slots>
 </ui>
