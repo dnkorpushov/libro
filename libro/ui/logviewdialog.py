@@ -20,4 +20,4 @@ class LogviewDialog(QDialog, Ui_Dialog):
         if os.path.exists(self.file):
             with codecs.open(self.file, mode='r', encoding='utf-8') as f:
                 for line in f:
-                    self.textEdit.append('<p>{}</p>'.format(line))
+                    self.textEdit.append('{}'.format(line))

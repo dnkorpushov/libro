@@ -24,6 +24,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.setWindowTitle('Libro')
         config.load()
+        if not os.path.exists(config.config_dir):
+            config.save()
 
         if config.libro_is_library_mode:
             db_name = os.path.join(config.config_dir, 'libro.db')
@@ -142,7 +144,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def onActionConvertToDisk(self):
         if not config.fb2c_executable_path or not os.path.exists(config.fb2c_executable_path):
             QMessageBox.critical(self,
-                                 'Error',
+                                 'Libro',
                                  'Converter fb2c not found! \nCheck settings for correct converter path.')
         else:
             books_id = self.bookTable.getBooksId()
@@ -167,7 +169,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def onActionSettings(self):
         dlg = PreferencesDialog(self)
-        dlg.exec_()
+        dlg.exec()
 
     def onActionAbout(self):
         dlg = AboutDialog(self)
