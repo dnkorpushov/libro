@@ -48,7 +48,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.splitter.setStretchFactor(1, 1)
 
         if len(config.ui_splitter_sizes) > 0:
-                self.splitter.setSizes(config.ui_splitter_sizes)
+            self.splitter.setSizes(config.ui_splitter_sizes)
 
         self.bookTable.setAcceptDrops(True)
         self.bookTable.installEventFilter(self)

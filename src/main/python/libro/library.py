@@ -1,4 +1,5 @@
 from PyQt5.QtSql import QSqlQuery
+
 import os
 from datetime import date
 
@@ -20,7 +21,7 @@ def get_book_info(id):
     q = QSqlQuery(config.db)
     q.prepare(queries.SELECT_BOOK_INFO)
     q.bindValue(0, id)
-    q.exec()
+    q.exec_()
     if q.next():
         b = BookInfo()
         b.id = q.value(0)
@@ -49,7 +50,7 @@ def get_book_rec(id):
     q = QSqlQuery(config.db)
     q.prepare(queries.SELECT_BOOK_REC)
     q.bindValue(0, id)
-    q.exec()
+    q.exec_()
     if q.next():
         b = BookInfo()
         b.id = q.value(0)
@@ -82,7 +83,7 @@ def update_book_info(book_info):
     q.bindValue(7, book_info.translator)
     q.bindValue(8, book_info.type)
     q.bindValue(9, book_info.id)
-    if not q.exec():
+    if not q.exec_():
         print(q.lastError().text())
         config.db.rollback()
     else:
@@ -93,7 +94,7 @@ def delete_book(id):
     q = QSqlQuery(config.db)
     q.prepare(queries.DELETE_BOOK)
     q.bindValue(0, id)
-    if not q.exec():
+    if not q.exec_():
         print(q.lastError().text())
         config.db.rollback()
     else:
@@ -119,7 +120,7 @@ def add_book(file):
         q.bindValue(8, meta.type)
         q.bindValue(9, cur_date)
         q.bindValue(10, file)
-        if not q.exec():
+        if not q.exec_():
             print(q.lastError().text())
             config.db.rollback()
         else:

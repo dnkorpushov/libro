@@ -22,7 +22,7 @@ class BookTableView(QTableView):
         self.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.setShowGrid(False)
-        self.setAlternatingRowColors(False)
+        self.setAlternatingRowColors(True)
         self.horizontalHeader().setHighlightSections(False)
 
         self.setSortingEnabled(True)

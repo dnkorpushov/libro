@@ -58,7 +58,7 @@ class PreferencesDialog(QDialog, Ui_Dialog):
         self.logLevelCombo.setCurrentIndex(self.logLevelCombo.findData(config.fb2c_log_level))
         self.logModeCombo.setCurrentIndex(self.logModeCombo.findData(config.fb2c_log_mode))
 
-        self.libroModeGroup.setEnabled(False)  # TODO: Временно отключен режим библиотеки
+        # self.libroModeGroup.setEnabled(False)  # TODO: Временно отключен режим библиотеки
 
         self.onLibroModeSelect()
         self.onCollectFilesCheck()
