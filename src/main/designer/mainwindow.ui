@@ -121,7 +121,7 @@
   <action name="actionAddBooks">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/toolbar/tool-add.png</normaloff>:/toolbar/tool-add.png</iconset>
+     <normaloff>:/toolbar/bright-tool-add.png</normaloff>:/toolbar/bright-tool-add.png</iconset>
    </property>
    <property name="text">
     <string>Add books</string>
@@ -144,13 +144,13 @@
   <action name="actionConvertToDisk">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/toolbar/tool-hdd.png</normaloff>:/toolbar/tool-hdd.png</iconset>
+     <normaloff>:/toolbar/bright-tool-folder.png</normaloff>:/toolbar/bright-tool-folder.png</iconset>
    </property>
    <property name="text">
-    <string>Convert to disk</string>
+    <string>Convert to folder</string>
    </property>
    <property name="toolTip">
-    <string>Convert book to disk</string>
+    <string>Convert book to folder</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>
@@ -159,7 +159,7 @@
   <action name="actionSettings">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/toolbar/tool-settings.png</normaloff>:/toolbar/tool-settings.png</iconset>
+     <normaloff>:/toolbar/bright-tool-settings.png</normaloff>:/toolbar/bright-tool-settings.png</iconset>
    </property>
    <property name="text">
     <string>Preferences</string>

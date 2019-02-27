@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'designer\preferencesdialog.ui'
+# Form implementation generated from reading ui file 'src\main\designer\preferencesdialog.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -24,6 +24,36 @@ class Ui_Dialog(object):
         self.verticalLayout_4.setContentsMargins(6, 6, 6, 6)
         self.verticalLayout_4.setSpacing(10)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
+        self.groupBox = QtWidgets.QGroupBox(self.tabGeneral)
+        self.groupBox.setObjectName("groupBox")
+        self.verticalLayout_10 = QtWidgets.QVBoxLayout(self.groupBox)
+        self.verticalLayout_10.setObjectName("verticalLayout_10")
+        self.formLayout = QtWidgets.QFormLayout()
+        self.formLayout.setObjectName("formLayout")
+        self.label_18 = QtWidgets.QLabel(self.groupBox)
+        self.label_18.setObjectName("label_18")
+        self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_18)
+        self.styleCombo = QtWidgets.QComboBox(self.groupBox)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.styleCombo.sizePolicy().hasHeightForWidth())
+        self.styleCombo.setSizePolicy(sizePolicy)
+        self.styleCombo.setObjectName("styleCombo")
+        self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.styleCombo)
+        self.label_19 = QtWidgets.QLabel(self.groupBox)
+        self.label_19.setObjectName("label_19")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_19)
+        self.accentColorCombo = QtWidgets.QComboBox(self.groupBox)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.accentColorCombo.sizePolicy().hasHeightForWidth())
+        self.accentColorCombo.setSizePolicy(sizePolicy)
+        self.accentColorCombo.setObjectName("accentColorCombo")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.accentColorCombo)
+        self.verticalLayout_10.addLayout(self.formLayout)
+        self.verticalLayout_4.addWidget(self.groupBox)
         self.libroModeGroup = QtWidgets.QGroupBox(self.tabGeneral)
         self.libroModeGroup.setEnabled(True)
         self.libroModeGroup.setObjectName("libroModeGroup")
@@ -68,7 +98,7 @@ class Ui_Dialog(object):
         self.filenamePatternEdit.setObjectName("filenamePatternEdit")
         self.verticalLayout_3.addWidget(self.filenamePatternEdit)
         self.verticalLayout_4.addWidget(self.libraryOptionsGroup)
-        spacerItem = QtWidgets.QSpacerItem(20, 198, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_4.addItem(spacerItem)
         self.tabWidget.addTab(self.tabGeneral, "")
         self.tabFb2c = QtWidgets.QWidget()
@@ -305,11 +335,15 @@ class Ui_Dialog(object):
         self.converterPathSelectButton.clicked.connect(Dialog.onConverterPathSelect)
         self.configFileSelectButton.clicked.connect(Dialog.onConfigFileSelect)
         self.stylesheetFileSelectButton.clicked.connect(Dialog.onCSSFileSelect)
+        self.styleCombo.currentIndexChanged['int'].connect(Dialog.onStyleChange)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Preferences"))
+        self.groupBox.setTitle(_translate("Dialog", "Theme"))
+        self.label_18.setText(_translate("Dialog", "Style:"))
+        self.label_19.setText(_translate("Dialog", "Accent color:"))
         self.libroModeGroup.setTitle(_translate("Dialog", "Libro mode"))
         self.libraryModeRadio.setText(_translate("Dialog", "Library manager"))
         self.converterModeRadio.setText(_translate("Dialog", "Converter"))

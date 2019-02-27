@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'designer\mainwindow.ui'
+# Form implementation generated from reading ui file 'src\main\designer\mainwindow.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -48,7 +48,7 @@ class Ui_MainWindow(object):
         MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
         self.actionAddBooks = QtWidgets.QAction(MainWindow)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/toolbar/tool-add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/toolbar/bright-tool-add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionAddBooks.setIcon(icon)
         self.actionAddBooks.setIconVisibleInMenu(False)
         self.actionAddBooks.setObjectName("actionAddBooks")
@@ -57,13 +57,13 @@ class Ui_MainWindow(object):
         self.actionExit.setObjectName("actionExit")
         self.actionConvertToDisk = QtWidgets.QAction(MainWindow)
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/toolbar/tool-hdd.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap(":/toolbar/bright-tool-folder.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionConvertToDisk.setIcon(icon1)
         self.actionConvertToDisk.setIconVisibleInMenu(False)
         self.actionConvertToDisk.setObjectName("actionConvertToDisk")
         self.actionSettings = QtWidgets.QAction(MainWindow)
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(":/toolbar/tool-settings.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap(":/toolbar/bright-tool-settings.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionSettings.setIcon(icon2)
         self.actionSettings.setMenuRole(QtWidgets.QAction.PreferencesRole)
         self.actionSettings.setIconVisibleInMenu(False)
@@ -122,8 +122,8 @@ class Ui_MainWindow(object):
         self.actionAddBooks.setText(_translate("MainWindow", "Add books"))
         self.actionAddBooks.setShortcut(_translate("MainWindow", "Ctrl+O"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
-        self.actionConvertToDisk.setText(_translate("MainWindow", "Convert to disk"))
-        self.actionConvertToDisk.setToolTip(_translate("MainWindow", "Convert book to disk"))
+        self.actionConvertToDisk.setText(_translate("MainWindow", "Convert to folder"))
+        self.actionConvertToDisk.setToolTip(_translate("MainWindow", "Convert book to folder"))
         self.actionSettings.setText(_translate("MainWindow", "Preferences"))
         self.actionSettings.setToolTip(_translate("MainWindow", "Libro preferences"))
         self.actionAbout.setText(_translate("MainWindow", "About"))

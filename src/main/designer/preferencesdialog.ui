@@ -55,6 +55,53 @@
         <number>6</number>
        </property>
        <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>Theme</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_10">
+          <item>
+           <layout class="QFormLayout" name="formLayout">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_18">
+              <property name="text">
+               <string>Style:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QComboBox" name="styleCombo">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_19">
+              <property name="text">
+               <string>Accent color:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QComboBox" name="accentColorCombo">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
         <widget class="QGroupBox" name="libroModeGroup">
          <property name="enabled">
           <bool>true</bool>
@@ -172,7 +219,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>198</height>
+           <height>40</height>
           </size>
          </property>
         </spacer>
@@ -848,6 +895,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>styleCombo</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>Dialog</receiver>
+   <slot>onStyleChange(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>128</x>
+     <y>67</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>275</x>
+     <y>246</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>onLibroModeSelect()</slot>
@@ -858,5 +921,6 @@
   <slot>onConverterPathSelect()</slot>
   <slot>onCSSFileSelect()</slot>
   <slot>onConfigFileSelect()</slot>
+  <slot>onStyleChange(int)</slot>
  </slots>
 </ui>

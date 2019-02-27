@@ -1,7 +1,8 @@
 import os
 
-from PyQt5.QtWidgets import QMainWindow, QWidget, QFileDialog, QSizePolicy, QMessageBox
-from PyQt5.QtCore import QEvent
+from PyQt5.QtWidgets import QMainWindow, QWidget, QSizePolicy, QMessageBox, QMenu
+from PyQt5.QtCore import QEvent, Qt
+from PyQt5.QtGui import QIcon
 from PyQt5.QtSql import QSqlDatabase
 
 import libro.config as config
@@ -15,7 +16,9 @@ from libro.ui.aboutdialog import AboutDialog
 from libro.ui.searchlineedit import SearchLineEdit
 from libro.ui.editdialog import EditDialog
 from libro.ui.logviewdialog import LogviewDialog
+import libro.ui.style as style
 from libro.utils import util
+from libro.utils import ui as uiUtils
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -23,9 +26,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__()
         self.setupUi(self)
         self.setWindowTitle('Libro')
+
         config.load()
         if not os.path.exists(config.config_dir):
             config.save()
+
+        style.setStyle(config.libro_style, config.libro_accent_color)
+        if config.libro_style == style.Style.dark:
+            self.actionAddBooks.setIcon(QIcon(':/toolbar/dark-tool-add.png'))
+            self.actionConvertToDisk.setIcon(QIcon(':/toolbar/dark-tool-folder.png'))
+            self.actionSettings.setIcon(QIcon(':/toolbar/dark-tool-settings.png'))
 
         if config.libro_is_library_mode:
             db_name = os.path.join(config.config_dir, 'libro.db')
@@ -44,6 +54,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             library.create()
 
         self.bookTable.init(db=config.db, columnsWidth=config.ui_columns_width)
+        self.bookTable.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.bookTable.customContextMenuRequested.connect(self.bookTableContextMenu)
         self.splitter.setStretchFactor(0, 0)
         self.splitter.setStretchFactor(1, 1)
 
@@ -68,14 +80,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.searchAction = self.toolBar.addWidget(self.searchEdit)
         self.toolBar.addWidget(pw)
 
-        # Restore settings
         if config.ui_window_width:
             self.resize(config.ui_window_width, config.ui_window_height)
             self.move(config.ui_window_x, config.ui_window_y)
 
         if not config.libro_is_library_mode:
             self.navTree.setVisible(False)
-            self.searchAction.setVisible(False)
 
     def searchBooks(self):
         self.bookTable.search(self.searchEdit.text())
@@ -85,15 +95,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.bookTable.search('')
 
     def onActionAddBooks(self):
-        dlg = QFileDialog(self, 'Select files')
-        if config.last_used_open_path:
-            dlg.setDirectory(config.last_used_open_path)
-        dlg.setFileMode(QFileDialog.ExistingFiles)
-        dlg.setNameFilters(['Ebook files (*.fb2 *.fb2.zip *.zip *.epub)', 'All files (*.*)'])
+        files = uiUtils.getFiles(self, title='Select files', defaultPath=config.last_used_open_path,
+                                 fileExt='Ebook files (*.fb2 *.fb2.zip *.zip *.epub)', multipleSelect=True)
+        if files is not None:
+            config.last_used_open_path = os.path.split(files[0])[0]
+            self.addFiles(files)
 
-        if dlg.exec_():
-            config.last_used_open_path = os.path.split(dlg.selectedFiles()[0])[0]
-            self.addFiles(dlg.selectedFiles())
+    def bookTableContextMenu(self, pos):
+        if len(self.bookTable.selectionModel().selectedRows()) > 0:
+            menu = QMenu()
+            menu.addAction(self.actionEditMetadata)
+            menu.addAction(self.actionRemoveBooks)
+            menu.exec_(self.bookTable.viewport().mapToGlobal(pos))
 
     def onActionRemoveBooks(self):
         if config.libro_is_library_mode:
@@ -151,15 +164,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             dest_folder = None
             if len(books_id) > 0:
                 if not config.fb2c_convert_to_folder:
-                    dlg = QFileDialog(self, 'Select destination folder')
-                    if config.last_used_convert_path:
-                        dlg.setDirectory(config.last_used_convert_path)
-                    dlg.setFileMode(QFileDialog.Directory)
-                    dlg.setOption(QFileDialog.ShowDirsOnly, True)
-
-                    if dlg.exec_():
-                        config.last_used_convert_path = os.path.normpath(dlg.selectedFiles()[0])
-                        dest_folder = config.last_used_convert_path
+                    dest_folder = uiUtils.getFolder(self, 'Select destination folder',
+                                                    defaultPath=config.last_used_convert_path)
+                    if dest_folder is not None:
+                        config.last_used_convert_path = dest_folder
                 else:
                     dest_folder = config.fb2c_convert_to_folder
 
@@ -170,6 +178,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def onActionSettings(self):
         dlg = PreferencesDialog(self)
         dlg.exec()
+        if config.is_need_restart:
+            config.is_need_restart = False
+            QMessageBox.information(self, 'Libro', 'Restart Libro to apply changes.')
 
     def onActionAbout(self):
         dlg = AboutDialog(self)
@@ -198,6 +209,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.bookTable.updateSelectedRows()
 
     def closeEvent(self, event):
+        self.saveSettings()
+
+    def saveSettings(self):
         config.ui_window_x = self.pos().x()
         config.ui_window_y = self.pos().y()
         config.ui_window_width = self.size().width()

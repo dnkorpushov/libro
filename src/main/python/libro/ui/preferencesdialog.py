@@ -1,8 +1,11 @@
 import sys
 import os
 from PyQt5.QtWidgets import QDialog
+from PyQt5.QtGui import QIcon, QPixmap, QColor
+from PyQt5.QtCore import QSize
 
 from libro.ui.preferencesdialog_ui import Ui_Dialog
+from libro.ui.style import AccentColor
 import libro.config as config
 import libro.configdata as data
 import libro.utils.ui as uiUtils
@@ -12,9 +15,20 @@ class PreferencesDialog(QDialog, Ui_Dialog):
     def __init__(self, parent):
         super(PreferencesDialog, self).__init__(parent)
         self.setupUi(self)
+        self.accentColorCombo.setIconSize(QSize(12, 12))
         self.initValues()
 
     def initValues(self):
+        for item in data.style:
+            self.styleCombo.addItem(item[0], item[1])
+        for item in data.accent_color:
+            pix = QPixmap(12, 12)
+            if item[1] == AccentColor.default:
+                pix.fill(QColor(255, 255, 255, 0))
+            else:
+                pix.fill(AccentColor.get_color(item[1]))
+            icon = QIcon(pix)
+            self.accentColorCombo.addItem(icon, item[0], item[1])
         for item in data.output_format:
             self.outputFormatCombo.addItem(item, item)
         for item in data.notes_type:
@@ -35,6 +49,8 @@ class PreferencesDialog(QDialog, Ui_Dialog):
         self.collectFilesCheck.setChecked(config.libro_collect_files)
         self.libraryRootEdit.setText(config.libro_library_root_path)
         self.filenamePatternEdit.setCurrentText(config.libro_filename_pattern)
+        self.styleCombo.setCurrentIndex(self.styleCombo.findData(config.libro_style))
+        self.accentColorCombo.setCurrentIndex(self.accentColorCombo.findData(config.libro_accent_color))
 
         self.useCustomConfigRadio.setChecked(config.fb2c_is_custom_config)
         self.useDefaultConfigRadio.setChecked(not config.fb2c_is_custom_config)
@@ -58,11 +74,13 @@ class PreferencesDialog(QDialog, Ui_Dialog):
         self.logLevelCombo.setCurrentIndex(self.logLevelCombo.findData(config.fb2c_log_level))
         self.logModeCombo.setCurrentIndex(self.logModeCombo.findData(config.fb2c_log_mode))
 
-        # self.libroModeGroup.setEnabled(False)  # TODO: Временно отключен режим библиотеки
-
         self.onLibroModeSelect()
         self.onCollectFilesCheck()
         self.onConvertConfigModeSelect()
+        self.onStyleChange(self.styleCombo.currentIndex())
+
+    def onStyleChange(self, idx):
+        self.accentColorCombo.setEnabled(idx != 0)
 
     def onLibroModeSelect(self):
         self.libraryOptionsGroup.setEnabled(not self.converterModeRadio.isChecked())
@@ -125,10 +143,17 @@ class PreferencesDialog(QDialog, Ui_Dialog):
         self.tabWidget.setTabEnabled(3, not self.useCustomConfigRadio.isChecked())
 
     def accept(self):
+        if (config.libro_is_library_mode != self.libraryModeRadio.isChecked() or
+                config.libro_style != self.styleCombo.currentData() or
+                config.libro_accent_color != self.accentColorCombo.currentData()):
+            config.is_need_restart = True
+
         config.libro_is_library_mode = self.libraryModeRadio.isChecked()
         config.libro_collect_files = self.collectFilesCheck.isChecked()
         config.libro_library_root_path = self.libraryRootEdit.text()
         config.libro_filename_pattern = self.filenamePatternEdit.currentText()
+        config.libro_style = self.styleCombo.currentData()
+        config.libro_accent_color = self.accentColorCombo.currentData()
 
         config.fb2c_is_custom_config = self.useCustomConfigRadio.isChecked()
         config.fb2c_output_format = self.outputFormatCombo.currentData()
