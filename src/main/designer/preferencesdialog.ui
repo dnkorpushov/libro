@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>551</width>
-    <height>493</height>
+    <width>615</width>
+    <height>552</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,19 +15,19 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
-    <number>8</number>
+    <number>10</number>
    </property>
    <property name="leftMargin">
-    <number>6</number>
+    <number>20</number>
    </property>
    <property name="topMargin">
-    <number>6</number>
+    <number>20</number>
    </property>
    <property name="rightMargin">
-    <number>6</number>
+    <number>20</number>
    </property>
    <property name="bottomMargin">
-    <number>6</number>
+    <number>20</number>
    </property>
    <item>
     <widget class="QTabWidget" name="tabWidget">
@@ -55,53 +55,6 @@
         <number>6</number>
        </property>
        <item>
-        <widget class="QGroupBox" name="groupBox">
-         <property name="title">
-          <string>Theme</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_10">
-          <item>
-           <layout class="QFormLayout" name="formLayout">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_18">
-              <property name="text">
-               <string>Style:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QComboBox" name="styleCombo">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_19">
-              <property name="text">
-               <string>Accent color:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QComboBox" name="accentColorCombo">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
         <widget class="QGroupBox" name="libroModeGroup">
          <property name="enabled">
           <bool>true</bool>
@@ -111,31 +64,31 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <property name="spacing">
-           <number>3</number>
+           <number>10</number>
           </property>
           <property name="leftMargin">
-           <number>6</number>
+           <number>10</number>
           </property>
           <property name="topMargin">
-           <number>6</number>
+           <number>10</number>
           </property>
           <property name="rightMargin">
-           <number>6</number>
+           <number>10</number>
           </property>
           <property name="bottomMargin">
-           <number>6</number>
+           <number>10</number>
           </property>
-          <item>
-           <widget class="QRadioButton" name="libraryModeRadio">
-            <property name="text">
-             <string>Library manager</string>
-            </property>
-           </widget>
-          </item>
           <item>
            <widget class="QRadioButton" name="converterModeRadio">
             <property name="text">
              <string>Converter</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="libraryModeRadio">
+            <property name="text">
+             <string>Library manager</string>
             </property>
            </widget>
           </item>
@@ -149,19 +102,19 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <property name="spacing">
-           <number>3</number>
+           <number>5</number>
           </property>
           <property name="leftMargin">
-           <number>6</number>
+           <number>10</number>
           </property>
           <property name="topMargin">
-           <number>6</number>
+           <number>10</number>
           </property>
           <property name="rightMargin">
-           <number>6</number>
+           <number>10</number>
           </property>
           <property name="bottomMargin">
-           <number>6</number>
+           <number>10</number>
           </property>
           <item>
            <widget class="QCheckBox" name="collectFilesCheck">
@@ -180,7 +133,7 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout">
             <property name="spacing">
-             <number>3</number>
+             <number>6</number>
             </property>
             <item>
              <widget class="QLineEdit" name="libraryRootEdit"/>
@@ -895,22 +848,6 @@
     </hint>
    </hints>
   </connection>
-  <connection>
-   <sender>styleCombo</sender>
-   <signal>currentIndexChanged(int)</signal>
-   <receiver>Dialog</receiver>
-   <slot>onStyleChange(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>128</x>
-     <y>67</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>275</x>
-     <y>246</y>
-    </hint>
-   </hints>
-  </connection>
  </connections>
  <slots>
   <slot>onLibroModeSelect()</slot>
@@ -921,6 +858,5 @@
   <slot>onConverterPathSelect()</slot>
   <slot>onCSSFileSelect()</slot>
   <slot>onConfigFileSelect()</slot>
-  <slot>onStyleChange(int)</slot>
  </slots>
 </ui>

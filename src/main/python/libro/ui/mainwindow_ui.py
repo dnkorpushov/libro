@@ -1,38 +1,48 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'src\main\designer\mainwindow.ui'
+# Form implementation generated from reading ui file 'src/main/designer/mainwindow.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.12
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(745, 417)
+        MainWindow.setUnifiedTitleAndToolBarOnMac(True)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
-        self.gridLayout.setContentsMargins(3, 3, 3, 3)
-        self.gridLayout.setSpacing(3)
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout.setSpacing(0)
         self.gridLayout.setObjectName("gridLayout")
         self.splitter = QtWidgets.QSplitter(self.centralwidget)
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
-        self.splitter.setHandleWidth(3)
+        self.splitter.setHandleWidth(1)
         self.splitter.setChildrenCollapsible(False)
         self.splitter.setObjectName("splitter")
         self.navTree = QtWidgets.QTreeWidget(self.splitter)
         self.navTree.setObjectName("navTree")
         self.navTree.headerItem().setText(0, "1")
         self.bookTable = BookTableView(self.splitter)
+        self.bookTable.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.bookTable.setAlternatingRowColors(True)
         self.bookTable.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
+        self.bookTable.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.bookTable.setShowGrid(False)
+        self.bookTable.setWordWrap(False)
+        self.bookTable.setCornerButtonEnabled(False)
         self.bookTable.setObjectName("bookTable")
+        self.bookTable.verticalHeader().setDefaultSectionSize(24)
+        self.bookTable.verticalHeader().setMinimumSectionSize(20)
         self.gridLayout.addWidget(self.splitter, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 745, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 745, 22))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -43,6 +53,7 @@ class Ui_MainWindow(object):
         MainWindow.setMenuBar(self.menubar)
         self.toolBar = QtWidgets.QToolBar(MainWindow)
         self.toolBar.setMovable(False)
+        self.toolBar.setIconSize(QtCore.QSize(24, 24))
         self.toolBar.setFloatable(False)
         self.toolBar.setObjectName("toolBar")
         MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
@@ -97,7 +108,6 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuHelp.menuAction())
         self.toolBar.addAction(self.actionAddBooks)
         self.toolBar.addAction(self.actionConvertToDisk)
-        self.toolBar.addSeparator()
         self.toolBar.addAction(self.actionSettings)
 
         self.retranslateUi(MainWindow)
@@ -134,6 +144,7 @@ class Ui_MainWindow(object):
         self.actionEditMetadata.setText(_translate("MainWindow", "Edit metadata"))
         self.actionEditMetadata.setToolTip(_translate("MainWindow", "Edit metadata"))
         self.actionViewLog.setText(_translate("MainWindow", "Log"))
+
 
 from .booktableview import BookTableView
 from . import resources_rc

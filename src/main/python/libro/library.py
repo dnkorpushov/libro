@@ -17,7 +17,7 @@ class BookInfo:
         return 'id: {}, title: {}, author: {}'.format(self.id, self.title, self.author)
 
 
-def get_book_info(id):
+def get_book_info(id, read_cover_image=True):
     q = QSqlQuery(config.db)
     q.prepare(queries.SELECT_BOOK_INFO)
     q.bindValue(0, id)
@@ -38,7 +38,7 @@ def get_book_info(id):
         b.file = q.value(11)
 
         meta = Metadata(b.file)
-        meta.get_metadata(read_cover_image=True)
+        meta.get_metadata(read_cover_image=read_cover_image)
         b.cover_image = meta.coverimage
 
         return b

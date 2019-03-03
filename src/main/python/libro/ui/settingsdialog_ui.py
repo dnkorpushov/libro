@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'src\main\designer\settingsdialog.ui'
+# Form implementation generated from reading ui file 'src/main/designer/settingsdialog.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.12
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -123,4 +124,5 @@ class Ui_Dialog(object):
         self.label_4.setText(_translate("Dialog", "Convert to folder (optional)"))
         self.convertToFolderButton.setText(_translate("Dialog", "Select"))
         self.label_3.setText(_translate("Dialog", "Output format:"))
+
 

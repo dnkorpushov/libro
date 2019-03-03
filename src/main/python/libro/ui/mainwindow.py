@@ -2,7 +2,6 @@ import os
 
 from PyQt5.QtWidgets import QMainWindow, QWidget, QSizePolicy, QMessageBox, QMenu
 from PyQt5.QtCore import QEvent, Qt
-from PyQt5.QtGui import QIcon
 from PyQt5.QtSql import QSqlDatabase
 
 import libro.config as config
@@ -16,7 +15,7 @@ from libro.ui.aboutdialog import AboutDialog
 from libro.ui.searchlineedit import SearchLineEdit
 from libro.ui.editdialog import EditDialog
 from libro.ui.logviewdialog import LogviewDialog
-import libro.ui.style as style
+
 from libro.utils import util
 from libro.utils import ui as uiUtils
 
@@ -30,12 +29,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         config.load()
         if not os.path.exists(config.config_dir):
             config.save()
-
-        style.setStyle(config.libro_style, config.libro_accent_color)
-        if config.libro_style == style.Style.dark:
-            self.actionAddBooks.setIcon(QIcon(':/toolbar/dark-tool-add.png'))
-            self.actionConvertToDisk.setIcon(QIcon(':/toolbar/dark-tool-folder.png'))
-            self.actionSettings.setIcon(QIcon(':/toolbar/dark-tool-settings.png'))
 
         if config.libro_is_library_mode:
             db_name = os.path.join(config.config_dir, 'libro.db')
@@ -84,8 +77,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.resize(config.ui_window_width, config.ui_window_height)
             self.move(config.ui_window_x, config.ui_window_y)
 
-        if not config.libro_is_library_mode:
-            self.navTree.setVisible(False)
+        self.navTree.setVisible(config.libro_is_library_mode)
+        self.searchAction.setVisible(config.libro_is_library_mode)
 
     def searchBooks(self):
         self.bookTable.search(self.searchEdit.text())

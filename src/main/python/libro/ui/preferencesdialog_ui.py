@@ -1,20 +1,21 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'src\main\designer\preferencesdialog.ui'
+# Form implementation generated from reading ui file 'src/main/designer/preferencesdialog.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.12
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(551, 493)
+        Dialog.resize(615, 552)
         self.verticalLayout = QtWidgets.QVBoxLayout(Dialog)
-        self.verticalLayout.setContentsMargins(6, 6, 6, 6)
-        self.verticalLayout.setSpacing(8)
+        self.verticalLayout.setContentsMargins(20, 20, 20, 20)
+        self.verticalLayout.setSpacing(10)
         self.verticalLayout.setObjectName("verticalLayout")
         self.tabWidget = QtWidgets.QTabWidget(Dialog)
         self.tabWidget.setObjectName("tabWidget")
@@ -24,55 +25,25 @@ class Ui_Dialog(object):
         self.verticalLayout_4.setContentsMargins(6, 6, 6, 6)
         self.verticalLayout_4.setSpacing(10)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.groupBox = QtWidgets.QGroupBox(self.tabGeneral)
-        self.groupBox.setObjectName("groupBox")
-        self.verticalLayout_10 = QtWidgets.QVBoxLayout(self.groupBox)
-        self.verticalLayout_10.setObjectName("verticalLayout_10")
-        self.formLayout = QtWidgets.QFormLayout()
-        self.formLayout.setObjectName("formLayout")
-        self.label_18 = QtWidgets.QLabel(self.groupBox)
-        self.label_18.setObjectName("label_18")
-        self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_18)
-        self.styleCombo = QtWidgets.QComboBox(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.styleCombo.sizePolicy().hasHeightForWidth())
-        self.styleCombo.setSizePolicy(sizePolicy)
-        self.styleCombo.setObjectName("styleCombo")
-        self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.styleCombo)
-        self.label_19 = QtWidgets.QLabel(self.groupBox)
-        self.label_19.setObjectName("label_19")
-        self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_19)
-        self.accentColorCombo = QtWidgets.QComboBox(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.accentColorCombo.sizePolicy().hasHeightForWidth())
-        self.accentColorCombo.setSizePolicy(sizePolicy)
-        self.accentColorCombo.setObjectName("accentColorCombo")
-        self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.accentColorCombo)
-        self.verticalLayout_10.addLayout(self.formLayout)
-        self.verticalLayout_4.addWidget(self.groupBox)
         self.libroModeGroup = QtWidgets.QGroupBox(self.tabGeneral)
         self.libroModeGroup.setEnabled(True)
         self.libroModeGroup.setObjectName("libroModeGroup")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.libroModeGroup)
-        self.verticalLayout_2.setContentsMargins(6, 6, 6, 6)
-        self.verticalLayout_2.setSpacing(3)
+        self.verticalLayout_2.setContentsMargins(10, 10, 10, 10)
+        self.verticalLayout_2.setSpacing(10)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.libraryModeRadio = QtWidgets.QRadioButton(self.libroModeGroup)
-        self.libraryModeRadio.setObjectName("libraryModeRadio")
-        self.verticalLayout_2.addWidget(self.libraryModeRadio)
         self.converterModeRadio = QtWidgets.QRadioButton(self.libroModeGroup)
         self.converterModeRadio.setObjectName("converterModeRadio")
         self.verticalLayout_2.addWidget(self.converterModeRadio)
+        self.libraryModeRadio = QtWidgets.QRadioButton(self.libroModeGroup)
+        self.libraryModeRadio.setObjectName("libraryModeRadio")
+        self.verticalLayout_2.addWidget(self.libraryModeRadio)
         self.verticalLayout_4.addWidget(self.libroModeGroup)
         self.libraryOptionsGroup = QtWidgets.QGroupBox(self.tabGeneral)
         self.libraryOptionsGroup.setObjectName("libraryOptionsGroup")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.libraryOptionsGroup)
-        self.verticalLayout_3.setContentsMargins(6, 6, 6, 6)
-        self.verticalLayout_3.setSpacing(3)
+        self.verticalLayout_3.setContentsMargins(10, 10, 10, 10)
+        self.verticalLayout_3.setSpacing(5)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.collectFilesCheck = QtWidgets.QCheckBox(self.libraryOptionsGroup)
         self.collectFilesCheck.setObjectName("collectFilesCheck")
@@ -81,7 +52,7 @@ class Ui_Dialog(object):
         self.label.setObjectName("label")
         self.verticalLayout_3.addWidget(self.label)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setSpacing(3)
+        self.horizontalLayout.setSpacing(6)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.libraryRootEdit = QtWidgets.QLineEdit(self.libraryOptionsGroup)
         self.libraryRootEdit.setObjectName("libraryRootEdit")
@@ -335,18 +306,14 @@ class Ui_Dialog(object):
         self.converterPathSelectButton.clicked.connect(Dialog.onConverterPathSelect)
         self.configFileSelectButton.clicked.connect(Dialog.onConfigFileSelect)
         self.stylesheetFileSelectButton.clicked.connect(Dialog.onCSSFileSelect)
-        self.styleCombo.currentIndexChanged['int'].connect(Dialog.onStyleChange)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Preferences"))
-        self.groupBox.setTitle(_translate("Dialog", "Theme"))
-        self.label_18.setText(_translate("Dialog", "Style:"))
-        self.label_19.setText(_translate("Dialog", "Accent color:"))
         self.libroModeGroup.setTitle(_translate("Dialog", "Libro mode"))
-        self.libraryModeRadio.setText(_translate("Dialog", "Library manager"))
         self.converterModeRadio.setText(_translate("Dialog", "Converter"))
+        self.libraryModeRadio.setText(_translate("Dialog", "Library manager"))
         self.libraryOptionsGroup.setTitle(_translate("Dialog", "Library manager options"))
         self.collectFilesCheck.setText(_translate("Dialog", "Collect files"))
         self.label.setText(_translate("Dialog", "Path to library root"))
@@ -380,4 +347,5 @@ class Ui_Dialog(object):
         self.label_15.setText(_translate("Dialog", "Log level:"))
         self.label_16.setText(_translate("Dialog", "Log file mode:"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabLog), _translate("Dialog", "Log"))
+
 

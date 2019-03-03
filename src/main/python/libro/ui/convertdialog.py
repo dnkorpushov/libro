@@ -32,7 +32,7 @@ class ConvertDialog(QDialog, Ui_Dialog):
     def runConvert(self):
         self.setCurrentProgress()
         if self.current_index < self.count and not self.canceled:
-            book_info = library.get_book_info(self.books_id[self.current_index])
+            book_info = library.get_book_info(self.books_id[self.current_index], read_cover_image=False)
             args = []
             if book_info.type == 'epub' and config.fb2c_output_format == 'epub':
                 self.current_index += 1

@@ -2,7 +2,6 @@ import os
 import json
 import codecs
 
-from libro.ui.style import AccentColor, Style
 
 db = None
 config_dir = os.path.join(os.path.expanduser('~'), '.libro')
@@ -15,8 +14,6 @@ libro_is_library_mode = False
 libro_collect_files = False
 libro_library_root_path = None
 libro_filename_pattern = None
-libro_style = Style.default
-libro_accent_color = AccentColor.default
 
 fb2c_executable_path = None
 fb2c_output_format = 'mobi'
@@ -56,8 +53,6 @@ def load():
     global libro_collect_files
     global libro_library_root_path
     global libro_filename_pattern
-    global libro_style
-    global libro_accent_color
 
     global fb2c_executable_path
     global fb2c_output_format
@@ -98,8 +93,6 @@ def load():
             libro_collect_files = c.get('libro_collect_files', False)
             libro_library_root_path = c.get('libro_library_root_path', None)
             libro_filename_pattern = c.get('libro_filename_pattern', None)
-            libro_style = Style(c.get('libro_style', Style.default.value))
-            libro_accent_color = AccentColor(c.get('libro_accent_color', AccentColor.default.value))
 
             fb2c_executable_path = c.get('fb2c_executable_path', None)
             fb2c_output_format = c.get('fb2c_output_format', 'mobi')
@@ -140,8 +133,6 @@ def save():
         'libro_collect_files': libro_collect_files,
         'libro_library_root_path': libro_library_root_path,
         'libro_filename_pattern': libro_filename_pattern,
-        'libro_style': libro_style.value,
-        'libro_accent_color': libro_accent_color.value,
 
         'fb2c_executable_path': fb2c_executable_path,
         'fb2c_output_format': fb2c_output_format,

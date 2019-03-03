@@ -1,20 +1,24 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'src\main\designer\aboutdialog.ui'
+# Form implementation generated from reading ui file 'src/main/designer/aboutdialog.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.12
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(315, 146)
+        Dialog.resize(326, 169)
         self.gridLayout = QtWidgets.QGridLayout(Dialog)
+        self.gridLayout.setContentsMargins(20, 20, 20, 20)
+        self.gridLayout.setSpacing(0)
         self.gridLayout.setObjectName("gridLayout")
         self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setSpacing(5)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label_4 = QtWidgets.QLabel(Dialog)
         font = QtGui.QFont()
@@ -22,9 +26,13 @@ class Ui_Dialog(object):
         font.setBold(True)
         font.setWeight(75)
         self.label_4.setFont(font)
+        self.label_4.setAlignment(QtCore.Qt.AlignCenter)
         self.label_4.setObjectName("label_4")
         self.verticalLayout.addWidget(self.label_4)
         self.formLayout = QtWidgets.QFormLayout()
+        self.formLayout.setFormAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+        self.formLayout.setHorizontalSpacing(0)
+        self.formLayout.setVerticalSpacing(3)
         self.formLayout.setObjectName("formLayout")
         self.label_3 = QtWidgets.QLabel(Dialog)
         font = QtGui.QFont()
@@ -67,8 +75,6 @@ class Ui_Dialog(object):
         self.label.setObjectName("label")
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.label)
         self.verticalLayout.addLayout(self.formLayout)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Ok)
@@ -84,11 +90,12 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "About"))
-        self.label_4.setText(_translate("Dialog", "Libro for Kindle"))
+        self.label_4.setText(_translate("Dialog", "Libro"))
         self.label_3.setText(_translate("Dialog", "Version:"))
         self.labelVersion.setText(_translate("Dialog", "0.1"))
         self.label_5.setText(_translate("Dialog", "Author:"))
         self.label_8.setText(_translate("Dialog", "dnk_dz"))
         self.label_2.setText(_translate("Dialog", "Toolbar icons:"))
         self.label.setText(_translate("Dialog", "<a href=\'https://icons8.com/\'>Icons8</a>"))
+
 
