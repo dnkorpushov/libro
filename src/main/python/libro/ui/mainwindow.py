@@ -62,23 +62,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.searchEdit.returnPressed.connect(self.searchBooks)
         self.searchEdit.textChanged.connect(self.clearSearch)
 
-        sw = QWidget()
-        sw.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
-
-        pw = QWidget()
-        pw.setFixedWidth(5)
-        pw.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
-
-        self.toolBar.addWidget(sw)
+        self.toolBar.addAction(self.actionAddBooks)
+        self.toolBar.addAction(self.actionEditMetadata)
+        self.toolBar.addAction(self.actionRemoveBooks)
+        self.toolBar.addSpacer(15)
+        self.toolBar.addAction(self.actionConvertToDisk)
+        self.toolBar.addAction(self.actionSendToReader)
+        self.toolBar.addAction(self.actionSendBooksViaMail)
+        self.toolBar.addSpacer(15)
+        self.toolBar.addAction(self.actionSettings)
+        self.toolBar.addExpandedSpacer()
         self.searchAction = self.toolBar.addWidget(self.searchEdit)
-        self.toolBar.addWidget(pw)
-
+        self.toolBar.addSpacer(10)
+        
         if config.ui_window_width:
             self.resize(config.ui_window_width, config.ui_window_height)
             self.move(config.ui_window_x, config.ui_window_y)
 
         self.navTree.setVisible(config.libro_is_library_mode)
-        self.searchAction.setVisible(config.libro_is_library_mode)
 
     def searchBooks(self):
         self.bookTable.search(self.searchEdit.text())

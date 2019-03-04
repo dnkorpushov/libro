@@ -90,7 +90,7 @@
      <x>0</x>
      <y>0</y>
      <width>745</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -124,7 +124,7 @@
    <addaction name="menuView"/>
    <addaction name="menuHelp"/>
   </widget>
-  <widget class="QToolBar" name="toolBar">
+  <widget class="ToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -146,14 +146,11 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionAddBooks"/>
-   <addaction name="actionConvertToDisk"/>
-   <addaction name="actionSettings"/>
   </widget>
   <action name="actionAddBooks">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/toolbar/bright-tool-add.png</normaloff>:/toolbar/bright-tool-add.png</iconset>
+     <normaloff>:/toolbar/tool-add.png</normaloff>:/toolbar/tool-add.png</iconset>
    </property>
    <property name="text">
     <string>Add books</string>
@@ -176,7 +173,7 @@
   <action name="actionConvertToDisk">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/toolbar/bright-tool-folder.png</normaloff>:/toolbar/bright-tool-folder.png</iconset>
+     <normaloff>:/toolbar/tool-folder.png</normaloff>:/toolbar/tool-folder.png</iconset>
    </property>
    <property name="text">
     <string>Convert to folder</string>
@@ -191,7 +188,7 @@
   <action name="actionSettings">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/toolbar/bright-tool-settings.png</normaloff>:/toolbar/bright-tool-settings.png</iconset>
+     <normaloff>:/toolbar/tool-settings.png</normaloff>:/toolbar/tool-settings.png</iconset>
    </property>
    <property name="text">
     <string>Preferences</string>
@@ -215,6 +212,10 @@
    </property>
   </action>
   <action name="actionRemoveBooks">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/toolbar/tool-delete.png</normaloff>:/toolbar/tool-delete.png</iconset>
+   </property>
    <property name="text">
     <string>Remove books</string>
    </property>
@@ -223,6 +224,9 @@
    </property>
    <property name="shortcut">
     <string>Del</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionAboutQt">
@@ -234,16 +238,53 @@
    </property>
   </action>
   <action name="actionEditMetadata">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/toolbar/tool-edit.png</normaloff>:/toolbar/tool-edit.png</iconset>
+   </property>
    <property name="text">
     <string>Edit metadata</string>
    </property>
    <property name="toolTip">
     <string>Edit metadata</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="actionViewLog">
    <property name="text">
     <string>Log</string>
+   </property>
+  </action>
+  <action name="actionSendToReader">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/toolbar/tool-reader.png</normaloff>:/toolbar/tool-reader.png</iconset>
+   </property>
+   <property name="text">
+    <string>Send to reader</string>
+   </property>
+   <property name="toolTip">
+    <string>Send selected books to reader device</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="actionSendBooksViaMail">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/toolbar/tool-mail.png</normaloff>:/toolbar/tool-mail.png</iconset>
+   </property>
+   <property name="text">
+    <string>Send books via mail</string>
+   </property>
+   <property name="toolTip">
+    <string>Send books via mail</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
    </property>
   </action>
  </widget>
@@ -252,6 +293,11 @@
    <class>BookTableView</class>
    <extends>QTableView</extends>
    <header>.booktableview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ToolBar</class>
+   <extends>QToolBar</extends>
+   <header>.toolbar.h</header>
   </customwidget>
  </customwidgets>
  <resources>

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'src/main/designer/convertdialog.ui'
+# Form implementation generated from reading ui file 'src\main\designer\convertdialog.ui'
 #
 # Created by: PyQt5 UI code generator 5.12
 #

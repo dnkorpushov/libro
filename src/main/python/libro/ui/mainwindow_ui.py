@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'src/main/designer/mainwindow.ui'
+# Form implementation generated from reading ui file 'src\main\designer\mainwindow.ui'
 #
 # Created by: PyQt5 UI code generator 5.12
 #
@@ -42,7 +42,7 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.splitter, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 745, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 745, 21))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -51,7 +51,7 @@ class Ui_MainWindow(object):
         self.menuView = QtWidgets.QMenu(self.menubar)
         self.menuView.setObjectName("menuView")
         MainWindow.setMenuBar(self.menubar)
-        self.toolBar = QtWidgets.QToolBar(MainWindow)
+        self.toolBar = ToolBar(MainWindow)
         self.toolBar.setMovable(False)
         self.toolBar.setIconSize(QtCore.QSize(24, 24))
         self.toolBar.setFloatable(False)
@@ -59,7 +59,7 @@ class Ui_MainWindow(object):
         MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
         self.actionAddBooks = QtWidgets.QAction(MainWindow)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/toolbar/bright-tool-add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/toolbar/tool-add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionAddBooks.setIcon(icon)
         self.actionAddBooks.setIconVisibleInMenu(False)
         self.actionAddBooks.setObjectName("actionAddBooks")
@@ -68,13 +68,13 @@ class Ui_MainWindow(object):
         self.actionExit.setObjectName("actionExit")
         self.actionConvertToDisk = QtWidgets.QAction(MainWindow)
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/toolbar/bright-tool-folder.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap(":/toolbar/tool-folder.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionConvertToDisk.setIcon(icon1)
         self.actionConvertToDisk.setIconVisibleInMenu(False)
         self.actionConvertToDisk.setObjectName("actionConvertToDisk")
         self.actionSettings = QtWidgets.QAction(MainWindow)
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(":/toolbar/bright-tool-settings.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap(":/toolbar/tool-settings.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionSettings.setIcon(icon2)
         self.actionSettings.setMenuRole(QtWidgets.QAction.PreferencesRole)
         self.actionSettings.setIconVisibleInMenu(False)
@@ -83,14 +83,34 @@ class Ui_MainWindow(object):
         self.actionAbout.setMenuRole(QtWidgets.QAction.AboutRole)
         self.actionAbout.setObjectName("actionAbout")
         self.actionRemoveBooks = QtWidgets.QAction(MainWindow)
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap(":/toolbar/tool-delete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionRemoveBooks.setIcon(icon3)
+        self.actionRemoveBooks.setIconVisibleInMenu(False)
         self.actionRemoveBooks.setObjectName("actionRemoveBooks")
         self.actionAboutQt = QtWidgets.QAction(MainWindow)
         self.actionAboutQt.setMenuRole(QtWidgets.QAction.AboutQtRole)
         self.actionAboutQt.setObjectName("actionAboutQt")
         self.actionEditMetadata = QtWidgets.QAction(MainWindow)
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap(":/toolbar/tool-edit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionEditMetadata.setIcon(icon4)
+        self.actionEditMetadata.setIconVisibleInMenu(False)
         self.actionEditMetadata.setObjectName("actionEditMetadata")
         self.actionViewLog = QtWidgets.QAction(MainWindow)
         self.actionViewLog.setObjectName("actionViewLog")
+        self.actionSendToReader = QtWidgets.QAction(MainWindow)
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap(":/toolbar/tool-reader.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionSendToReader.setIcon(icon5)
+        self.actionSendToReader.setIconVisibleInMenu(False)
+        self.actionSendToReader.setObjectName("actionSendToReader")
+        self.actionSendBooksViaMail = QtWidgets.QAction(MainWindow)
+        icon6 = QtGui.QIcon()
+        icon6.addPixmap(QtGui.QPixmap(":/toolbar/tool-mail.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionSendBooksViaMail.setIcon(icon6)
+        self.actionSendBooksViaMail.setIconVisibleInMenu(False)
+        self.actionSendBooksViaMail.setObjectName("actionSendBooksViaMail")
         self.menuFile.addAction(self.actionAddBooks)
         self.menuFile.addAction(self.actionRemoveBooks)
         self.menuFile.addAction(self.actionEditMetadata)
@@ -106,9 +126,6 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuView.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
-        self.toolBar.addAction(self.actionAddBooks)
-        self.toolBar.addAction(self.actionConvertToDisk)
-        self.toolBar.addAction(self.actionSettings)
 
         self.retranslateUi(MainWindow)
         self.actionAddBooks.triggered.connect(MainWindow.onActionAddBooks)
@@ -144,7 +161,12 @@ class Ui_MainWindow(object):
         self.actionEditMetadata.setText(_translate("MainWindow", "Edit metadata"))
         self.actionEditMetadata.setToolTip(_translate("MainWindow", "Edit metadata"))
         self.actionViewLog.setText(_translate("MainWindow", "Log"))
+        self.actionSendToReader.setText(_translate("MainWindow", "Send to reader"))
+        self.actionSendToReader.setToolTip(_translate("MainWindow", "Send selected books to reader device"))
+        self.actionSendBooksViaMail.setText(_translate("MainWindow", "Send books via mail"))
+        self.actionSendBooksViaMail.setToolTip(_translate("MainWindow", "Send books via mail"))
 
 
 from .booktableview import BookTableView
+from .toolbar import ToolBar
 from . import resources_rc
