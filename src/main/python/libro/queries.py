@@ -21,9 +21,9 @@ CREATE_DB = '''
            author,
            author_sort,
            case
-              when length(series) > 0 and series_index is null then
+              when length(series) > 0 and length(series_index) = 0 then
                    series
-              when length(series) > 0 and series_index is not null then
+              when length(series) > 0 and length(series_index) > 0 then
                    series||' ('||series_index||')'
            end series,
            tags,
