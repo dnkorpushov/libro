@@ -112,18 +112,7 @@ DELETE_BOOK = '''
 '''
 
 SELECT_BOOK_INFO = '''
-    SELECT id,
-           title,
-           author,
-           author_sort,
-           series,
-           series_index,
-           tags,
-           lang,
-           translator,
-           type,
-           date_added,
-           file
+    SELECT file
       FROM book
     WHERE id = ?
 '''

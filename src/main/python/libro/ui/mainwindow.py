@@ -1,6 +1,6 @@
 import os
 
-from PyQt5.QtWidgets import QMainWindow, QWidget, QSizePolicy, QMessageBox, QMenu
+from PyQt5.QtWidgets import QMainWindow, QWidget, QMessageBox, QMenu
 from PyQt5.QtCore import QEvent, Qt
 from PyQt5.QtSql import QSqlDatabase
 
@@ -74,7 +74,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.toolBar.addExpandedSpacer()
         self.searchAction = self.toolBar.addWidget(self.searchEdit)
         self.toolBar.addSpacer(10)
-        
+
         if config.ui_window_width:
             self.resize(config.ui_window_width, config.ui_window_height)
             self.move(config.ui_window_x, config.ui_window_y)
@@ -188,18 +188,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.exec()
 
     def onActionEditMetadata(self):
-        booksInfo = []
+        booksMeta = []
         booksId = self.bookTable.getSelectedBooksId()
         if len(booksId) > 0:
             for bookId in booksId:
-                bookInfo = library.get_book_info(bookId)
-                booksInfo.append(bookInfo)
+                bookMeta = library.get_book_info(bookId)
+                booksMeta.append(bookMeta)
 
-            dlg = EditDialog(self, booksInfo=booksInfo)
+            dlg = EditDialog(self, booksMeta=booksMeta)
             if dlg.exec():
-                booksInfo = dlg.getBooksInfo()
-                for book in booksInfo:
-                    library.update_book_info(book)
+                booksMeta = dlg.getBooksMeta()
+                for bookMeta in booksMeta:
+                    library.update_book_info(bookMeta)
                 self.bookTable.updateSelectedRows()
 
     def closeEvent(self, event):
