@@ -14,12 +14,14 @@ class Fb2Meta:
         self.file = file
         self.tree = None
         self.encoding = None
+        self.zip_info = None
 
         if file.lower().endswith('.zip'):
-            with ZipFile(self.file) as z:
-                zip_info = z.infolist()[0]
-                with z.open(zip_info, 'r') as f:
+            with ZipFile(self.file, mode='r') as z:
+                self.zip_info = z.infolist()[0]
+                with z.open(self.zip_info, mode='r') as f:
                     self.tree = etree.parse(BytesIO(f.read()), parser=etree.XMLParser(recover=True))
+                z.close()
         else:
             self.tree = etree.parse(file, parser=etree.XMLParser(recover=True))
         self.encoding = self.tree.docinfo.encoding
@@ -92,11 +94,9 @@ class Fb2Meta:
 
     def save(self):
         if self.file.lower().endswith('.zip'):
-            with ZipFile(self.file) as z:
-                zip_info = z.infolist()[0]
-                with z.open(zip_info, 'w') as f:
-                    f.writestr(zip_info, etree.tostring(self.tree, encoding=self.encoding,
-                                                        method='xml', xml_declaration=True, pretty_print=True))
+            with ZipFile(self.file, mode='w') as z:
+                    z.writestr(self.zip_info, etree.tostring(self.tree, encoding=self.encoding,
+                                                             method='xml', xml_declaration=True, pretty_print=True))
         else:
             self.tree.write(self.file, encoding=self.encoding, method='xml', xml_declaration=True, pretty_print=True)
 
