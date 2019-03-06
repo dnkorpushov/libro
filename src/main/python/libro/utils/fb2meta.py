@@ -62,6 +62,13 @@ class Fb2Meta:
             node = etree.SubElement(title_info, 'coverpage')
             image_node = etree.SubElement(node, 'image')
             image_node.attrib[QName('http://www.w3.org/1999/xlink', 'href')] = '#{}'.format(meta.cover_image_name)
+        else:
+            # Cover cleared - delete cover image if exist
+            cover_name, cover_data = self._get_cover()
+            if cover_name and cover_data is not None:
+                node = self._find('//fb:binary[@id="{0}"]'.format(cover_name))
+                if node is not None:
+                    node.getparent().remove(node)
         if meta.lang:
             etree.SubElement(title_info, 'lang').text = meta.lang
         if meta.src_lang:
@@ -119,10 +126,11 @@ class Fb2Meta:
                 if QName(a).localname == 'href':
                     cover_name = cover.attrib[a][1:]
                     node = self._find('//fb:binary[@id="{0}"]'.format(cover_name))
-                    if node is not None:
+                    if node is not None and node.text is not None:
                         cover_data = base64.b64decode(node.text.encode('ascii'))
 
                     return cover_name, cover_data
+        return '', None
 
     def _get_description(self):
         annotation = self._find('//fb:description/fb:title-info/fb:annotation')

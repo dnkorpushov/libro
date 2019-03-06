@@ -16,14 +16,18 @@ def getFolder(parent, title, defaultPath=None):
         return None
 
 
-def getFiles(parent, title, fileExt, defaultPath=None, multipleSelect=False):
+def getFiles(parent, title, fileExt, defaultPath=None, multipleSelect=False, saveDialog=False):
     dlg = QFileDialog(parent, title)
     if defaultPath:
         dlg.setDirectory(defaultPath)
-    if multipleSelect:
-        dlg.setFileMode(QFileDialog.ExistingFiles)
+    if saveDialog:
+        dlg.setAcceptMode(QFileDialog.AcceptSave)
+        dlg.setFileMode(QFileDialog.AnyFile)
     else:
-        dlg.setFileMode(QFileDialog.ExistingFile)
+        if multipleSelect:
+            dlg.setFileMode(QFileDialog.ExistingFiles)
+        else:
+            dlg.setFileMode(QFileDialog.ExistingFile)
     dlg.setNameFilters([fileExt, 'All files (*.*)'])
 
     if dlg.exec_():

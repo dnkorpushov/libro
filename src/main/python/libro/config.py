@@ -8,12 +8,14 @@ config_dir = os.path.join(os.path.expanduser('~'), '.libro')
 config_file = os.path.join(config_dir, 'config.json')
 converter_log_file = os.path.join(config_dir, 'fb2c.log')
 default_converter_config = os.path.join(config_dir, 'fb2c_default.toml')
+device_path = ''
 is_need_restart = False
 
 libro_is_library_mode = False
 libro_collect_files = False
 libro_library_root_path = None
 libro_filename_pattern = None
+libro_device_path = None
 
 fb2c_executable_path = None
 fb2c_output_format = 'mobi'
@@ -48,11 +50,19 @@ ui_window_width = 0
 ui_window_height = 0
 
 
+def check_mail_settings():
+    if (fb2c_stk_smtp_server and fb2c_stk_smtp_port > 0 and
+            fb2c_stk_smtp_user and fb2c_stk_smtp_password and fb2c_stk_to_email):
+        return True
+    return False
+
+
 def load():
     global libro_is_library_mode
     global libro_collect_files
     global libro_library_root_path
     global libro_filename_pattern
+    global libro_device_path
 
     global fb2c_executable_path
     global fb2c_output_format
@@ -93,6 +103,7 @@ def load():
             libro_collect_files = c.get('libro_collect_files', False)
             libro_library_root_path = c.get('libro_library_root_path', None)
             libro_filename_pattern = c.get('libro_filename_pattern', None)
+            libro_device_path = c.get('libro_device_path', None)
 
             fb2c_executable_path = c.get('fb2c_executable_path', None)
             fb2c_output_format = c.get('fb2c_output_format', 'mobi')
@@ -133,6 +144,7 @@ def save():
         'libro_collect_files': libro_collect_files,
         'libro_library_root_path': libro_library_root_path,
         'libro_filename_pattern': libro_filename_pattern,
+        'libro_device_path': libro_device_path,
 
         'fb2c_executable_path': fb2c_executable_path,
         'fb2c_output_format': fb2c_output_format,

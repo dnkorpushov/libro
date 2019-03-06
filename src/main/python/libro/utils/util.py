@@ -1,3 +1,6 @@
+import os
+import sys
+import psutil
 
 
 def is_supported_format(file):
@@ -44,12 +47,29 @@ def format_pattern(s, seq):
     return pps.replace(chr(1), '{').replace(chr(2), '}')
 
 
-if __name__ == '__main__':
-    fmt = format_pattern('#author, {(#series {#padnumber}) }#title{ (пер. #translator)}', [
-                    ('#title', 'Понедельник начинается в субботу'),
-                    ('#A', 'С'),
-                    ('#author', 'Стругацкие Аркадий и Борис'),
-                    ('#series', 'Фантастика'),
-                    ('#padnumber', '02'),
-                    ('#translator', 'Иванов')])
-    print(fmt + '.fb2.zip')
+# Find kindle device mountpoint
+def find_reader_device():
+    mounted_fs = []
+
+    if sys.platform == 'darwin':
+        list_dir = os.listdir('/Volumes')
+        for dir_name in list_dir:
+            mounted_fs.append(os.path.join('/Volumes', dir_name))
+    else:
+        mounted_list = psutil.disk_partitions()
+        for fs in mounted_list:
+            if fs.fstype:
+                mounted_fs.append(fs.mountpoint)
+    for fs in mounted_fs:
+        dir_documents = os.path.join(fs, 'documents')
+        dir_system = os.path.join(fs, 'system')
+
+        if os.path.exists(dir_documents) and os.path.exists(dir_system):
+            if os.path.exists(os.path.join(fs, 'system', 'com.amazon.ebook.booklet.reader', 'reader.pref')):
+                # Kindle 4, 5
+                return fs
+            elif (os.path.exists(os.path.join(fs, 'system', 'thumbnails'))
+                    and os.path.exists(os.path.join(fs, 'system', 'version.txt'))):
+                # Kindle Paperwhite, Voyage, Oasis
+                return fs
+    return ''

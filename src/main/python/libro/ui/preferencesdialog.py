@@ -1,8 +1,6 @@
 import sys
 import os
 from PyQt5.QtWidgets import QDialog
-from PyQt5.QtGui import QIcon, QPixmap, QColor
-from PyQt5.QtCore import QSize
 
 from libro.ui.preferencesdialog_ui import Ui_Dialog
 
@@ -38,6 +36,7 @@ class PreferencesDialog(QDialog, Ui_Dialog):
         self.collectFilesCheck.setChecked(config.libro_collect_files)
         self.libraryRootEdit.setText(config.libro_library_root_path)
         self.filenamePatternEdit.setCurrentText(config.libro_filename_pattern)
+        self.deviceMountpointEdit.setText(config.libro_device_path)
 
         self.useCustomConfigRadio.setChecked(config.fb2c_is_custom_config)
         self.useDefaultConfigRadio.setChecked(not config.fb2c_is_custom_config)
@@ -74,6 +73,12 @@ class PreferencesDialog(QDialog, Ui_Dialog):
                                  defaultPath=self.libraryRootEdit.text())
         if path:
             self.libraryRootEdit.setText(path)
+
+    def onDeviceMountpointSelect(self):
+        path = uiUtils.getFolder(self, title='Select reader device mountpoint',
+                                 defaultPath=self.deviceMountpointEdit.text())
+        if path:
+            self.deviceMountpointEdit.setText(path)
 
     def onConvertToFolderSelect(self):
         path = uiUtils.getFolder(self, title='Select destination folder',
@@ -133,6 +138,7 @@ class PreferencesDialog(QDialog, Ui_Dialog):
         config.libro_collect_files = self.collectFilesCheck.isChecked()
         config.libro_library_root_path = self.libraryRootEdit.text()
         config.libro_filename_pattern = self.filenamePatternEdit.currentText()
+        config.libro_device_path = self.deviceMountpointEdit.text()
 
         config.fb2c_is_custom_config = self.useCustomConfigRadio.isChecked()
         config.fb2c_output_format = self.outputFormatCombo.currentData()

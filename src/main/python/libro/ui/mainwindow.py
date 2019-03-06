@@ -1,7 +1,7 @@
 import os
 
 from PyQt5.QtWidgets import QMainWindow, QWidget, QMessageBox, QMenu
-from PyQt5.QtCore import QEvent, Qt
+from PyQt5.QtCore import QEvent, Qt, QTimer
 from PyQt5.QtSql import QSqlDatabase
 
 import libro.config as config
@@ -57,6 +57,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.bookTable.setAcceptDrops(True)
         self.bookTable.installEventFilter(self)
+        self.bookTable.selectionModel().selectionChanged.connect(self.enableControls)
 
         self.searchEdit = SearchLineEdit(self)
         self.searchEdit.returnPressed.connect(self.searchBooks)
@@ -80,9 +81,50 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.move(config.ui_window_x, config.ui_window_y)
 
         self.navTree.setVisible(config.libro_is_library_mode)
+        self.enableControls()
+
+        self.deviceStatusTimer = QTimer()
+        self.deviceStatusTimer.timeout.connect(self.checkDeviceStatus)
+        self.deviceStatusTimer.start(1000)
+
+    def checkDeviceStatus(self):
+        if config.libro_device_path:
+            device_path = config.libro_device_path
+        else:
+            device_path = util.find_reader_device()
+
+        if os.path.exists(device_path):
+            config.device_path = device_path
+        else:
+            config.device_path = ''
+        self.enableControls()
+
+    def enableControls(self):
+        if len(self.bookTable.selectionModel().selectedRows()) > 0:
+            self.actionEditMetadata.setEnabled(True)
+            self.actionRemoveBooks.setEnabled(True)
+        else:
+            self.actionEditMetadata.setEnabled(False)
+            self.actionRemoveBooks.setEnabled(False)
+
+        if self.bookTable.model().rowCount() == 0:
+            self.actionConvertToDisk.setEnabled(False)
+            self.actionSendToReader.setEnabled(False)
+            self.actionSendBooksViaMail.setEnabled(False)
+        else:
+            self.actionConvertToDisk.setEnabled(True)
+            if config.check_mail_settings():
+                self.actionSendBooksViaMail.setEnabled(True)
+            else:
+                self.actionSendBooksViaMail.setEnabled(False)
+            if config.device_path:
+                self.actionSendToReader.setEnabled(True)
+            else:
+                self.actionSendToReader.setEnabled(False)
 
     def searchBooks(self):
         self.bookTable.search(self.searchEdit.text())
+        self.enableControls()
 
     def clearSearch(self):
         if len(self.searchEdit.text()) == 0:
@@ -113,6 +155,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for bookId in booksId:
                 library.delete_book(bookId)
             self.bookTable.model().select()
+        self.enableControls()
 
     def eventFilter(self, source, event):
         if source is self.bookTable:
@@ -147,6 +190,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = AddBooksDialog(self, files)
         dlg.exec()
         self.bookTable.model().select()
+        self.enableControls()
 
     def onActionConvertToDisk(self):
         if not config.fb2c_executable_path or not os.path.exists(config.fb2c_executable_path):
@@ -175,6 +219,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if config.is_need_restart:
             config.is_need_restart = False
             QMessageBox.information(self, 'Libro', 'Restart Libro to apply changes.')
+        self.enableControls()
 
     def onActionAbout(self):
         dlg = AboutDialog(self)
