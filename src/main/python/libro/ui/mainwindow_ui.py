@@ -130,13 +130,15 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.actionAddBooks.triggered.connect(MainWindow.onActionAddBooks)
         self.actionExit.triggered.connect(MainWindow.close)
-        self.actionConvertToDisk.triggered.connect(MainWindow.onActionConvertToDisk)
+        self.actionConvertToDisk.triggered.connect(MainWindow.onActionSendToFolder)
         self.actionSettings.triggered.connect(MainWindow.onActionSettings)
         self.actionRemoveBooks.triggered.connect(MainWindow.onActionRemoveBooks)
         self.actionAbout.triggered.connect(MainWindow.onActionAbout)
         self.actionAboutQt.triggered.connect(MainWindow.onActionAboutQt)
         self.actionEditMetadata.triggered.connect(MainWindow.onActionEditMetadata)
         self.actionViewLog.triggered.connect(MainWindow.onActionViewLog)
+        self.actionSendToReader.triggered.connect(MainWindow.onActionSendToDevice)
+        self.actionSendBooksViaMail.triggered.connect(MainWindow.onActionSendViaMail)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

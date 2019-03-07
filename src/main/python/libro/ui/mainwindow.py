@@ -1,4 +1,6 @@
 import os
+import tempfile
+import shutil
 
 from PyQt5.QtWidgets import QMainWindow, QWidget, QMessageBox, QMenu
 from PyQt5.QtCore import QEvent, Qt, QTimer
@@ -192,26 +194,40 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.bookTable.model().select()
         self.enableControls()
 
-    def onActionConvertToDisk(self):
+    def onActionSendToDevice(self):
+        if config.device_path:
+            self.runConvert(config.device_path, windowTitle='Send to device')
+
+    def onActionSendViaMail(self):
+        temp_dir = tempfile.mkdtemp(prefix='lbr')
+        if os.path.exists(temp_dir):
+            self.runConvert(temp_dir, windowTitle='Send via mail', sendToKindle=True)
+        try:
+            shutil.rmtree(temp_dir)
+        except Exception:
+            pass
+
+    def onActionSendToFolder(self):
+        if not config.fb2c_convert_to_folder:
+            dest_folder = uiUtils.getFolder(self, 'Select destination folder',
+                                            defaultPath=config.last_used_convert_path)
+            if dest_folder is not None:
+                config.last_used_convert_path = dest_folder
+        else:
+            dest_folder = config.fb2c_convert_to_folder
+
+        if dest_folder:
+            self.runConvert(dest_folder, windowTitle='Convert to folder')
+
+    def runConvert(self, destFolder, windowTitle, sendToKindle=False):
         if not config.fb2c_executable_path or not os.path.exists(config.fb2c_executable_path):
             QMessageBox.critical(self,
                                  'Libro',
-                                 'Converter fb2c not found! \nCheck settings for correct converter path.')
+                                 'Converter fb2c not found!\nCheck settings for correct converter path.')
         else:
             books_id = self.bookTable.getBooksId()
-            dest_folder = None
-            if len(books_id) > 0:
-                if not config.fb2c_convert_to_folder:
-                    dest_folder = uiUtils.getFolder(self, 'Select destination folder',
-                                                    defaultPath=config.last_used_convert_path)
-                    if dest_folder is not None:
-                        config.last_used_convert_path = dest_folder
-                else:
-                    dest_folder = config.fb2c_convert_to_folder
-
-                if dest_folder:
-                    convDlg = ConvertDialog(self, books_id, dest_folder)
-                    convDlg.exec()
+            convDlg = ConvertDialog(self, books_id, destFolder, sendToKindle)
+            convDlg.exec()
 
     def onActionSettings(self):
         dlg = PreferencesDialog(self)

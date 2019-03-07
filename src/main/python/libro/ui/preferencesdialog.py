@@ -53,6 +53,7 @@ class PreferencesDialog(QDialog, Ui_Dialog):
 
         self.serverEdit.setText(config.fb2c_stk_smtp_server)
         self.portEdit.setText(str(config.fb2c_stk_smtp_port))
+        self.userEdit.setText(config.fb2c_stk_smtp_user)
         self.passwordEdit.setText(config.fb2c_stk_smtp_password)
         self.fromEmailEdit.setText(config.fb2c_stk_from_email)
         self.toEmailEdit.setText(config.fb2c_stk_to_email)
@@ -157,6 +158,7 @@ class PreferencesDialog(QDialog, Ui_Dialog):
             config.fb2c_stk_smtp_port = int(self.portEdit.text())
         except (TypeError, ValueError):
             config.fb2c_stk_smtp_port = 0
+        config.fb2c_stk_smtp_user = self.userEdit.text()
         config.fb2c_stk_smtp_password = self.passwordEdit.text()
         config.fb2c_stk_from_email = self.fromEmailEdit.text()
         config.fb2c_stk_to_email = self.toEmailEdit.text()

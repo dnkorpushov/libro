@@ -67,9 +67,9 @@ def find_reader_device():
         if os.path.exists(dir_documents) and os.path.exists(dir_system):
             if os.path.exists(os.path.join(fs, 'system', 'com.amazon.ebook.booklet.reader', 'reader.pref')):
                 # Kindle 4, 5
-                return fs
+                return os.path.join(fs, 'documents')
             elif (os.path.exists(os.path.join(fs, 'system', 'thumbnails'))
                     and os.path.exists(os.path.join(fs, 'system', 'version.txt'))):
                 # Kindle Paperwhite, Voyage, Oasis
-                return fs
+                return os.path.join(fs, 'documents')
     return ''

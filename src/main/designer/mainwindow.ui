@@ -340,7 +340,7 @@
    <sender>actionConvertToDisk</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>onActionConvertToDisk()</slot>
+   <slot>onActionSendToFolder()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -448,15 +448,49 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionSendToReader</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>onActionSendToDevice()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>372</x>
+     <y>208</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSendBooksViaMail</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>onActionSendViaMail()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>372</x>
+     <y>208</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>onActionAddBooks()</slot>
-  <slot>onActionConvertToDisk()</slot>
+  <slot>onActionSendToFolder()</slot>
   <slot>onActionSettings()</slot>
   <slot>onActionRemoveBooks()</slot>
   <slot>onActionAbout()</slot>
   <slot>onActionAboutQt()</slot>
   <slot>onActionEditMetadata()</slot>
   <slot>onActionViewLog()</slot>
+  <slot>onActionSendToDevice()</slot>
+  <slot>onActionSendViaMail()</slot>
  </slots>
 </ui>

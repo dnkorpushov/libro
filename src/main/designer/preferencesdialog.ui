@@ -17,7 +17,7 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tabGeneral">
       <attribute name="title">
@@ -143,7 +143,7 @@
           <item>
            <widget class="QLabel" name="label_18">
             <property name="text">
-             <string>Mountpoint (if not detect)</string>
+             <string>Device mountpoint</string>
             </property>
            </widget>
           </item>
@@ -533,6 +533,16 @@
           </widget>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_19">
+         <property name="text">
+          <string>SMTP User</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="userEdit"/>
        </item>
        <item>
         <widget class="QLabel" name="label_14">

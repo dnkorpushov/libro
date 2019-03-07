@@ -52,7 +52,8 @@ ui_window_height = 0
 
 def check_mail_settings():
     if (fb2c_stk_smtp_server and fb2c_stk_smtp_port > 0 and
-            fb2c_stk_smtp_user and fb2c_stk_smtp_password and fb2c_stk_to_email):
+            fb2c_stk_smtp_user and fb2c_stk_smtp_password and fb2c_stk_to_email and
+            fb2c_stk_from_email and fb2c_output_format == 'mobi'):
         return True
     return False
 
