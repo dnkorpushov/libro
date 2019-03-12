@@ -1,17 +1,6 @@
 from libro.utils.util import format_pattern
 
 
-class Author:
-    first_name = ''
-    middle_name = ''
-    last_name = ''
-
-    def init(self, first_name, middle_name, last_name):
-        self.first_name = first_name
-        self.middle_name = middle_name
-        self.last_name = last_name
-
-
 class BookMeta:
     id = None
     title = ''
@@ -23,8 +12,9 @@ class BookMeta:
     translator = []
     lang = ''
     src_lang = ''
-    book_format = ''
+    format = ''
     date = ''
+    publisher = ''
     cover_image_name = ''
     cover_image_data = None
     file = ''

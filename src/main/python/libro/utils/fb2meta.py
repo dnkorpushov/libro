@@ -4,7 +4,7 @@ from lxml.etree import QName
 import base64
 from io import BytesIO
 
-from libro.utils.bookmeta import BookMeta, Author
+from libro.utils.bookmeta import BookMeta
 from libro.utils.myzipfile import ZipFile
 
 
@@ -26,21 +26,22 @@ class Fb2Meta:
             self.tree = etree.parse(file, parser=etree.XMLParser(recover=True))
         self.encoding = self.tree.docinfo.encoding
 
-    def get_meta(self):
+    def get_metadata(self):
         meta = BookMeta()
-        meta.title = self._get_title()
+        meta.title = self._get_value('//fb:description/fb:title-info/fb:title')
         meta.author = self._get_author_list()
         meta.series, meta.series_index = self._get_series()
         meta.tag = self._get_tags()
         meta.translator = self._get_translator_list()
-        meta.lang = self._get_lang()
-        meta.src_lang = self._get_lang(src_lang=True)
-        meta.date = self._get_date()
+        meta.lang = self._get_value('//fb:description/fb:title-info/fb:lang')
+        meta.src_lang = self._get_value('//fb:description/fb:title-info/fb:src-lang')
+        meta.date = self._get_value('//fb:description/fb:title-info/fb:date')
+        meta.publisher = self._get_value('//fb:description/fb:publish-info/fb:publisher')
         meta.description = self._get_description()
         meta.cover_image_name, meta.cover_image_data = self._get_cover()
         return meta
 
-    def set_meta(self, meta):
+    def set_metadata(self, meta):
         # Generate new title-info for fb2
         nsmap = {None: 'http://www.gribuser.ru/xml/fictionbook/2.0', 'l': 'http://www.w3.org/1999/xlink'}
         title_info = etree.Element('title-info', nsmap=nsmap)
@@ -95,8 +96,9 @@ class Fb2Meta:
     def save(self):
         if self.file.lower().endswith('.zip'):
             with ZipFile(self.file, mode='w') as z:
-                    z.writestr(self.zip_info, etree.tostring(self.tree, encoding=self.encoding,
-                                                             method='xml', xml_declaration=True, pretty_print=True))
+                z.writestr(self.zip_info,
+                           etree.tostring(self.tree, encoding=self.encoding,
+                                          method='xml', xml_declaration=True, pretty_print=True))
         else:
             self.tree.write(self.file, encoding=self.encoding, method='xml', xml_declaration=True, pretty_print=True)
 
@@ -110,12 +112,6 @@ class Fb2Meta:
             etree.SubElement(node, 'last-name').text = person.last_name
 
         return node
-
-    def _get_date(self):
-        date = self._find('//fb:description/fb:title-info/fb:date')
-        if date is not None:
-            return date.text
-        return ''
 
     def _get_cover(self):
         cover_name = ''
@@ -138,16 +134,9 @@ class Fb2Meta:
             return ''.join(annotation.itertext())
         return ''
 
-    def _get_lang(self, src_lang=False):
-        if src_lang:
-            lang = self._find('//fb:description/fb:title-info/fb:src-lang')
-        else:
-            lang = self._find('//fb:description/fb:title-info/fb:lang')
-        return lang.text if lang is not None else ''
-
-    def _get_title(self):
-        title = self._find('//fb:description/fb:title-info/fb:book-title')
-        return title.text if title is not None else ''
+    def _get_value(self, name):
+        value = self._find(name)
+        return value.text if value is not None else ''
 
     def _get_translator_list(self):
         node_list = self._findall('//fb:description/fb:title-info/fb:translator')
@@ -166,15 +155,20 @@ class Fb2Meta:
         return author_list
 
     def _get_author(self, node):
-        author = Author()
+        first_name = ''
+        middle_name = ''
+        last_name = ''
+
         for e in node:
             if QName(e).localname == 'first-name':
-                author.first_name = e.text
+                first_name = e.text
             elif QName(e).localname == 'middle-name':
-                author.middle_name = e.text
+                middle_name = e.text
             elif QName(e).localname == 'last-name':
-                author.last_name = e.text
-        return author
+                last_name = e.text
+
+        author = '{} {} {}'.format(first_name, middle_name, last_name)
+        return ' '.join(author.split())
 
     def _get_tags(self):
         tags = []
