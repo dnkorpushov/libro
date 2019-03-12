@@ -26,30 +26,10 @@ class BookMeta:
         self.tag = tag_string.strip().split(',')
 
     def set_author_from_string(self, author_string):
-        self.author = self._set_person_from_string(author_string)
+        self.author = author_string.split()
 
     def set_translator_from_string(self, translator_string):
-        self.translator = self._set_person_from_string(translator_string)
-
-    def _set_person_from_string(self, person_string):
-        person_dest = []
-        if person_string is not None and len(person_string) > 0:
-            person_array = person_string.split(',')
-            for p in person_array:
-                person_elements = p.strip().split()
-                person = Author()
-                if len(person_elements) == 3:
-                    person.first_name = person_elements[0]
-                    person.middle_name = person_elements[1]
-                    person.last_name = person_elements[2]
-                elif len(person_elements) == 2:
-                    person.first_name = person_elements[0]
-                    person.last_name = person_elements[1]
-                else:
-                    person.last_name = p.strip()
-                person_dest.append(person)
-
-        return person_dest
+        self.translator = translator_string.split()
 
     def get_author_string(self, name_format='{#f {#m }}#l', short=False, short_count=2, short_suffix=' и др'):
         return self._get_person_string(self.author, name_format=name_format,

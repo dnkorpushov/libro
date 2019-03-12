@@ -10,13 +10,14 @@ class EpubMeta:
     version = ''
     tree = None
     content_root = ''
+    opf_file = ''
 
     zip = None
 
     ns = {
         'n': 'urn:oasis:names:tc:opendocument:xmlns:container',
         'opf': 'http://www.idpf.org/2007/opf',
-        'dc':  'http://purl.org/dc/elements/1.1/'
+        'dc': 'http://purl.org/dc/elements/1.1/'
     }
 
     def __init__(self, file):
@@ -24,9 +25,9 @@ class EpubMeta:
         self.zip = zipfile.ZipFile(self.file)
         container = self.zip.read('META-INF/container.xml')
         tree = etree.fromstring(container)
-        opf_fname = tree.xpath('n:rootfiles/n:rootfile/@full-path', namespaces=self.ns)[0]
-        opf = self.zip.read(opf_fname)
-        self.content_root = os.path.split(opf_fname)[0]
+        self.opf_file = tree.xpath('n:rootfiles/n:rootfile/@full-path', namespaces=self.ns)[0]
+        opf = self.zip.read(self.opf_file)
+        self.content_root = os.path.split(self.opf_file)[0]
         if self.content_root:
             self.content_root += '/'
         self.tree = etree.fromstring(opf)
@@ -49,6 +50,9 @@ class EpubMeta:
         metadata.format = 'epub'
 
         return metadata
+
+    def set_metadata(self, metadata):
+        pass
 
     def _get_series(self):
         series = self._find('meta[@name="calibre:series"]', namespace='opf')
@@ -124,7 +128,6 @@ class EpubMeta:
                 except KeyError:
                     pass
         if cover_name:
-
             cover_data = self.zip.read(self.content_root + cover_name)
 
         return cover_name, cover_data
@@ -133,6 +136,12 @@ class EpubMeta:
         value = self._find(name)
         return value.text if value is not None else ''
 
+    def _set_value(self, name, text):
+        value = self._find(name)
+        if value is None:
+            pass
+        value.text = text
+
     def _find(self, name, namespace='dc'):
         node_list = self.tree.xpath('/opf:package/opf:metadata/{}:{}'.format(namespace, name), namespaces=self.ns)
         for n in node_list:
@@ -140,26 +149,3 @@ class EpubMeta:
 
     def _findall(self, name, namespace='dc'):
         return self.tree.xpath('/opf:package/opf:metadata/{}:{}'.format(namespace, name), namespaces=self.ns)
-
-
-###############################################
-
-import base64
-import epub_meta
-from libro.utils.bookmeta import BookMeta
-
-
-class EpubMeta():
-    def __init__(self, file):
-        self.file = file
-
-    def get_meta(self):
-        meta = BookMeta()
-        epubmeta = epub_meta.get_epub_metadata(self.file, read_cover_image=True)
-        meta.title = epubmeta['title']
-        meta.set_author_from_string(', '.join(epubmeta['authors']))
-        meta.tag = epubmeta['subject']
-        meta.lang = epubmeta['language']
-        meta.cover_image_data = base64.b64decode(epubmeta['cover_image_content'])
-
-        return meta
