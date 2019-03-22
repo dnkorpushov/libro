@@ -21,8 +21,7 @@ class EditDialog(QDialog, Ui_Dialog):
             self.seriesIndexEdit.addUserItem(self.booksMeta[i].series_index)
             self.tagsEdit.addUserItem(self.booksMeta[i].get_tag_string())
             self.langEdit.addUserItem(self.booksMeta[i].lang)
-            self.translatorEdit.addUserItem(self.booksMeta[i].get_translator_string(name_format='{#f {#m }}#l',
-                                                                                    short=False))
+            self.translatorEdit.addUserItem(self.booksMeta[i].get_translator_string())
 
         self.authorEdit.setInitialIndex()
         self.titleEdit.setInitialIndex()
@@ -109,12 +108,14 @@ class EditDialog(QDialog, Ui_Dialog):
             self.booksMeta[i].title = self.titleEdit.getUserText(self.booksMeta[i].title)
             self.booksMeta[i].series = self.seriesEdit.getUserText(self.booksMeta[i].series)
             try:
-                self.booksMeta[i].series_index = int(self.seriesIndexEdit.getUserText(self.booksMeta[i].series_index))
+                self.booksMeta[i].series_index = str(self.seriesIndexEdit.getUserText(self.booksMeta[i].series_index))
             except (ValueError, TypeError):
-                self.booksMeta[i].series_index = None
+                self.booksMeta[i].series_index = ''
             self.booksMeta[i].set_tag_from_string(self.tagsEdit.getUserText(self.booksMeta[i].get_tag_string()))
             self.booksMeta[i].lang = self.langEdit.getUserText(self.booksMeta[i].lang)
-            self.booksMeta[i].set_translator_from_string(self.translatorEdit.getUserText(self.booksMeta[i].get_translator_string()))
+            self.booksMeta[i].set_translator_from_string(
+                self.translatorEdit.getUserText(
+                    self.booksMeta[i].get_translator_string()))
         super(EditDialog, self).accept()
 
     def getBooksMeta(self):

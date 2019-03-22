@@ -37,7 +37,7 @@ class ConvertDialog(QDialog, Ui_Dialog):
 
     def runProcess(self):
         bookInfo = library.get_book_info(self.booksId[self.currentIndex])
-        if bookInfo.book_format == 'epub' and config.fb2c_output_format == 'epub':
+        if bookInfo.format == 'epub' and config.fb2c_output_format == 'epub':
             try:
                 shutil.copyfile(bookInfo, self.destFolder)
             except IOError:
@@ -51,9 +51,9 @@ class ConvertDialog(QDialog, Ui_Dialog):
             else:
                 converterconfig.generate()
                 args.append(config.default_converter_config)
-            if bookInfo.book_format == 'fb2':
+            if bookInfo.format == 'fb2':
                 args.append('convert')
-            elif bookInfo.type == 'epub':
+            elif bookInfo.format == 'epub':
                 args.append('transfer')
             args.append('--to')
             args.append(config.fb2c_output_format)

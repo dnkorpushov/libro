@@ -312,7 +312,7 @@ class Ui_Dialog(object):
         self.gridLayout_6.addWidget(self.buttonBox, 1, 0, 1, 1)
 
         self.retranslateUi(Dialog)
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(0)
         self.buttonBox.accepted.connect(Dialog.accept)
         self.buttonBox.rejected.connect(Dialog.reject)
         self.libraryModeRadio.clicked.connect(Dialog.onLibroModeSelect)

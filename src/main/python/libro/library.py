@@ -6,7 +6,7 @@ from datetime import date
 
 import libro.queries as queries
 import libro.config as config
-from libro.utils.metadata import get_metadata, set_metadata
+import ebookmeta
 
 
 class BookRec:
@@ -22,7 +22,7 @@ def get_book_info(id):
     q.exec_()
     if q.next():
         file = q.value(0)
-        meta = get_metadata(file)
+        meta = ebookmeta.get_metadata(file)
         meta.id = id
         return meta
     else:
@@ -54,20 +54,20 @@ def get_book_rec(id):
 
 
 def update_book_info(book_meta):
-    set_metadata(book_meta)
+    ebookmeta.set_metadata(book_meta.file, book_meta)
     q = QSqlQuery(config.db)
     q.prepare(queries.UPDATE_BOOK)
     q.bindValue(0, book_meta.title)
-    q.bindValue(1, book_meta.get_author_string(name_format='{#f {#m }}#l'))
-    q.bindValue(2, book_meta.get_author_string(name_format='#l{ #f{ #m}}'))
+    q.bindValue(1, book_meta.get_author_string())
+    q.bindValue(2, book_meta.get_author_sort_string())
     q.bindValue(3, book_meta.get_tag_string())
     q.bindValue(4, book_meta.series)
     q.bindValue(5, book_meta.series_index)
     q.bindValue(6, book_meta.lang)
     q.bindValue(7, book_meta.get_translator_string())
-    q.bindValue(8, book_meta.book_format)
+    q.bindValue(8, book_meta.format)
     q.bindValue(9, book_meta.id)
-    if not q.exec_():
+    if not q.exec():
         print(q.lastError().text())
         config.db.rollback()
     else:
@@ -78,7 +78,7 @@ def delete_book(id):
     q = QSqlQuery(config.db)
     q.prepare(queries.DELETE_BOOK)
     q.bindValue(0, id)
-    if not q.exec_():
+    if not q.exec():
         print(q.lastError().text())
         config.db.rollback()
     else:
@@ -88,22 +88,22 @@ def delete_book(id):
 def add_book(file):
     file = os.path.normpath(file)
     try:
-        meta = get_metadata(file)
+        meta = ebookmeta.get_metadata(file)
         cur_date = date.today().strftime('%d.%m.%Y')
         q = QSqlQuery(config.db)
         q.prepare(queries.INSERT_BOOK)
         q.bindValue(0, meta.title)
-        q.bindValue(1, meta.get_author_string(name_format='{#f {#m }}#l'))
-        q.bindValue(2, meta.get_author_string(name_format='#l{ #f{ #m}}'))
+        q.bindValue(1, meta.get_author_string())
+        q.bindValue(2, meta.get_author_sort_string())
         q.bindValue(3, meta.get_tag_string())
         q.bindValue(4, meta.series)
         q.bindValue(5, meta.series_index)
         q.bindValue(6, meta.lang)
         q.bindValue(7, meta.get_translator_string())
-        q.bindValue(8, meta.book_format)
+        q.bindValue(8, meta.format)
         q.bindValue(9, cur_date)
         q.bindValue(10, file)
-        if not q.exec_():
+        if not q.exec():
             print(q.lastError().text())
             config.db.rollback()
         else:
