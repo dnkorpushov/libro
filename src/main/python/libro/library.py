@@ -10,12 +10,14 @@ import ebookmeta
 
 
 class BookRec:
+
     __slots__ = ['id', 'title', 'author', 'author_sort', 'series', 'series_index',
                  'tags', 'type', 'lang', 'translator', 'date_added',
                  'cover_image', 'file']
 
 
 def get_book_info(id):
+
     q = QSqlQuery(config.db)
     q.prepare(queries.SELECT_BOOK_INFO)
     q.bindValue(0, id)
@@ -30,6 +32,7 @@ def get_book_info(id):
 
 
 def get_book_rec(id):
+
     q = QSqlQuery(config.db)
     q.prepare(queries.SELECT_BOOK_REC)
     q.bindValue(0, id)
@@ -54,13 +57,14 @@ def get_book_rec(id):
 
 
 def update_book_info(book_meta):
+
     ebookmeta.set_metadata(book_meta.file, book_meta)
     q = QSqlQuery(config.db)
     q.prepare(queries.UPDATE_BOOK)
     q.bindValue(0, book_meta.title)
     q.bindValue(1, book_meta.get_author_string())
     q.bindValue(2, book_meta.get_author_sort_string())
-    q.bindValue(3, book_meta.get_tag_string())
+    q.bindValue(3, book_meta.get_tag_description_string())
     q.bindValue(4, book_meta.series)
     q.bindValue(5, book_meta.series_index)
     q.bindValue(6, book_meta.lang)
@@ -75,6 +79,7 @@ def update_book_info(book_meta):
 
 
 def delete_book(id):
+
     q = QSqlQuery(config.db)
     q.prepare(queries.DELETE_BOOK)
     q.bindValue(0, id)
@@ -86,6 +91,7 @@ def delete_book(id):
 
 
 def add_book(file):
+
     file = os.path.normpath(file)
     try:
         meta = ebookmeta.get_metadata(file)
@@ -95,7 +101,7 @@ def add_book(file):
         q.bindValue(0, meta.title)
         q.bindValue(1, meta.get_author_string())
         q.bindValue(2, meta.get_author_sort_string())
-        q.bindValue(3, meta.get_tag_string())
+        q.bindValue(3, meta.get_tag_description_string())
         q.bindValue(4, meta.series)
         q.bindValue(5, meta.series_index)
         q.bindValue(6, meta.lang)
@@ -113,6 +119,7 @@ def add_book(file):
 
 
 def is_created():
+
     rows = -1
     q = QSqlQuery(config.db)
     q.exec(queries.CHECK_DB_CREATED)
@@ -123,6 +130,7 @@ def is_created():
 
 
 def create():
+
     q = QSqlQuery(config.db)
     sql_lines = queries.CREATE_DB.split(';')
     for sql_line in sql_lines:
