@@ -1,5 +1,4 @@
 
-content = '''
 @page {
     margin-left: 20px;
     margin-right:20px;
@@ -306,4 +305,3 @@ p.dropcaps {
     page-break-inside: avoid;
     page-break-after: always;
 }
-'''

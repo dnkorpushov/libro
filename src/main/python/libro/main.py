@@ -5,7 +5,11 @@ from libro.ui.mainwindow import MainWindow
 
 class AppContext(ApplicationContext):
     def run(self):
-        window = MainWindow()
+        resources = {}
+        resources['default_config'] = self.get_resource('fb2cdefault.toml')
+        resources['default_css'] = self.get_resource('default.css')
+
+        window = MainWindow(resources)
         window.show()
         return self.app.exec_()
 

@@ -72,6 +72,7 @@ class Ui_Dialog(object):
         self.label_2.setObjectName("label_2")
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_2)
         self.label = QtWidgets.QLabel(Dialog)
+        self.label.setOpenExternalLinks(True)
         self.label.setObjectName("label")
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.label)
         self.verticalLayout.addLayout(self.formLayout)

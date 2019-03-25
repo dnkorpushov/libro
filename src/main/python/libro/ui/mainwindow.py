@@ -8,7 +8,6 @@ from PyQt5.QtSql import QSqlDatabase
 
 import libro.config as config
 import libro.library as library
-import libro.converterconfig as converterconfig
 from libro.ui.mainwindow_ui import Ui_MainWindow
 from libro.ui.convertdialog import ConvertDialog
 from libro.ui.addbooksdialog import AddBooksDialog
@@ -23,7 +22,7 @@ from libro.utils import ui as uiUtils
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-    def __init__(self):
+    def __init__(self, resources):
         super(MainWindow, self).__init__()
         self.setupUi(self)
         self.setWindowTitle('Libro')
@@ -32,13 +31,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if not os.path.exists(config.config_dir):
             config.save()
 
-        if config.libro_is_library_mode:
+        if config.is_library_mode:
             db_name = os.path.join(config.config_dir, 'libro.db')
         else:
             db_name = ':memory:'
 
-        if not os.path.exists(config.default_converter_config):
-            converterconfig.generate_default()
+        if not config.converter_config:
+            for key in resources.keys():
+                src = resources[key]
+                dst = os.path.join(config.config_dir, os.path.split(src)[1])
+                try:
+                    shutil.copyfile(src, dst)
+                    if key == 'default_config':
+                        config.converter_config = dst
+                        config.save()
+                except Exception:
+                    print('Error while copy file: {}'.format(src))
 
         db = QSqlDatabase.addDatabase('QSQLITE')
         db.setDatabaseName(db_name)
@@ -82,7 +90,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.resize(config.ui_window_width, config.ui_window_height)
             self.move(config.ui_window_x, config.ui_window_y)
 
-        self.navTree.setVisible(config.libro_is_library_mode)
+        self.navTree.setVisible(config.is_library_mode)
         self.enableControls()
 
         self.deviceStatusTimer = QTimer()
@@ -90,8 +98,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.deviceStatusTimer.start(1000)
 
     def checkDeviceStatus(self):
-        if config.libro_device_path:
-            device_path = config.libro_device_path
+        if config.device_path:
+            device_path = config.device_path
         else:
             device_path = util.find_reader_device()
 
@@ -147,7 +155,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             menu.exec_(self.bookTable.viewport().mapToGlobal(pos))
 
     def onActionRemoveBooks(self):
-        if config.libro_is_library_mode:
+        if config.is_library_mode:
             messageText = 'Remove selected books from library?'
         else:
             messageText = 'Remove selected books from list?'
@@ -208,23 +216,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             pass
 
     def onActionSendToFolder(self):
-        if not config.fb2c_convert_to_folder:
-            dest_folder = uiUtils.getFolder(self, 'Select destination folder',
-                                            defaultPath=config.last_used_convert_path)
-            if dest_folder is not None:
-                config.last_used_convert_path = dest_folder
-        else:
-            dest_folder = config.fb2c_convert_to_folder
-
-        if dest_folder:
+        dest_folder = uiUtils.getFolder(self, 'Select destination folder',
+                                        defaultPath=config.last_used_convert_path)
+        if dest_folder is not None:
+            config.last_used_convert_path = dest_folder
             self.runConvert(dest_folder, windowTitle='Convert to folder')
 
     def runConvert(self, destFolder, windowTitle, sendToKindle=False):
-        if not config.fb2c_executable_path or not os.path.exists(config.fb2c_executable_path):
+        if not config.converter_executable_path or not os.path.exists(config.converter_executable_path):
             QMessageBox.critical(self,
                                  'Libro',
-                                 'Converter fb2c not found!\nCheck settings for correct converter path.')
+                                 'Converter fb2converter not found!\nCheck settings for correct converter path.')
         else:
+            util.set_converter_log_file(config.converter_config, config.converter_log_file)
             books_id = self.bookTable.getBooksId()
             convDlg = ConvertDialog(self, books_id, destFolder, sendToKindle)
             convDlg.exec()
@@ -271,7 +275,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         config.ui_window_y = self.pos().y()
         config.ui_window_width = self.size().width()
         config.ui_window_height = self.size().height()
-        if config.libro_is_library_mode:
+        if config.is_library_mode:
             config.ui_splitter_sizes = self.splitter.sizes()
         else:
             config.ui_splitter_sizes = []

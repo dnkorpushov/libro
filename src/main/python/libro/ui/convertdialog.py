@@ -4,8 +4,8 @@ from PyQt5.QtWidgets import QDialog
 from PyQt5.QtCore import Qt, QProcess
 from libro.ui.processdialog_ui import Ui_Dialog
 import libro.config as config
-import libro.converterconfig as converterconfig
 import libro.library as library
+from libro.utils import util
 
 
 class ConvertDialog(QDialog, Ui_Dialog):
@@ -37,7 +37,7 @@ class ConvertDialog(QDialog, Ui_Dialog):
 
     def runProcess(self):
         bookInfo = library.get_book_info(self.booksId[self.currentIndex])
-        if bookInfo.format == 'epub' and config.fb2c_output_format == 'epub':
+        if bookInfo.format == 'epub' and config.converter_output_format == 'epub':
             try:
                 shutil.copyfile(bookInfo, self.destFolder)
             except IOError:
@@ -46,29 +46,27 @@ class ConvertDialog(QDialog, Ui_Dialog):
         else:
             args = []
             args.append('--config')
-            if config.fb2c_is_custom_config and config.fb2c_custom_config:
-                args.append(config.fb2c_custom_config)
-            else:
-                converterconfig.generate()
-                args.append(config.default_converter_config)
+            if config.converter_config:
+                args.append(config.converter_config)
             if bookInfo.format == 'fb2':
                 args.append('convert')
             elif bookInfo.format == 'epub':
                 args.append('transfer')
             args.append('--to')
-            args.append(config.fb2c_output_format)
+            args.append(config.converter_output_format)
             if self.sendToKindle:
                 args.append('--stk')
             args.append('--ow')
             args.append(bookInfo.file)
             args.append(self.destFolder)
-            self.process.start(config.fb2c_executable_path, args)
+            self.process.start(config.converter_executable_path, args)
 
     def cancelProcess(self):
         self.process.kill()
         self.canceled = True
 
     def endProcess(self, exitCode, exitStatus):
+        util.get_convert_result(config.converter_log_file)
         self.currentIndex += 1
         self.setCurrentProgress()
 

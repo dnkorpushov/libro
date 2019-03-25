@@ -1,0 +1,313 @@
+#-----------------------------------------------------------------------------------------------------------------------------
+#---- fb2converter engine configuration.
+#---- This should be UTF-8 only!
+#-----------------------------------------------------------------------------------------------------------------------------
+
+[logger]
+
+	#---- controls terminal (stdout, stderr) output
+	# Don't change any logger parameters when using Libro
+	[logger.console]
+		#---- logging level
+		#---- "none"   - suppress all console logging
+		#---- "normal" - messages INFO level and higher are outputted
+		#---- "debug"  - all log messages are outputted
+		level = "none"
+
+	#---- controls logging to a file (could duplicate CONSOLE messages)
+	[logger.file]
+		#---- logging level
+		#---- "none"   - suppress logging
+		#---- "normal" - messages INFO level and higher are printed
+		#---- "debug"  - all log output is printed
+		level = "normal"
+		#---- path to the log file, if relative - relative to current working directory
+		destination = "conversion.log"
+		#---- how to handle output file during consecutive program runs
+		#---- "append"    - keep all old log messages, append new ones at the end
+		#---- "overwrite" - keep only messages from the last run, log is overwritten
+		mode = "overwrite"
+
+[document]
+	#---- NOTE: in all format specifications curly brackets are indicating conditional blocks: only if result of keywords
+	#---- expansion inside block is not empty - block will be used, otherwise entire block will be ignored. Could be recursive,
+	#---- to output curly brackets escape them with backslash.
+	#
+	#---- NOTE: unless specified separately all relative paths in configuration are relative to the directory of configuration
+	#---- file!
+
+	#---- CSS stylesheet to use. If absent - default one will be supplied
+	style = "default.css"
+
+	#---- Some programs (CoolReader and some versions of FBReader) expect "old" zip format. We have this on by default, if
+	#---- you encounter unreadable epub/kepub files - turn it off
+	# fix_zip_format = true
+
+	# When true program removes transparency on PNG files - Kindle eInc devices do not handle it well
+	remove_png_transparency = false
+	#---- Forcefully resize all images (but cover) with specified ratio
+	# images_scale_factor = 0
+
+	#---- Pattern to format book title
+	#---- "#title"      - book title
+	#---- "#series"     - name of sequence book belongs to
+	#---- "#abbrseries" - abbreviated #series, lower case
+	#---- "#ABBRseries" - abbreviated #series, upper case
+	#---- "#number"     - number in a series
+	#---- "#padnumber"  - number in a series padded with zeros to "series_number_positions"
+	#---- "#date"       - date specified in a book description
+	title_format = "{(#ABBRseries{ - #padnumber}) }#title"
+	#---- How many positions padded series number will take
+	series_number_positions = 2
+
+	#---- Patterns to format author name (#author, #autors) in different places
+	#---- "#f"  - first name
+	#---- "#fi" - first name initial (first letter)
+	#---- "#m"  - middle name
+	#---- "#mi" - middle name initial (first letter of middle name)
+	#---- "#l"  - last name
+	author_format = "#l{ #f}{ #m}"
+	# author_format_meta = "#l{ #f}{ #m}"
+	# author_format_file_name = "#l{ #f}{ #m}"
+
+	#---- Output file name pattern - output file will have name created using FB2 information
+	#---- NOTE: watch out for path separators, directories will be created!
+	#---- "#title"      - book title
+	#---- "#series"     - name of sequence book belongs to
+	#---- "#abbrseries" - abbreviated #series, lower case
+	#---- "#ABBRseries" - abbreviated #series, upper case
+	#---- "#number"     - number in a series
+	#---- "#padnumber"  - number in a series padded with zeros to "series_number_positions"
+	#---- "#authors"    - list of all authors (each formatted as specified in "author_format")
+	#---- "#author"     - name of the first author (formatted as specified in "author_format"). If more then one - it will
+	#----                 be indicated with either ", et al" or " и др" depending on book language
+	#---- "#bookid"     - Book UUID (either parsed from or genrated based of fb2 information)
+	# file_name_format = "{#author - }#title"
+
+	#---- Slugify/transliterate output file name - after all other processing on file name is completed
+	# file_name_transliterate = false
+
+	#---- Place book chapters in separate files. On most reading devices it also means starting
+	#---- chapter on a new page. This mode usually provides faster reading experience as most readers
+	#---- keep only current content file in memory.
+	chapter_per_file = true
+
+	#---- Determines on what level fb2 <section> becomes book chapter
+	# chapter_level = 2147483647
+
+	#---- Slugify/transliterate book title and author(s) names
+	# transliterate_meta = false
+
+	#---- On supported devices allows to open book from cover page, rather than from beginning of the text
+	#---- Kindles do not support this mode
+	# open_from_cover = false
+
+	#---- Insert soft hyphen symbols '\u00AD' inside words - for devices which do not support proper hyphenation
+	#---- Hyphenation dictionaries are from http://ctan.math.utah.edu/ctan/tex-archive/language/hyph-utf8/tex/generic/hyph-utf8/patterns/txt
+	#---- NOTE: modern day Kindles always have hyphenation on for Russian language (and off for English)
+	# insert_soft_hyphen = false
+
+	#---- Sometimes device hyphenation engines do not know what to do with NBSP, breaking hyphenation. This will replace all
+	#---- nbsp symbols with ordinary spaces, potentially breaking original formatting
+	# ignore_nonbreakable_space = false
+
+	#---- To generate epub page map we use very rough text processing, controlling approximate page size in Unicode code points
+	# characters_per_page = 2300
+
+	#---- Do not skip images which cannot be decoded by program. Use them without any processing, allowing reader to decide what to do.
+	#---- Not a good idea in general - for example kindlegen will likely drop them anyways
+	# use_broken_images = false
+
+	[document.dropcaps]
+		#---- Allow dropcap styles
+		create = false
+		#---- Characters to ignore when styling dropcaps
+		ignore_symbols = "'\"-.…0123456789‒–—«»“”<>"
+
+	[document.annotation]
+		#---- Create separate "chapter" with book annotation if available
+		create = true
+		#---- And use provded annotation title
+		title = "Аннотация"
+		#---- Show annotation in TOC
+		# add_to_toc = false
+
+	[document.notes]
+		#---- How to render notes in the book
+		#---- "default" - notes are links
+		#---- "inline"  - note is shown "in-place" and could be styled via css
+		#---- "block"   - motes are shown "in-place" at the paragraph end and could be styled via css
+		#---- "float"   - special mode for Kindle devices, pop up notes
+		mode = "float"
+		#---- Names of the <body> tags in fb2 document to consider for notes processing
+		body_names = [ "notes", "comments" ]
+
+	[document.toc]
+		#---- Type of ncx TOC generated, depends on device support
+		#---- "normal" - TOC could have as many levels as possible
+		#---- "kindle" - TOC will have two levels for Kindle eInk support
+		#---- "flat"   - TOC will have single level
+		type = "kindle"
+		#---- Generate additional page with TOC (some devices may not support proper ncx TOC at all)
+		#---- "none"   - do not generate it at all
+		#---- "before" - place it at the beginning of the book
+		#---- "after"  - place it at the end of the book
+		page_placement = "after"
+		#---- Name of the TOC page in a book
+		# page_title = "Content"
+		#---- How many levels TOC page will have before flattening
+		# page_maxlevel = 2147483647
+		#---- Include chapter without title to TOC - this prevents empty TOC on "bad" books adding chapters without titles to the TOC
+		include_chapters_without_title = false
+		#---- When creating TOC page take book title and author(s) from meta info annd not from first title of main body
+		# book_title_from_meta = false
+
+	[document.cover]
+		#---- If book does not have cover image - use default one. For Amazon formats always true
+		# default = false
+		#---- Will be used as default cover image. If not specified - one will be provided by the program
+		# image_path = "default_cover.jpeg"
+		#---- Specify device screen size so cover image could be adjusted properly. Defaults to Oasis 2
+		width = 1264
+		height = 1680
+		#---- Places stamp with title, author and book sequence on cover image (if default cover used - it alwaays will be stamped)
+		#---- "none" - no stamping
+		#---- "top" - stamp at the top of cover
+		#---- "middle" - stamp in the middle of cover
+		#---- "bottom" - stamp at the bottom of cover
+		stamp_placement = "none"
+		#---- Font to use for stamping, if not specified program will use default
+		# stamp_font = "LinLibertine_RBah.ttf"
+
+	[document.transform]
+		#---- Additional text transformations, presently "direct speech normalization" and "dashes unification" are supported
+
+		#---- At the beginning of paragraph text starting with Unicode symbol included in "from" string possibly
+		#---- followed by any number of Unicode space symbols is replaced with "to" string
+		[document.transform.speech]
+			from = "‐‑−–—―"
+			to = "— "
+
+		#---- In paragraphs any Unicode symbol included in "from" string, surrounded by Unicode spaces is replaced with
+		#---- first Unicode symbol from "to" string.
+		[document.transform.dashes]
+			from = "‐‑−–—―"
+			to = "—"
+
+	#---- Vignette images could be specified for up to 6 levels of headers (h0 - h6) and "default"
+	#---- "none" has a special meaning suppressing particular vignette usage
+	[document.vignettes]
+		#---- Use vignette images
+		create = false
+
+		#---- "default" level images (for all non specified levels) and images for specific header levels ("h0" - "h6") are supported
+		#---- For any header to overwrite any image from "default" level use "none" keyword
+		[document.vignettes.images.default]
+			before_title = "profiles/vignettes/title_before.png"
+			after_title = "profiles/vignettes/title_after.png"
+			chapter_end = "profiles/vignettes/chapter_end.png"
+
+		[document.vignettes.images.h0]
+			before_title = "none"
+			after_title = "none"
+			chapter_end = "none"
+
+	#---- Data from this section only used when output is requested in Amazon's format: mobi or azw3
+	[document.kindlegen]
+		#---- Specifies exact location of platform specific Amazon kindlegen utility
+		#---- (to download visit "https://www.amazon.com/gp/feature.html?ie=UTF8&docId=1000765211")
+		#---- If path is not absolute - it is assumed to be relative to program directory
+		#---- If not specified at all program will look for proper kindlegen the directory it is started from
+		# path = "linux/kindlegen"
+		#---- Kindlegen compression level
+		# compression_level = 1
+		#---- Kindlegen will produce verbose output (when debugging - always verbose)
+		verbose = false
+		#---- When producing mobi - do not touch it after kindlegen
+		# no_mobi_optimization = false
+		#---- If set to true "Personal label" will be removed from the resulting book producing "EBOK" document.
+		#---- Otherwise - "PDOC", default for kndlegen
+		remove_personal_label = false
+		#---- When producing azw3 - make sure that ASIN is set.
+		#---- Looks like this is important for "vocabulary builder" at least on eInk devices
+		# force_asin_on_azw3 = false
+		#----  depending on device Kindle expects APNX page map file in different places
+		#----  "none" - nothing will be generated
+		#----  "eink" - apnx will be located in .sbr directory
+		#----  "app"  - apnx will be located alongside with converted file
+		generate_apnx = "none"
+
+[sendtokindle]
+	#---- In case book sent successfully - delete it from disk
+	delete_sent_book = false
+
+	#---- SMTP server parameters
+	smtp_server = "smtp.gmail.com"
+	smtp_port = 587
+	smtp_user = "your mail user"
+	smtp_password = "your mail password"
+
+	#---- Required by Amazon service
+	from_mail = "address authorized by your Amazon account"
+	to_mail = "mail address of your Kindle device"
+
+#-----------------------------------------------------------------------------------------------------------------------------
+#---- Sometimes external processors will need to overwrite some or all of book meta-data and or cover image. You could specify
+#---- array of overwrites here
+#----
+#---- "name" specifies to which book overwrite is applicable, "*" means to all converted books, name could specify part of the
+#---- file path (relative to source path), for example "aaa/bbb.fb2" will cause meta data for all "bbb.fb2" files found under
+#---- "aaa" path converted during program run to be overwritten. Overwrites are always searched from most specific to less
+#---- specific: "aaa/bbb.fb2", then "bbb.fb2", then "*". When first suitable overwrite is found - it will be used, no further
+#---- search is performed.
+#-----
+#---- "meta" section could have any or all of following tags: "id", "language", "title", "genres", "authors", "sequence",
+#---- "sequence_number", "date" and "cover_image", where genres and authors are arrays of strings and cover_image is a path
+#---- to valid image. If any of the tags are wrong (file does not exists or bad, sequence number is negative, etc.) - they
+#---- will be dropped silently and no overwrite will be performed.
+#-----------------------------------------------------------------------------------------------------------------------------
+#[[overwrites]]
+#	name = "*"
+#	[overwrites.meta]
+#		id = "250ddd1e-86e8-41c0-a881-0e0c96c4da7c"
+#		language = "hu"
+#		title = "Global title"
+#		genres = ["sci_fy", "history"]
+#		authors = [
+#			{ first_name = "First", last_name = "Author" },
+#			{ first_name = "Second", last_name = "Author" }
+#		]
+#		sequence = "Super Series"
+#		sequence_number = 666
+#		date = "1984"
+#		cover_image = "file_name"
+
+#-----------------------------------------------------------------------------------------------------------------------------
+#---- Windows only, support for MyHomeLib
+#-----------------------------------------------------------------------------------------------------------------------------
+#---- fb2mobi.exe or fb2epub.exe wrappers will search for fb2c.exe either in the directory they started from: "./fb2c.exe"
+#---- or in "fb2converter" directory one level up in path hierarchy: "../fb2converter/fb2c.exe". They will check for
+#---- existence of fb2mobi.toml or fb2epub.toml in the directory they are started from and if found will supply those files
+#---- as configuration to fb2c.exe
+
+[fb2mobi]
+
+	#---- NOTE: due to specifics of current MyHomeLib implementation there is no way to specify azw3 output format
+	#---- via command line to fb2mobi.exe. So in one and only case when fb2c is started indirectly using fb2mobi helper
+	#---- "convert" command line option "--to" will be ignored and value of "output_format" will be used instead
+	#---- If it is not specified here - "mobi" is assumed.
+	# output_format = "mobi"
+
+	#---- NOTE: due to specifics of current MyHomeLib implementation there is no way to activate SendToKindle
+	#---- via command line to fb2mobi.exe. So in one and only case when fb2c is started indirectly using fb2mobi helper
+	#---- "convert" command line option "--stk" will be ignored and value of "send_to_kindle" will be used instead
+	#---- If it is not specified here - "false" is assumed.
+	# send_to_kindle = false
+	
+[fb2epub]
+
+	#---- NOTE: due to specifics of current MyHomeLib implementation there is no way to specify kepub output format
+	#---- via command line to fb2epub.exe. So in one and only case when fb2c is started indirectly using fb2epub helper
+	#---- "convert" command line option "--to" will be ignored and value of "output_format" will be used instead
+	#---- If it is not specified here - "epub" is assumed.
+	# output_format = "epub"

@@ -49,7 +49,7 @@ class BookTableView(QTableView):
         self.hideColumn(0)
         self.hideColumn(7)
         self.hideColumn(10)
-        if not config.libro_is_library_mode:
+        if not config.is_library_mode:
             self.hideColumn(9)
         if config.ui_display_sort_author:
             self.hideColumn(2)

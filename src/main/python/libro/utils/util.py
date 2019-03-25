@@ -1,6 +1,8 @@
 import os
 import sys
 import psutil
+import codecs
+import tomlkit
 
 
 def is_supported_format(file):
@@ -73,3 +75,28 @@ def find_reader_device():
                 # Kindle Paperwhite, Voyage, Oasis
                 return os.path.join(fs, 'documents')
     return ''
+
+
+def set_converter_log_file(converter_config, log_file):
+    if os.path.exists(converter_config):
+        with codecs.open(converter_config, mode='r', encoding='utf-8') as f:
+            doc = tomlkit.loads(f.read())
+            f.close()
+
+        doc['logger']['file']['level'] = 'normal'
+        doc['logger']['file']['destination'] = log_file
+        doc['logger']['file']['mode'] = 'overwrite'
+
+        with codecs.open(converter_config, mode='w', encoding='utf-8') as f:
+            f.write(tomlkit.dumps(doc))
+            f.close()
+
+
+def get_convert_result(log_file):
+    data = []
+    if os.path.exists(log_file):
+        with codecs.open(log_file, mode='r', encoding='utf-8') as f:
+            data = f.readlines()
+            f.close()
+        for line in data:
+            print(line.split('\t'))
