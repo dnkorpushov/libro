@@ -15,6 +15,7 @@ class ConvertDialog(QDialog, Ui_Dialog):
         self.setWindowTitle('Convert books')
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowCloseButtonHint)
 
+        self.convertError = []
         self.booksId = booksId
         self.destFolder = destFolder
         self.sendToKindle = sendToKindle
@@ -66,7 +67,9 @@ class ConvertDialog(QDialog, Ui_Dialog):
         self.canceled = True
 
     def endProcess(self, exitCode, exitStatus):
-        util.get_convert_result(config.converter_log_file)
+        src, dst, err = util.get_convert_result(config.converter_log_file)
+        if err:
+            self.convertError.append({'src': src, 'dst': dst, 'err': err})
         self.currentIndex += 1
         self.setCurrentProgress()
 

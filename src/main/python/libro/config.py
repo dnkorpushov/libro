@@ -92,7 +92,7 @@ def load():
 
 def save():
     c = {
-        'library_mode': is_library_mode,
+        'is_library_mode': is_library_mode,
         'collect_files': collect_files,
         'library_root_path': library_root_path,
         'filename_pattern': filename_pattern,

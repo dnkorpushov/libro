@@ -97,11 +97,19 @@
     <property name="title">
      <string>File</string>
     </property>
+    <widget class="QMenu" name="menuSend_to">
+     <property name="title">
+      <string>Send to..</string>
+     </property>
+     <addaction name="actionConvertToDisk"/>
+     <addaction name="actionSendToReader"/>
+     <addaction name="actionSendBooksViaMail"/>
+    </widget>
     <addaction name="actionAddBooks"/>
     <addaction name="actionRemoveBooks"/>
     <addaction name="actionEditMetadata"/>
     <addaction name="separator"/>
-    <addaction name="actionConvertToDisk"/>
+    <addaction name="menuSend_to"/>
     <addaction name="separator"/>
     <addaction name="actionSettings"/>
     <addaction name="separator"/>
@@ -114,14 +122,7 @@
     <addaction name="actionAbout"/>
     <addaction name="actionAboutQt"/>
    </widget>
-   <widget class="QMenu" name="menuView">
-    <property name="title">
-     <string>View</string>
-    </property>
-    <addaction name="actionViewLog"/>
-   </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuView"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="ToolBar" name="toolBar">
@@ -153,7 +154,10 @@
      <normaloff>:/toolbar/tool-add.png</normaloff>:/toolbar/tool-add.png</iconset>
    </property>
    <property name="text">
-    <string>Add books</string>
+    <string>Add files</string>
+   </property>
+   <property name="toolTip">
+    <string>Add files to Libro</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
@@ -176,10 +180,10 @@
      <normaloff>:/toolbar/tool-folder.png</normaloff>:/toolbar/tool-folder.png</iconset>
    </property>
    <property name="text">
-    <string>Convert to folder</string>
+    <string>Send to folder</string>
    </property>
    <property name="toolTip">
-    <string>Convert book to folder</string>
+    <string>Send files to folder</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>
@@ -217,10 +221,10 @@
      <normaloff>:/toolbar/tool-delete.png</normaloff>:/toolbar/tool-delete.png</iconset>
    </property>
    <property name="text">
-    <string>Remove books</string>
+    <string>Remove files</string>
    </property>
    <property name="toolTip">
-    <string>Remove books</string>
+    <string>Remove files from Libro</string>
    </property>
    <property name="shortcut">
     <string>Del</string>
@@ -243,18 +247,13 @@
      <normaloff>:/toolbar/tool-edit.png</normaloff>:/toolbar/tool-edit.png</iconset>
    </property>
    <property name="text">
-    <string>Edit metadata</string>
+    <string>Edit files metadata</string>
    </property>
    <property name="toolTip">
-    <string>Edit metadata</string>
+    <string>Edit files metadata</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>
-   </property>
-  </action>
-  <action name="actionViewLog">
-   <property name="text">
-    <string>Log</string>
    </property>
   </action>
   <action name="actionSendToReader">
@@ -263,10 +262,10 @@
      <normaloff>:/toolbar/tool-reader.png</normaloff>:/toolbar/tool-reader.png</iconset>
    </property>
    <property name="text">
-    <string>Send to reader</string>
+    <string>Send to reader device</string>
    </property>
    <property name="toolTip">
-    <string>Send selected books to reader device</string>
+    <string>Send files to reader device</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>
@@ -278,10 +277,10 @@
      <normaloff>:/toolbar/tool-mail.png</normaloff>:/toolbar/tool-mail.png</iconset>
    </property>
    <property name="text">
-    <string>Send books via mail</string>
+    <string>Send to email</string>
    </property>
    <property name="toolTip">
-    <string>Send books via mail</string>
+    <string>Send files to device email</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>
@@ -421,22 +420,6 @@
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>onActionEditMetadata()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>372</x>
-     <y>208</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionViewLog</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>onActionViewLog()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>

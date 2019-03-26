@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>326</width>
-    <height>169</height>
+    <width>314</width>
+    <height>165</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -57,7 +57,7 @@
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
        </property>
        <property name="horizontalSpacing">
-        <number>0</number>
+        <number>6</number>
        </property>
        <property name="verticalSpacing">
         <number>3</number>

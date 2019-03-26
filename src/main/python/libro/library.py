@@ -91,8 +91,11 @@ def delete_book(id):
 
 
 def add_book(file):
+    src = ''
+    err = ''
 
     file = os.path.normpath(file)
+    src = file
     try:
         meta = ebookmeta.get_metadata(file)
         cur_date = date.today().strftime('%d.%m.%Y')
@@ -110,12 +113,14 @@ def add_book(file):
         q.bindValue(9, cur_date)
         q.bindValue(10, file)
         if not q.exec():
-            print(q.lastError().text())
+            err = q.lastError().text()
             config.db.rollback()
         else:
             config.db.commit()
     except Exception as e:
-        print('{}: {}'.format(file, e))
+        err = '{}'.format(e)
+
+    return src, err
 
 
 def is_created():

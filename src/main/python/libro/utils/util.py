@@ -3,6 +3,7 @@ import sys
 import psutil
 import codecs
 import tomlkit
+import json
 
 
 def is_supported_format(file):
@@ -94,9 +95,28 @@ def set_converter_log_file(converter_config, log_file):
 
 def get_convert_result(log_file):
     data = []
+    src = ''
+    dst = ''
+    err = ''
     if os.path.exists(log_file):
         with codecs.open(log_file, mode='r', encoding='utf-8') as f:
             data = f.readlines()
             f.close()
         for line in data:
-            print(line.split('\t'))
+            elem = line.split('\t')
+            info = json.loads(elem[4])
+            try:
+                src = info['source']
+            except KeyError:
+                pass
+            try:
+                dst = info['to']
+            except KeyError:
+                pass
+
+            if elem[1] == 'ERROR':
+                try:
+                    err = info['error']
+                except KeyError:
+                    err = 'Unknown error'
+        return src, dst, err

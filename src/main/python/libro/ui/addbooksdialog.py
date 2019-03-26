@@ -12,6 +12,7 @@ class Worker(QObject):
         super(Worker, self).__init__(parent)
         self.books = books
         self.isRunning = True
+        self.errors = []
 
     def addBooks(self):
         i = 0
@@ -19,7 +20,9 @@ class Worker(QObject):
         for book in self.books:
             if self.isRunning:
                 i += 1
-                library.add_book(book)
+                src, err = library.add_book(book)
+                if err:
+                    self.errors.append({'src': src, 'dst': '', 'err': err})
                 self.currentProgress.emit(i, count)
             else:
                 break

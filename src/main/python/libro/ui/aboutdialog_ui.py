@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(326, 169)
+        Dialog.resize(314, 165)
         self.gridLayout = QtWidgets.QGridLayout(Dialog)
         self.gridLayout.setContentsMargins(20, 20, 20, 20)
         self.gridLayout.setSpacing(0)
@@ -31,7 +31,7 @@ class Ui_Dialog(object):
         self.verticalLayout.addWidget(self.label_4)
         self.formLayout = QtWidgets.QFormLayout()
         self.formLayout.setFormAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
-        self.formLayout.setHorizontalSpacing(0)
+        self.formLayout.setHorizontalSpacing(6)
         self.formLayout.setVerticalSpacing(3)
         self.formLayout.setObjectName("formLayout")
         self.label_3 = QtWidgets.QLabel(Dialog)

@@ -33,8 +33,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         if config.is_library_mode:
             db_name = os.path.join(config.config_dir, 'libro.db')
+            config.ui_display_sort_author = True
         else:
             db_name = ':memory:'
+            config.ui_display_sort_author = False
 
         if not config.converter_config:
             for key in resources.keys():
@@ -90,7 +92,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.resize(config.ui_window_width, config.ui_window_height)
             self.move(config.ui_window_x, config.ui_window_y)
 
-        self.navTree.setVisible(config.is_library_mode)
+        # self.navTree.setVisible(config.is_library_mode)
+        self.navTree.setVisible(False)
+
         self.enableControls()
 
         self.deviceStatusTimer = QTimer()
@@ -132,6 +136,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             else:
                 self.actionSendToReader.setEnabled(False)
 
+        if config.is_library_mode and len(self.bookTable.selectionModel().selectedRows()) == 0:
+            self.actionConvertToDisk.setEnabled(False)
+            self.actionSendToReader.setEnabled(False)
+            self.actionSendBooksViaMail.setEnabled(False)
+
     def searchBooks(self):
         self.bookTable.search(self.searchEdit.text())
         self.enableControls()
@@ -152,6 +161,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             menu = QMenu()
             menu.addAction(self.actionEditMetadata)
             menu.addAction(self.actionRemoveBooks)
+            if config.is_library_mode:
+                sendMenu = QMenu('Send to...')
+                sendMenu.addAction(self.actionConvertToDisk)
+                sendMenu.addAction(self.actionSendToReader)
+                sendMenu.addAction(self.actionSendBooksViaMail)
+                menu.addSeparator()
+                menu.addMenu(sendMenu)
             menu.exec_(self.bookTable.viewport().mapToGlobal(pos))
 
     def onActionRemoveBooks(self):
@@ -201,6 +217,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.exec()
         self.bookTable.model().select()
         self.enableControls()
+        if len(dlg.worker.errors) > 0:
+            logDlg = LogviewDialog(self, dlg.worker.errors, title='Loading errors')
+            logDlg.exec()
 
     def onActionSendToDevice(self):
         if config.device_path:
@@ -228,10 +247,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                  'Libro',
                                  'Converter fb2converter not found!\nCheck settings for correct converter path.')
         else:
+            books_id = []
             util.set_converter_log_file(config.converter_config, config.converter_log_file)
-            books_id = self.bookTable.getBooksId()
-            convDlg = ConvertDialog(self, books_id, destFolder, sendToKindle)
-            convDlg.exec()
+            if config.is_library_mode:
+                books_id = self.bookTable.getSelectedBooksId()
+            else:
+                books_id = self.bookTable.getBooksId()
+            if len(books_id) > 0:
+                convDlg = ConvertDialog(self, books_id, destFolder, sendToKindle)
+                convDlg.exec()
+                if len(convDlg.convertError) > 0:
+                    logDlg = LogviewDialog(self, convDlg.convertError, title='Converson errors')
+                    logDlg.exec()
 
     def onActionSettings(self):
         dlg = PreferencesDialog(self)
@@ -247,10 +274,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def onActionAboutQt(self):
         QMessageBox.aboutQt(self)
-
-    def onActionViewLog(self):
-        dlg = LogviewDialog(self, file=config.converter_log_file)
-        dlg.exec()
 
     def onActionEditMetadata(self):
         booksMeta = []
