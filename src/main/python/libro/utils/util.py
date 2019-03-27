@@ -93,11 +93,37 @@ def set_converter_log_file(converter_config, log_file):
             f.close()
 
 
+def check_mail_setings(converter_config):
+    host = ''
+    port = ''
+    user = ''
+    password = ''
+
+    if os.path.exists(converter_config):
+        with codecs.open(converter_config, mode='r', encoding='utf-8') as f:
+            doc = tomlkit.loads(f.read())
+            f.close()
+
+            try:
+                host = doc['sendtokindle']['smtp_server']
+                port = doc['sendtokindle']['smtp_port']
+                user = doc['sendtokindle']['smtp_user']
+                password = doc['sendtokindle']['smtp_password']
+            except KeyError:
+                pass
+
+    if host and port and user and password:
+        return True
+    else:
+        return False
+
+
 def get_convert_result(log_file):
     data = []
     src = ''
     dst = ''
-    err = ''
+    err = []
+    err_text = ''
     if os.path.exists(log_file):
         with codecs.open(log_file, mode='r', encoding='utf-8') as f:
             data = f.readlines()
@@ -114,9 +140,10 @@ def get_convert_result(log_file):
             except KeyError:
                 pass
 
-            if elem[1] == 'ERROR':
+            if elem[1] in ('ERROR', 'WARN'):
                 try:
-                    err = info['error']
+                    err_text = info['error']
                 except KeyError:
-                    err = 'Unknown error'
+                    err_text = ''
+                err.append((elem[1], '{}: {}'.format(elem[3], err_text)))
         return src, dst, err

@@ -8,6 +8,9 @@ import fbs.cmdline
 UI_SRCPATH = 'src/main/designer'
 UI_DESTPATH = 'src/main/python/libro/ui'
 
+LOCALE_SRCPATH = 'src/main/locale'
+LOCALE_DSTPATH = 'src/main/resources/base/locale'
+
 
 @command
 def ui():
@@ -25,6 +28,16 @@ def rc():
         rc_file = os.path.normpath(rc_file)
         py_file = os.path.normpath(py_file)
         call('pyrcc5 {} -o {}'.format(rc_file, py_file), shell=True)
+
+
+@command
+def locale():
+    for pro_file in glob('*.pro'):
+        call('pylupdate5 -translate-function _tr {}'.format(pro_file), shell=True)
+
+    for ts_file in glob(os.path.join(LOCALE_SRCPATH, '*.ts')):
+        dst_file = os.path.join(LOCALE_DSTPATH, os.path.splitext(os.path.split(ts_file)[1])[0] + '.qm')
+        call('lrelease {} -qm {}'.format(ts_file, dst_file), shell=True)
 
 
 if __name__ == '__main__':

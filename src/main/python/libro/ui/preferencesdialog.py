@@ -2,14 +2,14 @@ import sys
 import os
 from PyQt5.QtWidgets import QDialog
 
-from libro.ui.preferencesdialog_ui import Ui_Dialog
+from libro.ui.preferencesdialog_ui import Ui_PreferencesDialog
 
 import libro.config as config
 import libro.configdata as data
 import libro.utils.ui as uiUtils
 
 
-class PreferencesDialog(QDialog, Ui_Dialog):
+class PreferencesDialog(QDialog, Ui_PreferencesDialog):
     def __init__(self, parent):
         super(PreferencesDialog, self).__init__(parent)
         self.setupUi(self)

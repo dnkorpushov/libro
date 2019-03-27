@@ -1,18 +1,20 @@
 import shutil
 
 from PyQt5.QtWidgets import QDialog
-from PyQt5.QtCore import Qt, QProcess
-from libro.ui.processdialog_ui import Ui_Dialog
+from PyQt5.QtCore import Qt, QProcess, QCoreApplication
+from libro.ui.processdialog_ui import Ui_ProcessDialog
 import libro.config as config
 import libro.library as library
 from libro.utils import util
 
+_tr = QCoreApplication.translate
 
-class ConvertDialog(QDialog, Ui_Dialog):
+
+class ConvertDialog(QDialog, Ui_ProcessDialog):
     def __init__(self, parent, booksId, destFolder, sendToKindle):
         super(ConvertDialog, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowTitle('Convert books')
+        self.setWindowTitle(_tr('convert', 'Convert files'))
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowCloseButtonHint)
 
         self.convertError = []
@@ -33,7 +35,7 @@ class ConvertDialog(QDialog, Ui_Dialog):
         self.setCurrentProgress()
 
     def setCurrentProgress(self):
-        self.label.setText('Processing {} of {}'.format(self.currentIndex, self.count))
+        self.label.setText(_tr('convert', 'Processing {} of {}').format(self.currentIndex, self.count))
         self.progress.setValue(self.currentIndex)
 
     def runProcess(self):

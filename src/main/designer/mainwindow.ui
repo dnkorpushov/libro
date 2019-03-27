@@ -99,7 +99,7 @@
     </property>
     <widget class="QMenu" name="menuSend_to">
      <property name="title">
-      <string>Send to..</string>
+      <string>Send to...</string>
      </property>
      <addaction name="actionConvertToDisk"/>
      <addaction name="actionSendToReader"/>

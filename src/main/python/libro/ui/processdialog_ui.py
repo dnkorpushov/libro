@@ -9,18 +9,18 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Dialog(object):
-    def setupUi(self, Dialog):
-        Dialog.setObjectName("Dialog")
-        Dialog.resize(350, 115)
+class Ui_ProcessDialog(object):
+    def setupUi(self, ProcessDialog):
+        ProcessDialog.setObjectName("ProcessDialog")
+        ProcessDialog.resize(350, 115)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(Dialog.sizePolicy().hasHeightForWidth())
-        Dialog.setSizePolicy(sizePolicy)
-        Dialog.setMinimumSize(QtCore.QSize(350, 115))
-        Dialog.setMaximumSize(QtCore.QSize(350, 115))
-        self.gridLayout = QtWidgets.QGridLayout(Dialog)
+        sizePolicy.setHeightForWidth(ProcessDialog.sizePolicy().hasHeightForWidth())
+        ProcessDialog.setSizePolicy(sizePolicy)
+        ProcessDialog.setMinimumSize(QtCore.QSize(350, 115))
+        ProcessDialog.setMaximumSize(QtCore.QSize(350, 115))
+        self.gridLayout = QtWidgets.QGridLayout(ProcessDialog)
         self.gridLayout.setContentsMargins(20, 20, 20, 20)
         self.gridLayout.setSpacing(0)
         self.gridLayout.setObjectName("gridLayout")
@@ -28,11 +28,11 @@ class Ui_Dialog(object):
         self.verticalLayout.setContentsMargins(-1, 0, -1, -1)
         self.verticalLayout.setSpacing(6)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.label = QtWidgets.QLabel(Dialog)
+        self.label = QtWidgets.QLabel(ProcessDialog)
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
-        self.progress = QtWidgets.QProgressBar(Dialog)
+        self.progress = QtWidgets.QProgressBar(ProcessDialog)
         self.progress.setProperty("value", 0)
         self.progress.setTextVisible(False)
         self.progress.setObjectName("progress")
@@ -42,20 +42,20 @@ class Ui_Dialog(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
-        self.cancelButton = QtWidgets.QPushButton(Dialog)
+        self.cancelButton = QtWidgets.QPushButton(ProcessDialog)
         self.cancelButton.setObjectName("cancelButton")
         self.horizontalLayout.addWidget(self.cancelButton)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.gridLayout.addLayout(self.verticalLayout, 0, 0, 1, 1)
 
-        self.retranslateUi(Dialog)
-        self.cancelButton.clicked.connect(Dialog.cancelProcess)
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
+        self.retranslateUi(ProcessDialog)
+        self.cancelButton.clicked.connect(ProcessDialog.cancelProcess)
+        QtCore.QMetaObject.connectSlotsByName(ProcessDialog)
 
-    def retranslateUi(self, Dialog):
+    def retranslateUi(self, ProcessDialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Converting books"))
-        self.label.setText(_translate("Dialog", "TextLabel"))
-        self.cancelButton.setText(_translate("Dialog", "Cancel"))
+        ProcessDialog.setWindowTitle(_translate("ProcessDialog", "Converting books"))
+        self.label.setText(_translate("ProcessDialog", "TextLabel"))
+        self.cancelButton.setText(_translate("ProcessDialog", "Cancel"))
 
 

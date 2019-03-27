@@ -2,13 +2,15 @@ import os
 
 from PyQt5.QtWidgets import QDialog, QMenu, QWidget
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import Qt, QPoint, QByteArray, QBuffer, QEvent
+from PyQt5.QtCore import Qt, QPoint, QByteArray, QBuffer, QEvent, QCoreApplication
 
-from libro.ui.editdialog_ui import Ui_Dialog
+from libro.ui.editdialog_ui import Ui_EditDialog
 import libro.utils.ui as uiUtils
 
+_tr = QCoreApplication.translate
 
-class EditDialog(QDialog, Ui_Dialog):
+
+class EditDialog(QDialog, Ui_EditDialog):
     def __init__(self, parent, booksMeta):
         super(EditDialog, self).__init__(parent)
         self.setupUi(self)
@@ -80,20 +82,22 @@ class EditDialog(QDialog, Ui_Dialog):
 
     def contextCoverMenu(self, point):
         menu = QMenu()
-        actionLoad = menu.addAction('Load from file...')
-        actionSave = menu.addAction('Save to file...')
-        actionClear = menu.addAction('Clear')
+        actionLoad = menu.addAction(_tr('edit', 'Load from file...'))
+        actionSave = menu.addAction(_tr('edit', 'Save to file...'))
+        actionClear = menu.addAction(_tr('edit', 'Clear'))
 
         action = menu.exec_(self.coverImage.mapToGlobal(point))
 
         if action == actionLoad:
-            files = uiUtils.getFiles(self, title='Select cover file', fileExt='Image files (*.png *.jpg *.bmp)')
+            files = uiUtils.getFiles(self, title=_tr('edit', 'Select cover file'),
+                                     fileExt='Image files (*.png *.jpg *.bmp)')
             if files is not None:
                 self.loadCoverFromFile(files[0])
 
         elif action == actionSave:
-            files = uiUtils.getFiles(self, title='Save cover image as',
-                                     fileExt='Image files (*.png *.jpg *.bmp)', saveDialog=True)
+            files = uiUtils.getFiles(self, title=_tr('edit', 'Save cover image as'),
+                                     fileExt='Image files (*.png *.jpg *.bmp)',
+                                     saveDialog=True)
             if files is not None:
                 self.saveCoverToFile(files[0])
 

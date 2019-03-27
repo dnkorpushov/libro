@@ -3,7 +3,7 @@ import tempfile
 import shutil
 
 from PyQt5.QtWidgets import QMainWindow, QWidget, QMessageBox, QMenu
-from PyQt5.QtCore import QEvent, Qt, QTimer
+from PyQt5.QtCore import QEvent, Qt, QTimer, QCoreApplication
 from PyQt5.QtSql import QSqlDatabase
 
 import libro.config as config
@@ -19,6 +19,8 @@ from libro.ui.logviewdialog import LogviewDialog
 
 from libro.utils import util
 from libro.utils import ui as uiUtils
+
+_tr = QCoreApplication.translate
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -48,7 +50,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                         config.converter_config = dst
                         config.save()
                 except Exception:
-                    print('Error while copy file: {}'.format(src))
+                    print(_tr('main', 'Error while copy file: {}').format(src))
 
         db = QSqlDatabase.addDatabase('QSQLITE')
         db.setDatabaseName(db_name)
@@ -127,7 +129,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.actionSendBooksViaMail.setEnabled(False)
         else:
             self.actionConvertToDisk.setEnabled(True)
-            if config.check_mail_settings():
+            if util.check_mail_setings(config.converter_config):
                 self.actionSendBooksViaMail.setEnabled(True)
             else:
                 self.actionSendBooksViaMail.setEnabled(False)
@@ -150,8 +152,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.bookTable.search('')
 
     def onActionAddBooks(self):
-        files = uiUtils.getFiles(self, title='Select files', defaultPath=config.last_used_open_path,
-                                 fileExt='Ebook files (*.fb2 *.fb2.zip *.zip *.epub)', multipleSelect=True)
+        files = uiUtils.getFiles(self, title=_tr('main', 'Select files'), defaultPath=config.last_used_open_path,
+                                 fileExt=_tr('main', 'Ebook files (*.fb2 *.fb2.zip *.zip *.epub)'), multipleSelect=True)
         if files is not None:
             config.last_used_open_path = os.path.split(files[0])[0]
             self.addFiles(files)
@@ -162,7 +164,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             menu.addAction(self.actionEditMetadata)
             menu.addAction(self.actionRemoveBooks)
             if config.is_library_mode:
-                sendMenu = QMenu('Send to...')
+                sendMenu = QMenu(_tr('main', 'Send to...'))
                 sendMenu.addAction(self.actionConvertToDisk)
                 sendMenu.addAction(self.actionSendToReader)
                 sendMenu.addAction(self.actionSendBooksViaMail)
@@ -172,9 +174,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def onActionRemoveBooks(self):
         if config.is_library_mode:
-            messageText = 'Remove selected books from library?'
+            messageText = _tr('main', 'Remove selected files from library?')
         else:
-            messageText = 'Remove selected books from list?'
+            messageText = _tr('main', 'Remove selected files from list?')
 
         if QMessageBox.question(self, 'Libro', messageText) == QMessageBox.Yes:
             booksId = self.bookTable.getSelectedBooksId()
@@ -218,34 +220,35 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.bookTable.model().select()
         self.enableControls()
         if len(dlg.worker.errors) > 0:
-            logDlg = LogviewDialog(self, dlg.worker.errors, title='Loading errors')
+            logDlg = LogviewDialog(self, dlg.worker.errors, title=_tr('main', 'Loading errors'))
             logDlg.exec()
 
     def onActionSendToDevice(self):
         if config.device_path:
-            self.runConvert(config.device_path, windowTitle='Send to device')
+            self.runConvert(config.device_path, windowTitle=_tr('main', 'Send to reader device'))
 
     def onActionSendViaMail(self):
         temp_dir = tempfile.mkdtemp(prefix='lbr')
         if os.path.exists(temp_dir):
-            self.runConvert(temp_dir, windowTitle='Send via mail', sendToKindle=True)
+            self.runConvert(temp_dir, windowTitle=_tr('main', 'Send to mail'), sendToKindle=True)
         try:
             shutil.rmtree(temp_dir)
         except Exception:
             pass
 
     def onActionSendToFolder(self):
-        dest_folder = uiUtils.getFolder(self, 'Select destination folder',
+        dest_folder = uiUtils.getFolder(self, _tr('main', 'Select destination folder'),
                                         defaultPath=config.last_used_convert_path)
         if dest_folder is not None:
             config.last_used_convert_path = dest_folder
-            self.runConvert(dest_folder, windowTitle='Convert to folder')
+            self.runConvert(dest_folder, windowTitle=_tr('main', 'Send to folder'))
 
     def runConvert(self, destFolder, windowTitle, sendToKindle=False):
         if not config.converter_executable_path or not os.path.exists(config.converter_executable_path):
             QMessageBox.critical(self,
                                  'Libro',
-                                 'Converter fb2converter not found!\nCheck settings for correct converter path.')
+                                 _tr('main',
+                                     'Converter fb2converter not found!\nCheck settings for correct path.'))
         else:
             books_id = []
             util.set_converter_log_file(config.converter_config, config.converter_log_file)
@@ -257,7 +260,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 convDlg = ConvertDialog(self, books_id, destFolder, sendToKindle)
                 convDlg.exec()
                 if len(convDlg.convertError) > 0:
-                    logDlg = LogviewDialog(self, convDlg.convertError, title='Converson errors')
+                    logDlg = LogviewDialog(self, convDlg.convertError, title=_tr('main', 'Converson errors'))
                     logDlg.exec()
 
     def onActionSettings(self):
@@ -265,7 +268,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.exec()
         if config.is_need_restart:
             config.is_need_restart = False
-            QMessageBox.information(self, 'Libro', 'Restart Libro to apply changes.')
+            QMessageBox.information(self, 'Libro', _tr('main', 'Restart Libro to apply changes.'))
         self.enableControls()
 
     def onActionAbout(self):

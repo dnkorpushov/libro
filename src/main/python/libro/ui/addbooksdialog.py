@@ -1,7 +1,9 @@
 from PyQt5.QtWidgets import QDialog
-from PyQt5.QtCore import Qt, QObject, QThread, pyqtSignal
-from libro.ui.processdialog_ui import Ui_Dialog
+from PyQt5.QtCore import Qt, QObject, QThread, pyqtSignal, QCoreApplication
+from libro.ui.processdialog_ui import Ui_ProcessDialog
 import libro.library as library
+
+_tr = QCoreApplication.translate
 
 
 class Worker(QObject):
@@ -33,12 +35,12 @@ class Worker(QObject):
         self.isRunning = False
 
 
-class AddBooksDialog(QDialog, Ui_Dialog):
+class AddBooksDialog(QDialog, Ui_ProcessDialog):
     def __init__(self, parent, books):
         super(AddBooksDialog, self).__init__(parent)
         self.setupUi(self)
 
-        self.setWindowTitle('Add books')
+        self.setWindowTitle(_tr('add', 'Add files'))
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowCloseButtonHint)
 
         self.progress.setMaximum(len(books))
@@ -54,7 +56,7 @@ class AddBooksDialog(QDialog, Ui_Dialog):
         self.thread.finished.connect(self.close)
 
     def setCurrentProgress(self, current_index, count):
-        self.label.setText('Processing {} of {}'.format(current_index, count))
+        self.label.setText(_tr('add', 'Processing {} of {}').format(current_index, count))
         self.progress.setValue(current_index)
 
     def cancelProcess(self):

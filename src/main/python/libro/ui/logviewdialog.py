@@ -1,12 +1,13 @@
-import os
-import codecs
 from PyQt5.QtWidgets import QDialog, QTextEdit
 from PyQt5.QtGui import QFontDatabase
+from PyQt5.QtCore import QCoreApplication
 
-from libro.ui.logviewdialog_ui import Ui_Dialog
+from libro.ui.logviewdialog_ui import Ui_LogviewDialog
+
+_tr = QCoreApplication.translate
 
 
-class LogviewDialog(QDialog, Ui_Dialog):
+class LogviewDialog(QDialog, Ui_LogviewDialog):
     def __init__(self, parent, log=[], title=None):
         super(LogviewDialog, self).__init__(parent)
         self.setupUi(self)
@@ -24,6 +25,10 @@ class LogviewDialog(QDialog, Ui_Dialog):
 
     def loadLog(self):
         for rec in self.log:
-            self.textEdit.append('<b>File:</b> {}'.format(rec['src']))
-            self.textEdit.append('<b>Error:</b> {}'.format(rec['err']))
+            self.textEdit.append(_tr('log', '<b>File:</b> {}').format(rec['src']))
+            for msg in rec['err']:
+                if msg[0] == 'ERROR':
+                    self.textEdit.append(_tr('log', '<b>Error:</b> {}').format(msg[1]))
+                elif msg[0] == 'WARN':
+                    self.textEdit.append(_tr('log', '<b>Warning:</b> {}').format(msg[1]))
             self.textEdit.append(' ')

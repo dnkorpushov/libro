@@ -1,5 +1,8 @@
 from enum import Enum
 from PyQt5.QtWidgets import QComboBox
+from PyQt5.QtCore import QCoreApplication
+
+_tr = QCoreApplication.translate
 
 
 class ItemAction(Enum):
@@ -12,8 +15,8 @@ class ComboEdit(QComboBox):
     def __init__(self, parent):
         super(ComboEdit, self).__init__(parent)
         self.setEditable(True)
-        self.addItem('< Save >', ItemAction.Save)
-        self.addItem('< Clear >', ItemAction.Clear)
+        self.addItem(_tr('edit', '< Save >'), ItemAction.Save)
+        self.addItem(_tr('edit', '< Clear >'), ItemAction.Clear)
 
     def addUserItem(self, text):
         if self.findText(text) == -1:

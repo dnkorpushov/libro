@@ -143,7 +143,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
-        self.menuSend_to.setTitle(_translate("MainWindow", "Send to.."))
+        self.menuSend_to.setTitle(_translate("MainWindow", "Send to..."))
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
         self.actionAddBooks.setText(_translate("MainWindow", "Add files"))

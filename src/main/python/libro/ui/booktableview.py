@@ -1,12 +1,14 @@
 import textwrap
 
 from PyQt5.QtWidgets import QTableView, QAbstractItemView
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QCoreApplication
 from PyQt5.QtGui import QFontMetrics
 from PyQt5.QtSql import QSqlTableModel
 
 import libro.config as config
 import libro.library as library
+
+_tr = QCoreApplication.translate
 
 
 class BookTableView(QTableView):
@@ -33,17 +35,17 @@ class BookTableView(QTableView):
         model.setSort(1, Qt.AscendingOrder)
         self.horizontalHeader().setSortIndicator(1, Qt.AscendingOrder)
         model.select()
-        model.setHeaderData(0, Qt.Horizontal, 'Id')
-        model.setHeaderData(1, Qt.Horizontal, 'Title')
-        model.setHeaderData(2, Qt.Horizontal, 'Author')  # author column
-        model.setHeaderData(3, Qt.Horizontal, 'Author')  # author_sort column
-        model.setHeaderData(4, Qt.Horizontal, 'Series')
-        model.setHeaderData(5, Qt.Horizontal, 'Tags')
-        model.setHeaderData(6, Qt.Horizontal, 'Lang')
-        model.setHeaderData(7, Qt.Horizontal, 'Translator')
-        model.setHeaderData(8, Qt.Horizontal, 'Type')
-        model.setHeaderData(9, Qt.Horizontal, 'Date added')
-        model.setHeaderData(10, Qt.Horizontal, 'File')
+        model.setHeaderData(0, Qt.Horizontal, _tr('table', 'Id'))
+        model.setHeaderData(1, Qt.Horizontal, _tr('table', 'Title'))
+        model.setHeaderData(2, Qt.Horizontal, _tr('table', 'Author'))  # author column
+        model.setHeaderData(3, Qt.Horizontal, _tr('table', 'Author'))  # author_sort column
+        model.setHeaderData(4, Qt.Horizontal, _tr('table', 'Series'))
+        model.setHeaderData(5, Qt.Horizontal, _tr('table', 'Tags'))
+        model.setHeaderData(6, Qt.Horizontal, _tr('table', 'Lang'))
+        model.setHeaderData(7, Qt.Horizontal, _tr('table', 'Translator'))
+        model.setHeaderData(8, Qt.Horizontal, _tr('table', 'Type'))
+        model.setHeaderData(9, Qt.Horizontal, _tr('table', 'Date added'))
+        model.setHeaderData(10, Qt.Horizontal, _tr('table', 'File'))
         self.setModel(model)
 
         self.hideColumn(0)

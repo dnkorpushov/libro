@@ -9,13 +9,13 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Dialog(object):
-    def setupUi(self, Dialog):
-        Dialog.setObjectName("Dialog")
-        Dialog.resize(599, 315)
-        self.verticalLayout = QtWidgets.QVBoxLayout(Dialog)
+class Ui_LogviewDialog(object):
+    def setupUi(self, LogviewDialog):
+        LogviewDialog.setObjectName("LogviewDialog")
+        LogviewDialog.resize(599, 315)
+        self.verticalLayout = QtWidgets.QVBoxLayout(LogviewDialog)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.textEdit = QtWidgets.QTextEdit(Dialog)
+        self.textEdit = QtWidgets.QTextEdit(LogviewDialog)
         self.textEdit.setReadOnly(True)
         self.textEdit.setObjectName("textEdit")
         self.verticalLayout.addWidget(self.textEdit)
@@ -23,18 +23,18 @@ class Ui_Dialog(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
-        self.closeButton = QtWidgets.QPushButton(Dialog)
+        self.closeButton = QtWidgets.QPushButton(LogviewDialog)
         self.closeButton.setObjectName("closeButton")
         self.horizontalLayout.addWidget(self.closeButton)
         self.verticalLayout.addLayout(self.horizontalLayout)
 
-        self.retranslateUi(Dialog)
-        self.closeButton.clicked.connect(Dialog.accept)
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
+        self.retranslateUi(LogviewDialog)
+        self.closeButton.clicked.connect(LogviewDialog.accept)
+        QtCore.QMetaObject.connectSlotsByName(LogviewDialog)
 
-    def retranslateUi(self, Dialog):
+    def retranslateUi(self, LogviewDialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "View log"))
-        self.closeButton.setText(_translate("Dialog", "Close"))
+        LogviewDialog.setWindowTitle(_translate("LogviewDialog", "View log"))
+        self.closeButton.setText(_translate("LogviewDialog", "Close"))
 
 
