@@ -1,6 +1,6 @@
 # Libro
 
-Ebook library manager and GUI for [fb2converter](https://github.com/rupor-github/fb2converter) for Windows, macOS and Linux.
+Ebook library manager for files in fb2 (fb2.zip) and epub (v2, v3) formats and GUI for [fb2converter](https://github.com/rupor-github/fb2converter) for Windows, macOS and Linux.
 
 [Manual (Russian)](https://github.com/dnkorpushov/libro/wiki)
 
