@@ -83,7 +83,7 @@
     <message>
         <location filename="../python/libro/ui/editdialog_ui.py" line="152"/>
         <source>Translator</source>
-        <translation>Переводчик</translation>
+        <translation>Перевод</translation>
     </message>
     <message>
         <location filename="../python/libro/ui/editdialog_ui.py" line="153"/>
@@ -257,12 +257,12 @@
     <message>
         <location filename="../python/libro/ui/preferencesdialog_ui.py" line="170"/>
         <source>Library manager</source>
-        <translation>Библиотекарь</translation>
+        <translation>Библиотека</translation>
     </message>
     <message>
         <location filename="../python/libro/ui/preferencesdialog_ui.py" line="171"/>
         <source>Library manager options</source>
-        <translation>Параметры библиотекаря</translation>
+        <translation>Параметры библиотеки</translation>
     </message>
     <message>
         <location filename="../python/libro/ui/preferencesdialog_ui.py" line="172"/>
@@ -533,7 +533,7 @@ Check settings for correct path.</source>
     <message>
         <location filename="../python/libro/ui/booktableview.py" line="45"/>
         <source>Translator</source>
-        <translation>Переводчик</translation>
+        <translation>Перевод</translation>
     </message>
     <message>
         <location filename="../python/libro/ui/booktableview.py" line="46"/>

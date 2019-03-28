@@ -92,7 +92,7 @@ def delete_book(id):
 
 def add_book(file):
     src = ''
-    err = ''
+    err = []
 
     file = os.path.normpath(file)
     src = file
@@ -113,12 +113,14 @@ def add_book(file):
         q.bindValue(9, cur_date)
         q.bindValue(10, file)
         if not q.exec():
-            err = q.lastError().text()
+            err_text = q.lastError().text()
+            err.append(('ERROR', err_text))
             config.db.rollback()
         else:
             config.db.commit()
     except Exception as e:
-        err = '{}'.format(e)
+        err_text = '{}'.format(e)
+        err.append(('ERROR', err_text))
 
     return src, err
 
