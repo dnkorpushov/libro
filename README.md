@@ -53,7 +53,7 @@ Build standalone executable:
 python3 build.py freeze
 ```
 
-Build installer (from Windows need [NSIS](http://nsis.sourceforge.net/Main_Page)):
+Build installer (for Microsoft Windows install [NSIS](http://nsis.sourceforge.net/Main_Page) before execute following command):
 ```
 python3 build.py installer
 ```
