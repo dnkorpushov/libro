@@ -46,49 +46,59 @@
 <context>
     <name>EditDialog</name>
     <message>
-        <location filename="../python/libro/ui/editdialog_ui.py" line="145"/>
+        <location filename="../python/libro/ui/editdialog_ui.py" line="152"/>
         <source>Edit metadata</source>
         <translation>Редактирование метаданных</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/editdialog_ui.py" line="146"/>
+        <location filename="../python/libro/ui/editdialog_ui.py" line="153"/>
         <source>No cover</source>
         <translation>Нет обложки</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/editdialog_ui.py" line="147"/>
+        <location filename="../python/libro/ui/editdialog_ui.py" line="154"/>
         <source>Title</source>
         <translation>Название</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/editdialog_ui.py" line="148"/>
+        <location filename="../python/libro/ui/editdialog_ui.py" line="155"/>
         <source>Author</source>
         <translation>Автор</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/editdialog_ui.py" line="149"/>
+        <location filename="../python/libro/ui/editdialog_ui.py" line="156"/>
         <source>Series</source>
         <translation>Серия</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/editdialog_ui.py" line="150"/>
+        <location filename="../python/libro/ui/editdialog_ui.py" line="157"/>
         <source>Index</source>
         <translation>Номер</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/editdialog_ui.py" line="151"/>
+        <location filename="../python/libro/ui/editdialog_ui.py" line="158"/>
         <source>Tags</source>
         <translation>Тэги</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/editdialog_ui.py" line="152"/>
+        <location filename="../python/libro/ui/editdialog_ui.py" line="161"/>
         <source>Translator</source>
         <translation>Перевод</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/editdialog_ui.py" line="153"/>
+        <location filename="../python/libro/ui/editdialog_ui.py" line="162"/>
         <source>Lang</source>
         <translation>Язык</translation>
+    </message>
+    <message>
+        <location filename="../python/libro/ui/editdialog_ui.py" line="159"/>
+        <source>Add tag</source>
+        <translation>Добавить тег</translation>
+    </message>
+    <message>
+        <location filename="../python/libro/ui/editdialog_ui.py" line="160"/>
+        <source>+</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -107,12 +117,12 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="144"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="151"/>
         <source>MainWindow</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="145"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="152"/>
         <source>File</source>
         <translation>Файл</translation>
     </message>
@@ -122,109 +132,114 @@
         <translation type="obsolete">Отправить...</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="147"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="175"/>
         <source>Help</source>
-        <translation>?</translation>
+        <translation>Справка</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="148"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="155"/>
         <source>toolBar</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="149"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="156"/>
         <source>Add files</source>
         <translation>Добавить файлы</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="150"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="157"/>
         <source>Add files to Libro</source>
         <translation>Добавить файлы в Libro</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="151"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="158"/>
         <source>Ctrl+O</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="152"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="159"/>
         <source>Exit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="153"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="160"/>
         <source>Send to folder</source>
         <translation>Отправить в папку</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="154"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="161"/>
         <source>Send files to folder</source>
         <translation>Отправить файлы в папку</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="155"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="162"/>
         <source>Preferences</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="156"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="163"/>
         <source>Libro preferences</source>
         <translation>Настройки Libro</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="157"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="164"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="158"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="165"/>
         <source>Remove files</source>
         <translation>Удалить файлы</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="159"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="166"/>
         <source>Remove files from Libro</source>
         <translation>Удалить файоы из Libro</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="160"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="167"/>
         <source>Del</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="161"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="168"/>
         <source>About Qt</source>
         <translation>О библиотеке Qt</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="163"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="170"/>
         <source>Edit files metadata</source>
         <translation>Редактировать метаданные</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="164"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="171"/>
         <source>Send to reader device</source>
         <translation>Отправить на устройство чтения</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="165"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="172"/>
         <source>Send files to reader device</source>
         <translation>Отправить файлы на устройство чтения</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="166"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="173"/>
         <source>Send to email</source>
         <translation>Отправить по почте</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="167"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="174"/>
         <source>Send files to device email</source>
         <translation>Отправить файлы по почте</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/mainwindow_ui.py" line="146"/>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="153"/>
         <source>Send to...</source>
         <translation>Отправить...</translation>
+    </message>
+    <message>
+        <location filename="../python/libro/ui/mainwindow_ui.py" line="176"/>
+        <source>Support forum</source>
+        <translation>Форум поддержки</translation>
     </message>
 </context>
 <context>
@@ -362,27 +377,27 @@
 <context>
     <name>edit</name>
     <message>
-        <location filename="../python/libro/ui/editdialog.py" line="85"/>
+        <location filename="../python/libro/ui/editdialog.py" line="112"/>
         <source>Load from file...</source>
         <translation>Загрузить из файла...</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/editdialog.py" line="86"/>
+        <location filename="../python/libro/ui/editdialog.py" line="113"/>
         <source>Save to file...</source>
         <translation>Сохранить в файл...</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/editdialog.py" line="87"/>
+        <location filename="../python/libro/ui/editdialog.py" line="114"/>
         <source>Clear</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/editdialog.py" line="92"/>
+        <location filename="../python/libro/ui/editdialog.py" line="119"/>
         <source>Select cover file</source>
         <translation>Выберите обложку</translation>
     </message>
     <message>
-        <location filename="../python/libro/ui/editdialog.py" line="98"/>
+        <location filename="../python/libro/ui/editdialog.py" line="125"/>
         <source>Save cover image as</source>
         <translation>Сохранить обложку как</translation>
     </message>

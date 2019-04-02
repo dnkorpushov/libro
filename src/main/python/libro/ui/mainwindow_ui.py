@@ -109,6 +109,10 @@ class Ui_MainWindow(object):
         self.actionSendBooksViaMail.setIcon(icon6)
         self.actionSendBooksViaMail.setIconVisibleInMenu(False)
         self.actionSendBooksViaMail.setObjectName("actionSendBooksViaMail")
+        self.actionHelp = QtWidgets.QAction(MainWindow)
+        self.actionHelp.setObjectName("actionHelp")
+        self.actionSupportForum = QtWidgets.QAction(MainWindow)
+        self.actionSupportForum.setObjectName("actionSupportForum")
         self.menuSend_to.addAction(self.actionConvertToDisk)
         self.menuSend_to.addAction(self.actionSendToReader)
         self.menuSend_to.addAction(self.actionSendBooksViaMail)
@@ -121,6 +125,9 @@ class Ui_MainWindow(object):
         self.menuFile.addAction(self.actionSettings)
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionExit)
+        self.menuHelp.addAction(self.actionHelp)
+        self.menuHelp.addAction(self.actionSupportForum)
+        self.menuHelp.addSeparator()
         self.menuHelp.addAction(self.actionAbout)
         self.menuHelp.addAction(self.actionAboutQt)
         self.menubar.addAction(self.menuFile.menuAction())
@@ -137,6 +144,8 @@ class Ui_MainWindow(object):
         self.actionEditMetadata.triggered.connect(MainWindow.onActionEditMetadata)
         self.actionSendToReader.triggered.connect(MainWindow.onActionSendToDevice)
         self.actionSendBooksViaMail.triggered.connect(MainWindow.onActionSendViaMail)
+        self.actionSupportForum.triggered.connect(MainWindow.onActionSupportForum)
+        self.actionHelp.triggered.connect(MainWindow.onActionHelp)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -165,6 +174,8 @@ class Ui_MainWindow(object):
         self.actionSendToReader.setToolTip(_translate("MainWindow", "Send files to reader device"))
         self.actionSendBooksViaMail.setText(_translate("MainWindow", "Send to email"))
         self.actionSendBooksViaMail.setToolTip(_translate("MainWindow", "Send files to device email"))
+        self.actionHelp.setText(_translate("MainWindow", "Help"))
+        self.actionSupportForum.setText(_translate("MainWindow", "Support forum"))
 
 
 from .booktableview import BookTableView

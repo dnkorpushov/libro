@@ -119,6 +119,9 @@
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="actionHelp"/>
+    <addaction name="actionSupportForum"/>
+    <addaction name="separator"/>
     <addaction name="actionAbout"/>
     <addaction name="actionAboutQt"/>
    </widget>
@@ -284,6 +287,16 @@
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="text">
+    <string>Help</string>
+   </property>
+  </action>
+  <action name="actionSupportForum">
+   <property name="text">
+    <string>Support forum</string>
    </property>
   </action>
  </widget>
@@ -463,6 +476,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionSupportForum</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>onActionSupportForum()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>372</x>
+     <y>208</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionHelp</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>onActionHelp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>372</x>
+     <y>208</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>onActionAddBooks()</slot>
@@ -475,5 +520,7 @@
   <slot>onActionViewLog()</slot>
   <slot>onActionSendToDevice()</slot>
   <slot>onActionSendViaMail()</slot>
+  <slot>onActionHelp()</slot>
+  <slot>onActionSupportForum()</slot>
  </slots>
 </ui>

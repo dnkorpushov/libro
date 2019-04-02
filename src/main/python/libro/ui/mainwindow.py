@@ -1,6 +1,7 @@
 import os
 import tempfile
 import shutil
+import webbrowser
 
 from PyQt5.QtWidgets import QMainWindow, QWidget, QMessageBox, QMenu
 from PyQt5.QtCore import QEvent, Qt, QTimer, QCoreApplication
@@ -21,6 +22,9 @@ from libro.utils import util
 from libro.utils import ui as uiUtils
 
 _tr = QCoreApplication.translate
+
+HELP_URL = 'https://github.com/dnkorpushov/libro/wiki'
+SUPPORT_URL = 'http://4pda.ru/forum/index.php?showtopic=947577'
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -292,6 +296,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 for bookMeta in booksMeta:
                     library.update_book_info(bookMeta)
                 self.bookTable.updateSelectedRows()
+
+    def onActionHelp(self):
+        webbrowser.open(HELP_URL)
+
+    def onActionSupportForum(self):
+        webbrowser.open(SUPPORT_URL)
 
     def closeEvent(self, event):
         self.saveSettings()
