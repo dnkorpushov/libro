@@ -4,6 +4,9 @@ import psutil
 import codecs
 import tomlkit
 import json
+import ebookmeta
+
+from lxml import etree
 
 
 def is_supported_format(file):
@@ -147,3 +150,46 @@ def get_convert_result(log_file):
                     err_text = ''
                 err.append((elem[1], '{}: {}'.format(elem[3], err_text)))
         return src, dst, err
+
+
+def insert_substring(string, substring):
+    if string:
+        words = string.split(',')
+        for word in words:
+            if word.strip() == substring:
+                return string
+
+        if string[-1] == ' ':
+            string = string[0:-1]
+        if string[-1] == ',':
+            string = string[0:-1]
+        return '{0}, {1}'.format(string.strip(), substring)
+    else:
+        return substring
+
+
+def get_genres_menu_data(lang='ru'):
+    if lang not in ['ru', 'en']:
+        lang = 'en'
+    genres = etree.fromstring(ebookmeta.fb2genres.fb2genres, parser=etree.XMLParser())
+
+    genre_menu = []
+
+    for genre in genres:
+        genre_value = genre.attrib['value']
+        genre_name = ''
+        for genre_data in genre:
+            subgenre_menu = []
+            if genre_data.tag == 'root-descr' and genre_data.attrib['lang'] == lang:
+                genre_name = genre_data.attrib['genre-title']
+            elif genre_data.tag == 'subgenres':
+                for subgenre in genre_data:
+                    subgenre_value = subgenre.attrib['value']
+                    subgenre_name = ''
+                    for subgenre_data in subgenre:
+                        if subgenre_data.tag == 'genre-descr' and subgenre_data.attrib['lang'] == lang:
+                            subgenre_name = subgenre_data.attrib['title']
+                    subgenre_menu.append({'value': subgenre_value, 'title': subgenre_name})
+
+        genre_menu.append({'value': genre_value, 'title': genre_name, 'submenu': subgenre_menu})
+    return genre_menu

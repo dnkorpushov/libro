@@ -35,3 +35,11 @@ class ComboEdit(QComboBox):
             return None
         else:
             return self.currentText()
+
+    def setUserText(self, userText):
+        idx = self.findText(userText)
+        if idx == -1:
+            self.addUserItem(userText)
+            self.setCurrentIndex(self.count() - 1)
+        else:
+            self.setCurrentIndex(idx)

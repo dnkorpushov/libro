@@ -1,4 +1,3 @@
-from PyQt5.QtWidgets import qApp
 from PyQt5.QtCore import QLocale, QTranslator
 from fbs_runtime.application_context import ApplicationContext
 import sys

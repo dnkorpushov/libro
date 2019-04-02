@@ -2,10 +2,11 @@ import os
 
 from PyQt5.QtWidgets import QDialog, QMenu, QWidget
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import Qt, QPoint, QByteArray, QBuffer, QEvent, QCoreApplication
+from PyQt5.QtCore import Qt, QPoint, QByteArray, QBuffer, QEvent, QCoreApplication, QLocale
 
 from libro.ui.editdialog_ui import Ui_EditDialog
 import libro.utils.ui as uiUtils
+import libro.utils.util as util
 
 _tr = QCoreApplication.translate
 
@@ -79,6 +80,32 @@ class EditDialog(QDialog, Ui_EditDialog):
         cover_pixmap = QPixmap()
         cover_pixmap.loadFromData(self.booksMeta[0].cover_image_data)
         cover_pixmap.save(file, os.path.splitext(file)[1][1:].upper())
+
+    def onAddTagButtonClicked(self):
+        locale = QLocale.system().name()[:2]
+        menu_data = util.get_genres_menu_data(lang=locale)
+
+        menu = QMenu()
+        submenu = []
+        i = 0
+        for item in menu_data:
+            submenu.append(QMenu(item['title']))
+            idx = len(submenu) - 1
+            for i in item['submenu']:
+                menuAction = submenu[idx].addAction(i['title'])
+                menuAction.setData(i['value'])
+
+            menu.addMenu(submenu[idx])
+
+        action = menu.exec_(self.addTagButton.mapToGlobal(QPoint(0, self.addTagButton.height())))
+        if action:
+            genre = action.data()
+            genre_string = self.tagsEdit.getUserText(None)
+            if genre_string is None:
+                genre_string = genre
+            else:
+                genre_string = util.insert_substring(genre_string, genre)
+            self.tagsEdit.setUserText(genre_string)
 
     def contextCoverMenu(self, point):
         menu = QMenu()
