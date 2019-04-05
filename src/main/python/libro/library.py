@@ -3,6 +3,7 @@ from PyQt5.QtSql import QSqlQuery
 import os
 
 from datetime import date
+from enum import Enum
 
 import libro.queries as queries
 import libro.config as config
@@ -14,6 +15,26 @@ class BookRec:
     __slots__ = ['id', 'title', 'author', 'author_sort', 'series', 'series_index',
                  'tags', 'type', 'lang', 'translator', 'date_added',
                  'cover_image', 'file']
+
+
+class Collection:
+    def __init__(self, id=None, type=None, name=None, criteria=None):
+        self.id = id
+        self.type = type
+        self.name = name
+        self.criteria = criteria
+
+
+class CollectionType(Enum):
+    System = 0
+    Collection = 1
+    Smart = 2
+
+
+class SystemCollectionId(Enum):
+    AllBooks = -1
+    AddedToday = -2
+    AddedLastWeek = -3
 
 
 def get_book_info(id):

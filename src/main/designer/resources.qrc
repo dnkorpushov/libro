@@ -8,6 +8,18 @@
     <file>tool-reader.png</file>
     <file>tool-settings.png</file>
   </qresource>
+  <qresource prefix="nav">
+    <file>nav-added-today@2x.png</file>
+    <file>nav-added-week@2x.png</file>
+    <file>nav-all-books@2x.png</file>
+    <file>nav-collection@2x.png</file>
+    <file>nav-smart-collection@2x.png</file>
+    <file>nav-added-today.png</file>
+    <file>nav-collection.png</file>
+    <file>nav-smart-collection.png</file>
+    <file>nav-added-week.png</file>
+    <file>nav-all-books.png</file>
+  </qresource>
   <qresource prefix="icons">
     <file>search-clear.png</file>
     <file>search-clear@2x.png</file>

@@ -21,13 +21,14 @@ class Ui_MainWindow(object):
         self.gridLayout.setSpacing(0)
         self.gridLayout.setObjectName("gridLayout")
         self.splitter = QtWidgets.QSplitter(self.centralwidget)
+        self.splitter.setLineWidth(1)
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
-        self.splitter.setHandleWidth(1)
+        self.splitter.setHandleWidth(3)
         self.splitter.setChildrenCollapsible(False)
         self.splitter.setObjectName("splitter")
-        self.navTree = QtWidgets.QTreeWidget(self.splitter)
-        self.navTree.setObjectName("navTree")
-        self.navTree.headerItem().setText(0, "1")
+        self.navList = NavListWidget(self.splitter)
+        self.navList.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.navList.setObjectName("navList")
         self.bookTable = BookTableView(self.splitter)
         self.bookTable.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.bookTable.setAlternatingRowColors(True)
@@ -179,5 +180,6 @@ class Ui_MainWindow(object):
 
 
 from .booktableview import BookTableView
+from .navlistwidget import NavListWidget
 from .toolbar import ToolBar
 from . import resources_rc

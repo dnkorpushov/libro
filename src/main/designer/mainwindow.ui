@@ -35,21 +35,22 @@
     </property>
     <item row="0" column="0">
      <widget class="QSplitter" name="splitter">
+      <property name="lineWidth">
+       <number>1</number>
+      </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
       <property name="handleWidth">
-       <number>1</number>
+       <number>3</number>
       </property>
       <property name="childrenCollapsible">
        <bool>false</bool>
       </property>
-      <widget class="QTreeWidget" name="navTree">
-       <column>
-        <property name="text">
-         <string notr="true">1</string>
-        </property>
-       </column>
+      <widget class="NavListWidget" name="navList">
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
       </widget>
       <widget class="BookTableView" name="bookTable">
        <property name="frameShape">
@@ -310,6 +311,11 @@
    <class>ToolBar</class>
    <extends>QToolBar</extends>
    <header>.toolbar.h</header>
+  </customwidget>
+  <customwidget>
+   <class>NavListWidget</class>
+   <extends>QListWidget</extends>
+   <header>.navlistwidget.h</header>
   </customwidget>
  </customwidgets>
  <resources>

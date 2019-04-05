@@ -98,8 +98,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.resize(config.ui_window_width, config.ui_window_height)
             self.move(config.ui_window_x, config.ui_window_y)
 
-        # self.navTree.setVisible(config.is_library_mode)
-        self.navTree.setVisible(False)
+        if config.is_library_mode:
+            self.navList.setVisible(True)
+            self.navList.addHeaderItem(_tr('main', 'Library'))
+            self.navList.addItem(library.Collection(id=library.SystemCollectionId.AllBooks,
+                                                    type=library.CollectionType.System,
+                                                    name=_tr('main', 'All books')))
+            self.navList.addItem(library.Collection(id=library.SystemCollectionId.AddedToday,
+                                                    type=library.CollectionType.System,
+                                                    name=_tr('main', 'Added today')))
+            self.navList.addItem(library.Collection(id=library.SystemCollectionId.AddedLastWeek,
+                                                    type=library.CollectionType.System,
+                                                    name=_tr('main', 'Added last week')))
+            self.navList.addHeaderItem(_tr('main', 'Collections'))
+
+        else:
+            self.navList.setVisible(False)
 
         self.enableControls()
 
