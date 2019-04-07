@@ -92,7 +92,7 @@ def update_book_info(book_meta):
     q.bindValue(7, book_meta.get_translator_string())
     q.bindValue(8, book_meta.format)
     q.bindValue(9, book_meta.id)
-    if not q.exec():
+    if not q.exec_():
         print(q.lastError().text())
         config.db.rollback()
     else:
@@ -104,7 +104,7 @@ def delete_book(id):
     q = QSqlQuery(config.db)
     q.prepare(queries.DELETE_BOOK)
     q.bindValue(0, id)
-    if not q.exec():
+    if not q.exec_():
         print(q.lastError().text())
         config.db.rollback()
     else:
@@ -133,7 +133,7 @@ def add_book(file):
         q.bindValue(8, meta.format)
         q.bindValue(9, cur_date)
         q.bindValue(10, file)
-        if not q.exec():
+        if not q.exec_():
             err_text = q.lastError().text()
             err.append(('ERROR', err_text))
             config.db.rollback()

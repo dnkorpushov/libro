@@ -133,7 +133,10 @@ def get_convert_result(log_file):
             f.close()
         for line in data:
             elem = line.split('\t')
-            info = json.loads(elem[4])
+            try:
+                info = json.loads(elem[4])
+            except IndexError:
+                pass
             try:
                 src = info['source']
             except KeyError:
