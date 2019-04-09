@@ -37,6 +37,37 @@ class SystemCollectionId(Enum):
     AddedLastWeek = -3
 
 
+def get_collection_list():
+    collecton_list = []
+    q = QSqlQuery(config.db)
+    q.exec(queries.GET_COLLECTION_LIST)
+
+    while q.next():
+        collection = Collection()
+        collection.id = q.value(0)
+        collection.name = q.value(1)
+        collection.type = CollectionType(q.value(2))
+        collection.criteria = q.value(3)
+        collecton_list.append(collection)
+    return collecton_list
+
+
+def create_collection(collection):
+    err = ''
+    q = QSqlQuery(config.db)
+    q.prepare(queries.CREATE_COLLECTION)
+    q.bindValue(0, collection.name)
+    q.bindValue(1, collection.type.value)
+    q.bindValue(2, collection.criteria)
+    if not q.exec_():
+        err = q.lastError().text()
+        config.db.rollback()
+    else:
+        collection.id = q.lastInsertId()
+        config.db.commit()
+    return collection, err
+
+
 def get_book_info(id):
 
     q = QSqlQuery(config.db)
@@ -112,6 +143,7 @@ def delete_book(id):
 
 
 def add_book(file):
+
     src = ''
     err = []
 
@@ -172,3 +204,37 @@ def create():
         print(q.lastError().text())
     if not q.exec(queries.TRIGGER_AU):
         print(q.lastError().text())
+
+
+def update():
+
+    if not check_table_exist('collection'):
+        errors = execute_script(queries.CREATE_COLLECTIONS)
+        if len(errors) > 0:
+            print(errors)
+
+
+def execute_script(script):
+
+    errors = []
+    q = QSqlQuery(config.db)
+    sql_lines = script.split(';')
+    for sql_line in sql_lines:
+        if len(sql_line.strip()) > 0:
+            if not q.exec(sql_line):
+                errors.append(q.lastError().text())
+
+    return errors
+
+
+def check_table_exist(table_name):
+
+    rows = -1
+    q = QSqlQuery(config.db)
+    q.prepare(queries.CHECK_TABLE_EXISTS)
+    q.bindValue(0, table_name)
+    q.exec_()
+    if q.next():
+        rows = q.value(0)
+
+    return rows == 1

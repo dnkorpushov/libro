@@ -126,7 +126,17 @@
     <addaction name="actionAbout"/>
     <addaction name="actionAboutQt"/>
    </widget>
+   <widget class="QMenu" name="menuCollection">
+    <property name="title">
+     <string>Collection</string>
+    </property>
+    <addaction name="actionNewCollection"/>
+    <addaction name="actionNewSmartCollection"/>
+    <addaction name="actionEditCollection"/>
+    <addaction name="actionDeleteCollection"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuCollection"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="ToolBar" name="toolBar">
@@ -298,6 +308,38 @@
   <action name="actionSupportForum">
    <property name="text">
     <string>Support forum</string>
+   </property>
+  </action>
+  <action name="actionNewCollection">
+   <property name="text">
+    <string>New collection</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionNewSmartCollection">
+   <property name="text">
+    <string>New smart collection</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+N</string>
+   </property>
+  </action>
+  <action name="actionEditCollection">
+   <property name="text">
+    <string>Edit collection</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="actionDeleteCollection">
+   <property name="text">
+    <string>Delete collection</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
    </property>
   </action>
  </widget>
@@ -514,6 +556,70 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionNewCollection</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>onActionNewCollection()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>372</x>
+     <y>208</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionNewSmartCollection</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>onActionNewSmartCollection()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>372</x>
+     <y>208</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionEditCollection</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>onActionEditCollection()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>372</x>
+     <y>208</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDeleteCollection</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>onActionDeleteCollection()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>372</x>
+     <y>208</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>onActionAddBooks()</slot>
@@ -528,5 +634,9 @@
   <slot>onActionSendViaMail()</slot>
   <slot>onActionHelp()</slot>
   <slot>onActionSupportForum()</slot>
+  <slot>onActionNewCollection()</slot>
+  <slot>onActionNewSmartCollection()</slot>
+  <slot>onActionEditCollection()</slot>
+  <slot>onActionDeleteCollection()</slot>
  </slots>
 </ui>

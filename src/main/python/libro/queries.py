@@ -132,3 +132,34 @@ SELECT_BOOK_REC = '''
       FROM v_book
      WHERE id = ?
 '''
+
+CHECK_TABLE_EXISTS = '''
+  SELECT count(1) FROM sqlite_master WHERE type = "table" AND name = ?
+'''
+
+CREATE_COLLECTIONS = '''
+   CREATE TABLE collection (
+        id integer PRIMARY KEY AUTOINCREMENT,
+        name text NOT NULL,
+        type integer,
+        criteria text
+    );
+
+   CREATE TABLE collection_book (
+        collection_id integer NOT NULL,
+        book_id integer NOT NULL,
+        PRIMARY KEY(collection_id, book_id),
+        FOREIGN KEY(collection_id) REFERENCES collection(id),
+        FOREIGN KEY(book_id) REFERENCES book(id)
+    );
+
+    CREATE INDEX idx_collection_book_id ON collection_book(collection_id);
+'''
+
+GET_COLLECTION_LIST = '''
+  SELECT id, name, type, criteria FROM collection ORDER BY name
+'''
+
+CREATE_COLLECTION = '''
+  INSERT INTO collection (name, type, criteria) VALUES(?,?,?)
+'''

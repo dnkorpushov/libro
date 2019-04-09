@@ -17,6 +17,8 @@ from libro.ui.aboutdialog import AboutDialog
 from libro.ui.searchlineedit import SearchLineEdit
 from libro.ui.editdialog import EditDialog
 from libro.ui.logviewdialog import LogviewDialog
+from libro.ui.collectiondialog import CollectionDialog
+from libro.ui.smartcollectiondialog import SmartCollectionDialog
 
 from libro.utils import util
 from libro.utils import ui as uiUtils
@@ -63,6 +65,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         if not library.is_created():
             library.create()
+        library.update()
 
         self.bookTable.init(db=config.db, columnsWidth=config.ui_columns_width)
         self.bookTable.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -100,6 +103,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         if config.is_library_mode:
             self.navList.setVisible(True)
+            # self.navList.setVisible(False)
             self.navList.addHeaderItem(_tr('main', 'Library'))
             self.navList.addItem(library.Collection(id=library.SystemCollectionId.AllBooks,
                                                     type=library.CollectionType.System,
@@ -111,6 +115,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                                     type=library.CollectionType.System,
                                                     name=_tr('main', 'Added last week')))
             self.navList.addHeaderItem(_tr('main', 'Collections'))
+
+            collectionList = library.get_collection_list()
+            for c in collectionList:
+                self.navList.addItem(c)
 
         else:
             self.navList.setVisible(False)
@@ -280,6 +288,32 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 if len(convDlg.convertError) > 0:
                     logDlg = LogviewDialog(self, convDlg.convertError, title=_tr('main', 'Converson errors'))
                     logDlg.exec()
+
+    def onActionNewCollection(self):
+        dlg = CollectionDialog(self)
+        if dlg.exec_():
+            collection = dlg.collection
+            collection, err = library.create_collection(collection)
+            if not err:
+                self.navList.addItem(collection)
+            else:
+                QMessageBox.critical(self, 'Libro', err)
+
+    def onActionNewSmartCollection(self):
+        dlg = SmartCollectionDialog(self)
+        if dlg.exec_():
+            collection = dlg.collection
+            collection, err = library.create_collection(collection)
+            if not err:
+                self.navList.addItem(collection)
+            else:
+                QMessageBox.critical(self, 'Libro', err)
+
+    def onActionEditCollection(self):
+        pass
+
+    def onActionDeleteCollection(self):
+        pass
 
     def onActionSettings(self):
         dlg = PreferencesDialog(self)

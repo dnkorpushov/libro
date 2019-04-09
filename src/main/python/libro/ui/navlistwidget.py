@@ -61,7 +61,7 @@ class CustomItemDelegate(QStyledItemDelegate):
             painter.drawText(rect, Qt.AlignLeft | Qt.AlignVCenter, text)
         else:
             rect = option.rect
-            rect.adjust(3, 0, -3, 0)
+            rect.adjust(0, 0, 0, 0)
             painter.rect = rect
 
             super(CustomItemDelegate, self).paint(painter, option, index)
