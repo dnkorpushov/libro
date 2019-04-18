@@ -1,4 +1,5 @@
 import textwrap
+from datetime import date, timedelta
 
 from PyQt5.QtWidgets import QTableView, QAbstractItemView
 from PyQt5.QtCore import Qt, QCoreApplication
@@ -96,12 +97,35 @@ class BookTableView(QTableView):
         record.setValue('file', bookInfo.file)
         self.model().setRecord(row, record)
 
-    def search(self, searchCriteria):
+    def search(self, searchCriteria, collection):
+        filterStr = ''
         if len(searchCriteria) > 0:
             filterStr = 'id in (select rowid FROM book_idx WHERE book_idx MATCH "{}")'.format(searchCriteria)
-            self.model().setFilter(filterStr)
-        else:
-            self.model().setFilter('')
+
+        if collection is not None:
+            if filterStr:
+                if (collection.type != library.CollectionType.System and
+                        collection.id != library.SystemCollectionId.AllBooks):
+                    filterStr += ' AND '
+
+            if collection.type == library.CollectionType.System:
+                if collection.id == library.SystemCollectionId.AddedToday:
+                    cur_date = date.today().strftime('%d.%m.%Y')
+                    filterStr += 'date_added = "{}"'.format(cur_date)
+
+                elif collection.id == library.SystemCollectionId.AddedLastWeek:
+                    cur_date = date.today()
+                    date_list = [(cur_date - timedelta(days=x)).strftime('%d.%m.%Y') for x in range(0, 7)]
+                    list_str = ', '.join(map(lambda x: '\'' + x + '\'', date_list))
+                    filterStr += 'date_added in ({})'.format(list_str)
+
+            elif collection.type == library.CollectionType.Collection:
+                filterStr += 'id in (select book_id from collection_book where collection_id = {})'.format(collection.id)
+
+            elif collection.type == library.CollectionType.Smart:
+                filterStr += 'id in (select rowid FROM book_idx WHERE book_idx MATCH "{}")'.format(collection.criteria)
+
+        self.model().setFilter(filterStr)
         self.model().select()
 
 

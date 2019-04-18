@@ -101,9 +101,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.resize(config.ui_window_width, config.ui_window_height)
             self.move(config.ui_window_x, config.ui_window_y)
 
+        self.currentCollection = None
+
         if config.is_library_mode:
             self.navList.setVisible(True)
-            # self.navList.setVisible(False)
             self.navList.addHeaderItem(_tr('main', 'Library'))
             self.navList.addItem(library.Collection(id=library.SystemCollectionId.AllBooks,
                                                     type=library.CollectionType.System,
@@ -119,15 +120,28 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             collectionList = library.get_collection_list()
             for c in collectionList:
                 self.navList.addItem(c)
+            self.navList.currentRowChanged.connect(self.onSelectCollection)
+            self.navList.setCurrentRow(1)
+            self.buildCollectionMenu()
+            self.navList.setContextMenuPolicy(Qt.CustomContextMenu)
+            self.navList.customContextMenuRequested.connect(self.navListContextMenu)
 
         else:
             self.navList.setVisible(False)
+            self.menuCollection.menuAction().setVisible(False)
+            self.menuCopyToCollection.menuAction().setVisible(False)
+            self.actionRemoveFromCollection.setVisible(False)
 
         self.enableControls()
 
         self.deviceStatusTimer = QTimer()
         self.deviceStatusTimer.timeout.connect(self.checkDeviceStatus)
         self.deviceStatusTimer.start(1000)
+
+    def onSelectCollection(self, row):
+        self.currentCollection = self.navList.getCollection(row)
+        self.searchEdit.setText('')
+        self.searchBooks()
 
     def checkDeviceStatus(self):
         if config.device_path:
@@ -169,13 +183,46 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.actionSendToReader.setEnabled(False)
             self.actionSendBooksViaMail.setEnabled(False)
 
+        if config.is_library_mode:
+            if self.currentCollection is not None:
+                if self.currentCollection.type in (library.CollectionType.Collection, library.CollectionType.Smart):
+                    self.actionEditCollection.setEnabled(True)
+                    self.actionDeleteCollection.setEnabled(True)
+                else:
+                    self.actionEditCollection.setEnabled(False)
+                    self.actionDeleteCollection.setEnabled(False)
+
+                if self.currentCollection.type == library.CollectionType.Collection:
+                    self.actionRemoveFromCollection.setEnabled(True)
+                else:
+                    self.actionRemoveFromCollection.setEnabled(False)
+            bookIdList = self.bookTable.getSelectedBooksId()
+            if len(bookIdList) == 0:
+                for item in self.menuCopyToCollection.actions():
+                    item.setEnabled(False)
+                self.actionRemoveFromCollection.setEnabled(False)
+            elif len(bookIdList) == 1:
+                collectionList = library.get_book_collection_list(bookIdList[0])
+                collIdList = []
+                for c in collectionList:
+                    collIdList.append(c.id)
+                for item in self.menuCopyToCollection.actions():
+                    if item.data() and item.data().id in collIdList:
+                        item.setEnabled(False)
+                    else:
+                        item.setEnabled(True)
+
+            elif len(bookIdList) > 1:
+                for item in self.menuCopyToCollection.actions():
+                    item.setEnabled(True)
+
     def searchBooks(self):
-        self.bookTable.search(self.searchEdit.text())
+        self.bookTable.search(self.searchEdit.text(), self.currentCollection)
         self.enableControls()
 
     def clearSearch(self):
         if len(self.searchEdit.text()) == 0:
-            self.bookTable.search('')
+            self.searchBooks()
 
     def onActionAddBooks(self):
         files = uiUtils.getFiles(self, title=_tr('main', 'Select files'), defaultPath=config.last_used_open_path,
@@ -196,7 +243,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 sendMenu.addAction(self.actionSendBooksViaMail)
                 menu.addSeparator()
                 menu.addMenu(sendMenu)
+                menu.addSeparator()
+                menu.addMenu(self.menuCopyToCollection)
+                menu.addAction(self.actionRemoveFromCollection)
+
             menu.exec_(self.bookTable.viewport().mapToGlobal(pos))
+
+    def navListContextMenu(self, pos):
+        item = self.navList.itemAt(pos)
+        if item is not None:
+            collection = item.data(Qt.UserRole)[1]
+            if collection.type in (library.CollectionType.Collection, library.CollectionType.Smart):
+                menu = QMenu()
+                menu.addAction(self.actionEditCollection)
+                menu.addAction(self.actionDeleteCollection)
+                menu.exec_(self.navList.viewport().mapToGlobal(pos))
 
     def onActionRemoveBooks(self):
         if config.is_library_mode:
@@ -289,6 +350,62 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     logDlg = LogviewDialog(self, convDlg.convertError, title=_tr('main', 'Converson errors'))
                     logDlg.exec()
 
+    def buildCollectionMenu(self):
+        actionNewCollection = None
+        for action in self.menuCopyToCollection.actions():
+            if action.objectName() == 'actionAddInNewCollection':
+                actionNewCollection = action
+        self.menuCopyToCollection.clear()
+        collections = library.get_collection_list(library.CollectionType.Collection)
+        for c in collections:
+            item = self.menuCopyToCollection.addAction(c.name)
+            item.setData(c)
+            item.triggered.connect(lambda b_val, x=item: self.onActionCopyToCollection(b_val, x))
+
+        if len(collections) > 0:
+            self.menuCopyToCollection.addSeparator()
+        self.menuCopyToCollection.addAction(actionNewCollection)
+
+    def onActionCopyToCollection(self, bVal, item):
+        collection = item.data()
+        booksId = self.bookTable.getSelectedBooksId()
+        for bookId in booksId:
+            err = library.add_book_in_collection(bookId, collection)
+            if err:
+                QMessageBox.critical(self, 'Libro', err)
+                break
+
+    def onActionAddInNewCollection(self):
+        dlg = CollectionDialog(self)
+        dlg.setWindowTitle = _tr('main', 'Copy to collection...')
+        if dlg.exec_():
+            collection = dlg.collection
+            collection, err = library.create_collection(collection)
+            if not err:
+                self.navList.addItem(collection)
+                booksId = self.bookTable.getSelectedBooksId()
+                for bookId in booksId:
+                    err = library.add_book_in_collection(bookId, collection)
+                    if err:
+                        QMessageBox.critical(self, 'Libro', err)
+                        break
+            else:
+                QMessageBox.critical(self, 'Libro', err)
+            self.buildCollectionMenu()
+
+    def onActionRemoveFromCollection(self):
+        if self.currentCollection is not None:
+            messageText = _tr('main', 'Remove selected books from collection "{}"?').format(self.currentCollection.name)
+            if QMessageBox.question(self, 'Libro', messageText) == QMessageBox.Yes:
+                booksId = self.bookTable.getSelectedBooksId()
+                for bookId in booksId:
+                    err = library.remove_book_from_collection(bookId, self.currentCollection)
+                    if err:
+                        QMessageBox.critical(self, 'Libro', err)
+                        break
+                    else:
+                        self.bookTable.model().select()
+
     def onActionNewCollection(self):
         dlg = CollectionDialog(self)
         if dlg.exec_():
@@ -298,6 +415,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.navList.addItem(collection)
             else:
                 QMessageBox.critical(self, 'Libro', err)
+            self.buildCollectionMenu()
 
     def onActionNewSmartCollection(self):
         dlg = SmartCollectionDialog(self)
@@ -310,10 +428,38 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 QMessageBox.critical(self, 'Libro', err)
 
     def onActionEditCollection(self):
-        pass
+        dlg = None
+        needReload = False
+        if self.currentCollection is not None:
+            if self.currentCollection.type == library.CollectionType.Collection:
+                dlg = CollectionDialog(self, self.currentCollection)
+            elif self.currentCollection.type == library.CollectionType.Smart:
+                dlg = SmartCollectionDialog(self, self.currentCollection)
+                needReload = True
+            if dlg is not None:
+                if dlg.exec_():
+                    collection = dlg.collection
+                    err = library.update_collection(collection)
+                    if not err:
+                        self.navList.updateItem(collection)
+                        self.currentCollection = collection
+                        self.buildCollectionMenu()
+                        if needReload:
+                            self.searchBooks()
+                    else:
+                        QMessageBox.critical(self, 'Libro', err)
 
     def onActionDeleteCollection(self):
-        pass
+        if self.currentCollection.type in (library.CollectionType.Collection, library.CollectionType.Smart):
+            messageText = _tr('main', 'Delete collection "{}"?'.format(self.currentCollection.name))
+            if QMessageBox.question(self, 'Libro', messageText) == QMessageBox.Yes:
+                err = library.delete_collection(self.currentCollection)
+                if not err:
+                    self.navList.removeItem(self.currentCollection)
+                    self.navList.setCurrentRow(1)
+                    self.buildCollectionMenu()
+                else:
+                    QMessageBox.critical(self, 'Libro', err)
 
     def onActionSettings(self):
         dlg = PreferencesDialog(self)

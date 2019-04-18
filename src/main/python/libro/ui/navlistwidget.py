@@ -20,6 +20,23 @@ class NavListWidget(QListWidget):
         item.setFont(font)
         super(NavListWidget, self).addItem(item)
 
+    def updateItem(self, collection):
+        for i in range(0, self.count()):
+            item = self.item(i)
+            (item_type, cur_collection) = item.data(Qt.UserRole)
+            if item_type == CustomItemDelegate.Item and collection.id == cur_collection.id:
+                item.setData(Qt.UserRole, (item_type, collection))
+                item.setText(collection.name)
+                break
+
+    def removeItem(self, collection):
+        for i in range(0, self.count()):
+            item = self.item(i)
+            (item_type, cur_collection) = item.data(Qt.UserRole)
+            if item_type == CustomItemDelegate.Item and collection.id == cur_collection.id:
+                self.takeItem(i)
+                break
+
     def addItem(self, collection):
         item = QListWidgetItem(collection.name)
         item.setData(Qt.UserRole, (CustomItemDelegate.Item, collection))
@@ -42,6 +59,11 @@ class NavListWidget(QListWidget):
         item.setSizeHint(QSize(0, fm.height() + 8))
         item.setIcon(QIcon(icon))
         super(NavListWidget, self).addItem(item)
+
+    def getCollection(self, row):
+        item = self.item(row)
+        collection = item.data(Qt.UserRole)[1]
+        return collection
 
 
 class CustomItemDelegate(QStyledItemDelegate):

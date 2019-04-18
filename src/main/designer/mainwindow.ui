@@ -106,11 +106,20 @@
      <addaction name="actionSendToReader"/>
      <addaction name="actionSendBooksViaMail"/>
     </widget>
+    <widget class="QMenu" name="menuCopyToCollection">
+     <property name="title">
+      <string>Copy to collection...</string>
+     </property>
+     <addaction name="actionAddInNewCollection"/>
+    </widget>
     <addaction name="actionAddBooks"/>
     <addaction name="actionRemoveBooks"/>
     <addaction name="actionEditMetadata"/>
     <addaction name="separator"/>
     <addaction name="menuSend_to"/>
+    <addaction name="separator"/>
+    <addaction name="menuCopyToCollection"/>
+    <addaction name="actionRemoveFromCollection"/>
     <addaction name="separator"/>
     <addaction name="actionSettings"/>
     <addaction name="separator"/>
@@ -130,8 +139,14 @@
     <property name="title">
      <string>Collection</string>
     </property>
-    <addaction name="actionNewCollection"/>
-    <addaction name="actionNewSmartCollection"/>
+    <widget class="QMenu" name="menuNew">
+     <property name="title">
+      <string>New</string>
+     </property>
+     <addaction name="actionNewCollection"/>
+     <addaction name="actionNewSmartCollection"/>
+    </widget>
+    <addaction name="menuNew"/>
     <addaction name="actionEditCollection"/>
     <addaction name="actionDeleteCollection"/>
    </widget>
@@ -168,7 +183,7 @@
      <normaloff>:/toolbar/tool-add.png</normaloff>:/toolbar/tool-add.png</iconset>
    </property>
    <property name="text">
-    <string>Add files</string>
+    <string>Add</string>
    </property>
    <property name="toolTip">
     <string>Add files to Libro</string>
@@ -235,7 +250,7 @@
      <normaloff>:/toolbar/tool-delete.png</normaloff>:/toolbar/tool-delete.png</iconset>
    </property>
    <property name="text">
-    <string>Remove files</string>
+    <string>Remove</string>
    </property>
    <property name="toolTip">
     <string>Remove files from Libro</string>
@@ -261,7 +276,7 @@
      <normaloff>:/toolbar/tool-edit.png</normaloff>:/toolbar/tool-edit.png</iconset>
    </property>
    <property name="text">
-    <string>Edit files metadata</string>
+    <string>Edit metadata</string>
    </property>
    <property name="toolTip">
     <string>Edit files metadata</string>
@@ -312,7 +327,7 @@
   </action>
   <action name="actionNewCollection">
    <property name="text">
-    <string>New collection</string>
+    <string>Collection</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
@@ -320,7 +335,7 @@
   </action>
   <action name="actionNewSmartCollection">
    <property name="text">
-    <string>New smart collection</string>
+    <string>Smart collection</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+N</string>
@@ -328,7 +343,7 @@
   </action>
   <action name="actionEditCollection">
    <property name="text">
-    <string>Edit collection</string>
+    <string>Edit</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+E</string>
@@ -336,10 +351,25 @@
   </action>
   <action name="actionDeleteCollection">
    <property name="text">
-    <string>Delete collection</string>
+    <string>Delete</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="actionCopyToNewCollection">
+   <property name="text">
+    <string>New collection</string>
+   </property>
+  </action>
+  <action name="actionRemoveFromCollection">
+   <property name="text">
+    <string>Remove from collection</string>
+   </property>
+  </action>
+  <action name="actionAddInNewCollection">
+   <property name="text">
+    <string>New collection</string>
    </property>
   </action>
  </widget>
@@ -620,6 +650,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionAddInNewCollection</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>onActionAddInNewCollection()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>372</x>
+     <y>208</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionRemoveFromCollection</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>onActionRemoveFromCollection()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>372</x>
+     <y>208</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>onActionAddBooks()</slot>
@@ -638,5 +700,7 @@
   <slot>onActionNewSmartCollection()</slot>
   <slot>onActionEditCollection()</slot>
   <slot>onActionDeleteCollection()</slot>
+  <slot>onActionAddInNewCollection()</slot>
+  <slot>onActionRemoveFromCollection()</slot>
  </slots>
 </ui>

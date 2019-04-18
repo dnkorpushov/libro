@@ -160,6 +160,37 @@ GET_COLLECTION_LIST = '''
   SELECT id, name, type, criteria FROM collection ORDER BY name
 '''
 
+GET_COLLECTION_LIST_TYPE = '''
+  SELECT id, name, type, criteria FROM collection WHERE type=? ORDER BY name
+'''
+
 CREATE_COLLECTION = '''
   INSERT INTO collection (name, type, criteria) VALUES(?,?,?)
+'''
+
+UPDATE_COLLECTION = '''
+  UPDATE collection  SET name=?, type=?, criteria=? WHERE id=?
+'''
+
+DELETE_COLLECTION = '''
+  DELETE FROM collection  WHERE id=?
+'''
+
+DELETE_BOOKS_FROM_COLLECTION = '''
+  DELETE FROM collection_book WHERE collection_id = ?
+'''
+
+GET_BOOK_COLLECTIONS = '''
+    SELECT c.id, c.name
+      FROM collection_book cb, collection c
+     WHERE cb.collection_id = c.id
+       AND cb.book_id = ?
+'''
+
+ADD_BOOK_IN_COLLECTION = '''
+  INSERT INTO collection_book (collection_id, book_id) VALUES (?,?)
+'''
+
+DELETE_BOOK_FROM_COLLECTION = '''
+  DELETE FROM collection_book  WHERE collection_id=? AND book_id=?
 '''

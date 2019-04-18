@@ -37,10 +37,15 @@ class SystemCollectionId(Enum):
     AddedLastWeek = -3
 
 
-def get_collection_list():
-    collecton_list = []
+def get_collection_list(collection_type=None):
+    collection_list = []
     q = QSqlQuery(config.db)
-    q.exec(queries.GET_COLLECTION_LIST)
+    if collection_type is None:
+        q.exec(queries.GET_COLLECTION_LIST)
+    else:
+        q.prepare(queries.GET_COLLECTION_LIST_TYPE)
+        q.bindValue(0, collection_type.value)
+        q.exec_()
 
     while q.next():
         collection = Collection()
@@ -48,8 +53,53 @@ def get_collection_list():
         collection.name = q.value(1)
         collection.type = CollectionType(q.value(2))
         collection.criteria = q.value(3)
-        collecton_list.append(collection)
-    return collecton_list
+        collection_list.append(collection)
+    return collection_list
+
+
+def get_book_collection_list(book_id):
+    collection_list = []
+    q = QSqlQuery(config.db)
+    q.prepare(queries.GET_BOOK_COLLECTIONS)
+    q.bindValue(0, book_id)
+    q.exec_()
+
+    while q.next():
+        collection = Collection()
+        collection.id = q.value(0)
+        collection.name = q.value(1)
+        collection.type = CollectionType.Collection
+        collection.criteria = ''
+        collection_list.append(collection)
+    return collection_list
+
+
+def add_book_in_collection(book_id, collection):
+    err = ''
+    q = QSqlQuery(config.db)
+    q.prepare(queries.ADD_BOOK_IN_COLLECTION)
+    q.bindValue(0, collection.id)
+    q.bindValue(1, book_id)
+    if not q.exec_():
+        err = q.lastError().text()
+        config.db.rollback()
+    else:
+        config.db.commit()
+    return err
+
+
+def remove_book_from_collection(book_id, collection):
+    err = ''
+    q = QSqlQuery(config.db)
+    q.prepare(queries.DELETE_BOOK_FROM_COLLECTION)
+    q.bindValue(0, collection.id)
+    q.bindValue(1, book_id)
+    if not q.exec_():
+        err = q.lastError().text()
+        config.db.rollback()
+    else:
+        config.db.commit()
+    return err
 
 
 def create_collection(collection):
@@ -66,6 +116,43 @@ def create_collection(collection):
         collection.id = q.lastInsertId()
         config.db.commit()
     return collection, err
+
+
+def update_collection(collection):
+    err = ''
+    q = QSqlQuery(config.db)
+    q.prepare(queries.UPDATE_COLLECTION)
+    q.bindValue(0, collection.name)
+    q.bindValue(1, collection.type.value)
+    q.bindValue(2, collection.criteria)
+    q.bindValue(3, collection.id)
+    if not q.exec_():
+        err = q.lastError().text()
+        config.db.rollback()
+    else:
+        config.db.commit()
+    return err
+
+
+def delete_collection(collection):
+    err = ''
+    q = QSqlQuery(config.db)
+    if collection.type == CollectionType.Collection:
+        q.prepare(queries.DELETE_BOOKS_FROM_COLLECTION)
+        q.bindValue(0, collection.id)
+        if not q.exec_():
+            err = q.lastError().text()
+            config.db.rollback()
+
+    if not err:
+        q.prepare(queries.DELETE_COLLECTION)
+        q.bindValue(0, collection.id)
+        if not q.exec_():
+            err = q.lastError().text()
+            config.db.rollback()
+        else:
+            config.db.commit()
+    return err
 
 
 def get_book_info(id):
