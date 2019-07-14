@@ -194,7 +194,7 @@
     <message>
         <location filename="../python/libro/ui/mainwindow_ui.py" line="208"/>
         <source>Remove files from Libro</source>
-        <translation>Удалить файоы из Libro</translation>
+        <translation>Удалить файлы из Libro</translation>
     </message>
     <message>
         <location filename="../python/libro/ui/mainwindow_ui.py" line="209"/>
