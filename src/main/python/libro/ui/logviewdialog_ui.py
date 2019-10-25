@@ -2,12 +2,11 @@
 
 # Form implementation generated from reading ui file 'src\main\designer\logviewdialog.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_LogviewDialog(object):
     def setupUi(self, LogviewDialog):
@@ -36,5 +35,4 @@ class Ui_LogviewDialog(object):
         _translate = QtCore.QCoreApplication.translate
         LogviewDialog.setWindowTitle(_translate("LogviewDialog", "View log"))
         self.closeButton.setText(_translate("LogviewDialog", "Close"))
-
 

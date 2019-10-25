@@ -6,7 +6,7 @@ from io import BytesIO
 
 from .metadata import Metadata
 from .utils import xstr, person_sort_name
-from .myzipfile import ZipFile, is_zipfile
+from .myzipfile import ZipFile, is_zipfile, ZipInfo
 
 
 class Fb2Meta:
@@ -21,6 +21,7 @@ class Fb2Meta:
         self.file = file
         self.tree = None
         self.encoding = ''
+        self.zip_info = ZipInfo()
 
         self.load()
 
@@ -28,7 +29,8 @@ class Fb2Meta:
 
         if is_zipfile(self.file):
             z = ZipFile(self.file)
-            fb2_string = z.read(z.infolist()[0])
+            self.zip_info = z.infolist()[0]
+            fb2_string = z.read(self.zip_info)
             self.tree = etree.parse(BytesIO(fb2_string), parser=etree.XMLParser(recover=True))
             z.close()
         else:
@@ -39,7 +41,7 @@ class Fb2Meta:
 
         if is_zipfile(self.file):
             z = ZipFile(self.file, mode='w')
-            z.writestr(z.infolist()[0],
+            z.writestr(self.zip_info,
                        etree.tostring(self.tree, encoding=self.encoding,
                                       method='xml', xml_declaration=True, pretty_print=True))
             z.close()

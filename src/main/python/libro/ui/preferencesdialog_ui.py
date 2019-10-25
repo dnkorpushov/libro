@@ -2,12 +2,11 @@
 
 # Form implementation generated from reading ui file 'src\main\designer\preferencesdialog.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_PreferencesDialog(object):
     def setupUi(self, PreferencesDialog):
@@ -182,5 +181,4 @@ class Ui_PreferencesDialog(object):
         self.label_4.setText(_translate("PreferencesDialog", "Configuration file"))
         self.converterConfigSelectButton.setText(_translate("PreferencesDialog", "Select"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabFb2c), _translate("PreferencesDialog", "Convert"))
-
 

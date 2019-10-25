@@ -2,12 +2,11 @@
 
 # Form implementation generated from reading ui file 'src\main\designer\aboutdialog.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_AboutDialog(object):
     def setupUi(self, AboutDialog):
@@ -98,5 +97,4 @@ class Ui_AboutDialog(object):
         self.label_8.setText(_translate("AboutDialog", "dnk_dz"))
         self.label_2.setText(_translate("AboutDialog", "Toolbar icons:"))
         self.label.setText(_translate("AboutDialog", "<a href=\'https://icons8.com/\'>Icons8</a>"))
-
 

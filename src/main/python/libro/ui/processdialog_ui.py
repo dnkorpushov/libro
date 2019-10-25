@@ -2,12 +2,11 @@
 
 # Form implementation generated from reading ui file 'src\main\designer\processdialog.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_ProcessDialog(object):
     def setupUi(self, ProcessDialog):
@@ -57,5 +56,4 @@ class Ui_ProcessDialog(object):
         ProcessDialog.setWindowTitle(_translate("ProcessDialog", "Converting books"))
         self.label.setText(_translate("ProcessDialog", "TextLabel"))
         self.cancelButton.setText(_translate("ProcessDialog", "Cancel"))
-
 

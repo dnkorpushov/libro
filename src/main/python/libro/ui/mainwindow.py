@@ -72,6 +72,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.bookTable.customContextMenuRequested.connect(self.bookTableContextMenu)
         self.splitter.setStretchFactor(0, 0)
         self.splitter.setStretchFactor(1, 1)
+        self.infoSplitter.setStretchFactor(0, 1)
+        self.infoSplitter.setStretchFactor(1, 0)
 
         if len(config.ui_splitter_sizes) > 0:
             self.splitter.setSizes(config.ui_splitter_sizes)

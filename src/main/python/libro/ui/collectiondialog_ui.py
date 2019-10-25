@@ -2,12 +2,11 @@
 
 # Form implementation generated from reading ui file 'src\main\designer\collectiondialog.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_CollectionDialog(object):
     def setupUi(self, CollectionDialog):
@@ -38,5 +37,4 @@ class Ui_CollectionDialog(object):
         _translate = QtCore.QCoreApplication.translate
         CollectionDialog.setWindowTitle(_translate("CollectionDialog", "Dialog"))
         self.label.setText(_translate("CollectionDialog", "Collection name"))
-
 

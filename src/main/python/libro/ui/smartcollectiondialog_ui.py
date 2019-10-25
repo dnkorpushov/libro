@@ -2,12 +2,11 @@
 
 # Form implementation generated from reading ui file 'src\main\designer\smartcollectiondialog.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_SmartCollectionDialog(object):
     def setupUi(self, SmartCollectionDialog):
@@ -43,5 +42,4 @@ class Ui_SmartCollectionDialog(object):
         SmartCollectionDialog.setWindowTitle(_translate("SmartCollectionDialog", "Dialog"))
         self.label.setText(_translate("SmartCollectionDialog", "Collection name"))
         self.label_2.setText(_translate("SmartCollectionDialog", "Search criteria"))
-
 
