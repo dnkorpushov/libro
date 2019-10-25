@@ -1,13 +1,15 @@
 from PyQt5.QtSql import QSqlQuery
 
 import os
+import shutil
 
 from datetime import date
 from enum import Enum
 
 import libro.queries as queries
 import libro.config as config
-import ebookmeta
+import libro.ebookmeta as ebookmeta
+import libro.utils.util as util
 
 
 class BookRec:
@@ -236,9 +238,13 @@ def add_book(file):
 
     file = os.path.normpath(file)
     src = file
+
     try:
         meta = ebookmeta.get_metadata(file)
         cur_date = date.today().strftime('%d.%m.%Y')
+        if config.collect_files:
+            file = move_to_library(file, meta)
+
         q = QSqlQuery(config.db)
         q.prepare(queries.INSERT_BOOK)
         q.bindValue(0, meta.title)
@@ -263,6 +269,34 @@ def add_book(file):
         err.append(('ERROR', err_text))
 
     return src, err
+
+def move_to_library(file, meta):
+    title = meta.get_title_for_filename()
+    author = meta.get_author_for_filename()
+    series = meta.get_series_for_filename()
+    series_num = meta.get_series_index_for_filename()
+    translator = meta.get_translator_for_filename()
+
+    dest_name = util.format_pattern(config.filename_pattern,
+        [
+            ('#title', title),
+            ('#author', author),
+            ('#series', series),
+            ('#number', series_num),
+            ('#translator', translator)
+        ])
+    if file.lower().endswith('fb2.zip'):
+        file_ext = '.fb2.zip'
+    else:
+        file_ext = os.path.splitext(file)[1]
+    dest_file = os.path.normpath(os.path.join(config.library_root_path, dest_name + file_ext))
+    if not os.path.exists(dest_file):
+        os.makedirs(os.path.dirname(dest_file), exist_ok=True)
+        shutil.copy(file, dest_file)
+    else:
+        raise Exception('File already exists {}'.format(dest_file))
+
+    return dest_file
 
 
 def is_created():

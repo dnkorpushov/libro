@@ -1,12 +1,14 @@
 import os
 import sys
-import psutil
 import codecs
-import tomlkit
 import json
-import ebookmeta
 
+import tomlkit
+import psutil
 from lxml import etree
+
+import libro.ebookmeta as ebookmeta
+
 
 
 def is_supported_format(file):
